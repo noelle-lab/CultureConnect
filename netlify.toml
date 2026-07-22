@@ -1,0 +1,16 @@
+# Netlify build & serve config for the Vite SPA.
+#
+# Without this, Netlify publishes the repo root as-is and serves the source
+# index.html (which points at /src/main.jsx). That module can't run in
+# production, so the page comes up blank/white. These settings make Netlify
+# run the Vite build and serve the compiled bundle from dist/.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Single-page-app fallback: every path serves index.html so client-side
+# routes (e.g. /shop, /admin, /product/:id) work on direct load and refresh.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
