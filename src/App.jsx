@@ -11,6 +11,8 @@ import Cart from './pages/Cart'
 import Services from './pages/Services'
 import RequestStore from './pages/RequestStore'
 import About from './pages/About'
+import HowItWorks from './pages/HowItWorks'
+import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 
 import AdminLayout from './pages/admin/AdminLayout'
@@ -24,8 +26,20 @@ import CityRequestsAdmin from './pages/admin/CityRequests'
 import Orders from './pages/admin/Orders'
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
-  useEffect(() => window.scrollTo(0, 0), [pathname])
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    // When a link targets an in-page anchor (e.g. /services#pricing), scroll to
+    // that element instead of jumping to the top. Fall back to the top on plain
+    // route changes.
+    if (hash) {
+      const el = document.getElementById(hash.slice(1))
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+        return
+      }
+    }
+    window.scrollTo(0, 0)
+  }, [pathname, hash])
   return null
 }
 
@@ -79,6 +93,11 @@ export default function App() {
           element={<PublicShell><RequestStore /></PublicShell>}
         />
         <Route path="/about" element={<PublicShell><About /></PublicShell>} />
+        <Route
+          path="/how-it-works"
+          element={<PublicShell><HowItWorks /></PublicShell>}
+        />
+        <Route path="/contact" element={<PublicShell><Contact /></PublicShell>} />
         <Route path="*" element={<PublicShell><NotFound /></PublicShell>} />
       </Routes>
     </>
