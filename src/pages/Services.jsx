@@ -53,7 +53,7 @@ export default function Services() {
             </div>
 
             {/* Service B */}
-            <div className="service-card b">
+            <div className="service-card b anchor-target" id="crosslisting">
               <div className="icon">🔁</div>
               <div className="eyebrow-sm">Service 2</div>
               <h2 style={{ fontSize: '1.5rem' }}>Cross-listing service</h2>
@@ -79,7 +79,7 @@ export default function Services() {
       </section>
 
       {/* COMMISSION EXPLAINER */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section anchor-target" id="pricing" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="panel">
             <div className="eyebrow-sm">Simple, transparent pricing</div>
