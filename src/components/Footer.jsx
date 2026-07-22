@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div>
             <Link to="/" className="brand" style={{ marginBottom: 12 }}>
-              <span className="brand-mark">◈</span>
+              <img src="/logo.svg" alt="" className="brand-logo" />
               <span>
                 CultureConnect
                 <small>Authentic · Local · Everywhere</small>

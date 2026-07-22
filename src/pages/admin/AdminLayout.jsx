@@ -32,7 +32,7 @@ export default function AdminLayout() {
       <div className="navbar">
         <div className="container navbar-inner">
           <Link to="/" className="brand">
-            <span className="brand-mark">◈</span>
+            <img src="/logo.svg" alt="" className="brand-logo" />
             <span>
               CultureConnect
               <small>Admin Console</small>

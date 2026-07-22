@@ -1,25 +1,25 @@
 :root {
-  /* Brand palette — warm, earthy, "cultural marketplace" */
-  --clay: #b8352a;
-  --clay-dark: #8f271e;
-  --saffron: #f4c95d;
-  --saffron-soft: #fbe9c0;
-  --indigo: #2b3a67;
-  --jade: #2f7d5b;
-  --ink: #241c17;
-  --charcoal: #3a322c;
-  --sand: #faf5ec;
-  --sand-2: #f2e9d8;
-  --line: #e5dccb;
-  --muted: #7a6f61;
+  /* Brand palette — purple + magenta (CultureConnect logo) */
+  --clay: #7b2cbf; /* primary purple (mapped from old primary) */
+  --clay-dark: #5a1f96;
+  --saffron: #e0409a; /* magenta accent */
+  --saffron-soft: #fbe3f1; /* soft pink wash */
+  --indigo: #4a2b7a; /* deep purple for bands */
+  --jade: #2f9e7a; /* success / money-positive */
+  --ink: #2a2036; /* near-black with a violet cast */
+  --charcoal: #4a3f57;
+  --sand: #faf6fe; /* very light lavender-white */
+  --sand-2: #f2e9fb;
+  --line: #e8dcf5;
+  --muted: #857a92;
   --white: #ffffff;
-  --ok: #2f7d5b;
+  --ok: #2f9e7a;
   --warn: #c98a1a;
-  --danger: #b8352a;
+  --danger: #d6389a;
 
-  --shadow-sm: 0 1px 2px rgba(36, 28, 23, 0.08);
-  --shadow: 0 6px 20px rgba(36, 28, 23, 0.1);
-  --shadow-lg: 0 18px 48px rgba(36, 28, 23, 0.16);
+  --shadow-sm: 0 1px 2px rgba(42, 32, 54, 0.08);
+  --shadow: 0 6px 20px rgba(90, 31, 150, 0.12);
+  --shadow-lg: 0 18px 48px rgba(90, 31, 150, 0.18);
   --radius: 14px;
   --radius-sm: 9px;
 
@@ -122,7 +122,7 @@ h3 {
   color: var(--sand);
 }
 .btn-dark:hover {
-  background: #12100d;
+  background: #1c1526;
 }
 .btn-sm {
   padding: 7px 14px;
@@ -141,7 +141,7 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(250, 245, 236, 0.92);
+  background: rgba(250, 246, 254, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -158,7 +158,7 @@ h3 {
   font-family: var(--font-display);
   font-size: 1.28rem;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--clay-dark);
 }
 .brand-mark {
   width: 34px;
@@ -169,6 +169,11 @@ h3 {
   display: grid;
   place-items: center;
   font-size: 1.1rem;
+}
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
 }
 .brand small {
   display: block;
@@ -246,7 +251,7 @@ h3 {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--indigo);
+  background: var(--saffron);
   color: #fff;
   display: grid;
   place-items: center;
@@ -306,7 +311,8 @@ h3 {
 /* ---------------- Hero ---------------- */
 .hero {
   position: relative;
-  background: radial-gradient(1200px 500px at 15% -10%, #fff6e4 0%, transparent 60%),
+  background: radial-gradient(1200px 500px at 15% -10%, #f7e6fc 0%, transparent 60%),
+    radial-gradient(900px 400px at 90% 0%, #fce0f0 0%, transparent 55%),
     linear-gradient(160deg, var(--sand) 0%, var(--sand-2) 100%);
   border-bottom: 1px solid var(--line);
   overflow: hidden;
@@ -324,7 +330,7 @@ h3 {
   gap: 8px;
   background: var(--saffron-soft);
   color: var(--clay-dark);
-  border: 1px solid #eeddb4;
+  border: 1px solid #f3c2e0;
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 0.78rem;
@@ -385,7 +391,7 @@ h3 {
   background: var(--saffron-soft);
 }
 .hero-tile:nth-child(3n + 2) {
-  background: #eaf1ec;
+  background: #ede4fb;
 }
 .hero-tile.tall {
   grid-row: span 2;
@@ -502,8 +508,8 @@ h3 {
   color: #2b5cc4;
 }
 .badge-cc {
-  background: #eaf1ec;
-  color: var(--jade);
+  background: #efe4fb;
+  color: var(--clay-dark);
 }
 .chip-row {
   display: flex;
@@ -668,7 +674,7 @@ h3 {
 /* ---------------- Footer ---------------- */
 .footer {
   background: var(--ink);
-  color: #d9cfc0;
+  color: #d8ccea;
   padding: 48px 0 30px;
   margin-top: 40px;
 }
@@ -686,7 +692,7 @@ h3 {
 }
 .footer a {
   display: block;
-  color: #c7bcab;
+  color: #c3b6dc;
   padding: 4px 0;
   font-size: 0.9rem;
 }
@@ -697,14 +703,14 @@ h3 {
   color: #fff;
 }
 .footer .brand small {
-  color: #9d9585;
+  color: #9c8fbb;
 }
 .footer-bottom {
-  border-top: 1px solid #3a322c;
+  border-top: 1px solid #3d3350;
   margin-top: 34px;
   padding-top: 18px;
   font-size: 0.82rem;
-  color: #9d9585;
+  color: #9c8fbb;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -805,8 +811,8 @@ h3 {
 
 /* ---------------- Value band ---------------- */
 .band {
-  background: linear-gradient(150deg, var(--indigo), #1c2749);
-  color: #eae4d8;
+  background: linear-gradient(150deg, #6b23b0 0%, #4a2b7a 55%, #b02a86 130%);
+  color: #efe4f7;
   border-radius: 22px;
   padding: 44px 46px;
   position: relative;
@@ -819,7 +825,7 @@ h3 {
 }
 .band p {
   max-width: 42em;
-  color: #cfd6e8;
+  color: #e3d5f2;
 }
 
 /* ---------------- Admin ---------------- */
@@ -830,7 +836,7 @@ h3 {
 }
 .admin-sidebar {
   background: var(--ink);
-  color: #cdc3b4;
+  color: #c9bce0;
   padding: 22px 16px;
 }
 .admin-brand {
@@ -838,7 +844,7 @@ h3 {
   font-family: var(--font-display);
   font-size: 1.1rem;
   padding: 0 8px 16px;
-  border-bottom: 1px solid #3a322c;
+  border-bottom: 1px solid #3d3350;
   margin-bottom: 14px;
   display: flex;
   align-items: center;
@@ -861,11 +867,11 @@ h3 {
   border-radius: 9px;
   font-size: 0.92rem;
   font-weight: 500;
-  color: #cdc3b4;
+  color: #c9bce0;
   margin-bottom: 2px;
 }
 .admin-nav a:hover {
-  background: #2c2620;
+  background: #38304a;
   color: #fff;
 }
 .admin-nav a.active {
@@ -880,7 +886,7 @@ h3 {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #8a7f70;
+  color: #8b7fae;
   padding: 16px 12px 6px;
   font-weight: 700;
 }
@@ -968,7 +974,7 @@ table.data tr:last-child td {
   border-bottom: none;
 }
 table.data tr:hover td {
-  background: #fdfbf6;
+  background: #faf5fe;
 }
 
 .status-pill {
