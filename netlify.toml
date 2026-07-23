@@ -1,0 +1,52 @@
+# Netlify build & serve config for the Vite SPA.
+#
+# Without this, Netlify publishes the repo root as-is and serves the source
+# index.html (which points at /src/main.jsx). That module can't run in
+# production, so the page comes up blank/white and the browser reports
+# "Failed to load module script ... MIME type of application/octet-stream"
+# (the server has no JS MIME type for the raw .jsx source). These settings
+# make Netlify run the Vite build and serve the compiled bundle from dist/.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Pin a modern Node so the build actually succeeds on Netlify. Vite 5 needs
+# Node 18+; if the build fails (e.g. on an older default Node), Netlify keeps
+# the previous deploy live — which serves the raw source and triggers the
+# octet-stream module-script error above. Keep this in sync with .nvmrc.
+[build.environment]
+  NODE_VERSION = "20"
+
+# Single-page-app fallback: every path serves index.html so client-side
+# routes (e.g. /shop, /admin, /product/:id) work on direct load and refresh.
+# Non-forced rewrite, so real built assets in dist/ are still served directly.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Belt-and-suspenders: force the correct JavaScript MIME type on the built
+# module bundles so a module script can never be rejected for its content type.
+[[headers]]
+  for = "/assets/*.js"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+
+# Never cache the HTML shell. index.html points at content-hashed asset files
+# whose names change on every deploy; if a browser caches an old index.html it
+# keeps loading a stale bundle and, e.g., can't see routes/pages added in later
+# deploys — which looks like "only some computers see the other pages". Forcing
+# revalidation means every visit fetches the current shell (and thus the current
+# assets), so new deploys take effect immediately for everyone.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# The built assets are content-hashed (filename changes when contents change),
+# so they're safe to cache forever. This keeps loads fast while the always-fresh
+# index.html above guarantees users get the right asset filenames.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

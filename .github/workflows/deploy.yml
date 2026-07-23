@@ -1,0 +1,60 @@
+# Builds the Vite app and deploys the compiled bundle to Netlify.
+#
+# Why this exists: relying on Netlify's own git build has repeatedly left the
+# site serving the raw source index.html (which points at /src/main.jsx). That
+# raw module can't run in production, so the browser rejects it with
+# "Failed to load module script ... MIME type of application/octet-stream" and
+# the page comes up white. This workflow makes the deploy deterministic and
+# controlled from the repo: it always runs `npm ci && npm run build` and
+# publishes the resulting dist/ folder as the live production deploy.
+#
+# One-time setup required in the GitHub repo
+# (Settings -> Secrets and variables -> Actions -> New repository secret):
+#   NETLIFY_AUTH_TOKEN  - a Netlify personal access token
+#                         (Netlify: User settings -> Applications -> New access token)
+#   NETLIFY_SITE_ID     - the target site's API ID
+#                         (Netlify: Site configuration -> General -> Site details -> Site ID)
+#
+# After adding those secrets, every push to the default branch deploys the
+# built site. To avoid two competing deploys, turn OFF Netlify's own
+# auto-publishing for this site (Site configuration -> Build & deploy ->
+# Continuous deployment -> Build settings -> Stop builds), so this workflow is
+# the single source of production deploys.
+
+name: Deploy to Netlify
+
+on:
+  push:
+    branches:
+      - claude/cultureconnect-marketplace-ln222a
+  workflow_dispatch:
+
+# Cancel an in-progress deploy if a newer commit is pushed.
+concurrency:
+  group: netlify-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the site
+        run: npm run build
+
+      - name: Deploy dist/ to Netlify (production)
+        run: npx --yes netlify-cli@17 deploy --prod --dir=dist --message "Deploy ${{ github.sha }} from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

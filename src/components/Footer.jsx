@@ -23,24 +23,24 @@ export default function Footer() {
           <div>
             <h5>Shop</h5>
             <Link to="/shop">All products</Link>
-            <Link to="/shop">Food &amp; pantry</Link>
-            <Link to="/shop">Home &amp; textiles</Link>
+            <Link to="/shop?cat=Food+%26+Pantry">Food &amp; pantry</Link>
+            <Link to="/shop?cat=Home+%26+Textiles">Home &amp; textiles</Link>
             <Link to="/request-store">Request a city</Link>
           </div>
 
           <div>
             <h5>For Businesses</h5>
             <Link to="/services">List with us</Link>
-            <Link to="/services">Cross-listing service</Link>
-            <Link to="/services">Pricing &amp; commission</Link>
+            <Link to="/services#crosslisting">Cross-listing service</Link>
+            <Link to="/services#pricing">Pricing &amp; commission</Link>
             <Link to="/about">Our mission</Link>
           </div>
 
           <div>
             <h5>Company</h5>
             <Link to="/about">About</Link>
-            <Link to="/about">How it works</Link>
-            <a href="mailto:hello@cultureconnect.shop">Contact</a>
+            <Link to="/how-it-works">How it works</Link>
+            <Link to="/contact">Contact</Link>
             <Link to="/admin">Team login</Link>
           </div>
         </div>

@@ -777,6 +777,31 @@ h3 {
   font-weight: 500;
 }
 
+/* Reusable checkmark list (used on How It Works, Contact, etc.) */
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 4px;
+}
+.check-list li {
+  padding: 7px 0 7px 26px;
+  position: relative;
+  font-size: 0.94rem;
+  color: var(--charcoal);
+}
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--jade);
+  font-weight: 800;
+}
+
+/* Offset in-page anchor targets so the sticky navbar doesn't cover them */
+[id].anchor-target {
+  scroll-margin-top: 88px;
+}
+
 /* ---------------- How it works ---------------- */
 .steps {
   display: grid;
