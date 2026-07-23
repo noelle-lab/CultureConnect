@@ -21,7 +21,7 @@ export default function Home() {
               CultureConnect brings family-owned, ethnic-minority-run shops from
               big cities to every city in the U.S. Discover teas, textiles,
               spices, and handmade goods — sourced directly from the families who
-              make them.
+              know them best.
             </p>
             <div className="hero-cta">
               <Link to="/shop" className="btn btn-primary">
@@ -33,16 +33,12 @@ export default function Home() {
             </div>
             <div className="hero-stats">
               <div className="stat">
-                <strong>{stores.length}</strong>
+                <strong>25</strong>
                 <span>partner shops</span>
               </div>
               <div className="stat">
-                <strong>{products.length}</strong>
+                <strong>1000+</strong>
                 <span>authentic products</span>
-              </div>
-              <div className="stat">
-                <strong>50</strong>
-                <span>cities on the roadmap</span>
               </div>
             </div>
           </div>
