@@ -31,3 +31,22 @@
   for = "/assets/*.js"
   [headers.values]
     Content-Type = "text/javascript; charset=utf-8"
+
+# Never cache the HTML shell. index.html points at content-hashed asset files
+# whose names change on every deploy; if a browser caches an old index.html it
+# keeps loading a stale bundle and, e.g., can't see routes/pages added in later
+# deploys — which looks like "only some computers see the other pages". Forcing
+# revalidation means every visit fetches the current shell (and thus the current
+# assets), so new deploys take effect immediately for everyone.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# The built assets are content-hashed (filename changes when contents change),
+# so they're safe to cache forever. This keeps loads fast while the always-fresh
+# index.html above guarantees users get the right asset filenames.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
