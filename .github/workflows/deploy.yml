@@ -53,6 +53,28 @@ jobs:
       - name: Build the site
         run: npm run build
 
+      # Preflight: fail fast with a clear message if the deploy secrets are
+      # missing. Without this, netlify-cli falls back to an interactive browser
+      # login that just hangs for 5 minutes and then errors with "Timed out
+      # waiting for authorization" — which looks like a Netlify problem but is
+      # really an unset-secret problem. See the repo secrets setup notes above.
+      - name: Verify Netlify secrets are configured
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          missing=""
+          [ -z "$NETLIFY_AUTH_TOKEN" ] && missing="$missing NETLIFY_AUTH_TOKEN"
+          [ -z "$NETLIFY_SITE_ID" ] && missing="$missing NETLIFY_SITE_ID"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing required repository secret(s):$missing"
+            echo "Add them under Settings -> Secrets and variables -> Actions."
+            echo "  NETLIFY_AUTH_TOKEN - Netlify user token (User settings -> Applications -> New access token)"
+            echo "  NETLIFY_SITE_ID    - Netlify site API ID (Site configuration -> General -> Site details)"
+            echo "Until these are set, builds succeed but nothing is published, so the live site stays stale."
+            exit 1
+          fi
+
       - name: Deploy dist/ to Netlify (production)
         run: npx --yes netlify-cli@17 deploy --prod --dir=dist --message "Deploy ${{ github.sha }} from GitHub Actions"
         env:
