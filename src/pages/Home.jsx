@@ -20,7 +20,7 @@ export default function Home() {
             <p className="lead">
               CultureConnect brings family-owned, ethnic-minority-run shops from
               big cities to every city in the U.S. Discover teas, textiles,
-              spices, and handmade goods — sourced directly from the families who
+              spices, and handmade goods - sourced directly from the families who
               know them best.
             </p>
             <div className="hero-cta">
@@ -127,7 +127,7 @@ export default function Home() {
             <div className="step">
               <div className="num">2</div>
               <h4>We handle the tech</h4>
-              <p>Listings, photos, marketing, and cross-listing to Etsy &amp; eBay — all done for them.</p>
+              <p>Listings, photos, marketing, and cross-listing to Etsy &amp; eBay - all done for them.</p>
             </div>
             <div className="step">
               <div className="num">3</div>
@@ -137,7 +137,7 @@ export default function Home() {
             <div className="step">
               <div className="num">4</div>
               <h4>Shops grow nationwide</h4>
-              <p>Small businesses reach customers far beyond their block — and their culture travels with them.</p>
+              <p>Small businesses reach customers far beyond their block - and their culture travels with them.</p>
             </div>
           </div>
         </div>
@@ -156,7 +156,7 @@ export default function Home() {
               funding and technology to reach beyond their neighborhoods.
               Meanwhile, the selection in smaller cities is minimal, hard to
               vet for authenticity, and too often steeped in orientalism.
-              CultureConnect exists to close that gap — helping cultural goods
+              CultureConnect exists to close that gap - helping cultural goods
               become genuinely accessible everywhere, sold by the families who
               know them best.
             </p>

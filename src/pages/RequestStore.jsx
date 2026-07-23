@@ -36,7 +36,7 @@ export default function RequestStore() {
           <h1 style={{ fontSize: '2.2rem' }}>Request a city</h1>
           <p style={{ maxWidth: '44em' }}>
             CultureConnect grows city by city. Tell us where you want authentic
-            cultural shops next — every request helps our team prioritize where
+            cultural shops next - every request helps our team prioritize where
             to build. The most-requested cities move to the front of the line.
           </p>
         </div>

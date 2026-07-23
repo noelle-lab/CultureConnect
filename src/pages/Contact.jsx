@@ -29,7 +29,7 @@ export default function Contact() {
           </h1>
           <p className="lead" style={{ maxWidth: '42em' }}>
             Questions about an order, interested in listing your shop, or just
-            want to tell us which city to serve next? Send a note — a real person
+            want to tell us which city to serve next? Send a note - a real person
             on our small team reads every message.
           </p>
         </div>
@@ -47,7 +47,7 @@ export default function Contact() {
                   <h2 style={{ fontSize: '1.5rem', marginBottom: 6 }}>Thanks, {form.name.split(' ')[0]}!</h2>
                   <p className="muted" style={{ maxWidth: '32em', margin: '0 auto' }}>
                     We've got your message and will reply to{' '}
-                    <strong>{form.email}</strong> soon. (Demo form — nothing was
+                    <strong>{form.email}</strong> soon. (Demo form - nothing was
                     actually submitted.)
                   </p>
                   <button

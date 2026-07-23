@@ -12,7 +12,7 @@
 
 # Pin a modern Node so the build actually succeeds on Netlify. Vite 5 needs
 # Node 18+; if the build fails (e.g. on an older default Node), Netlify keeps
-# the previous deploy live — which serves the raw source and triggers the
+# the previous deploy live - which serves the raw source and triggers the
 # octet-stream module-script error above. Keep this in sync with .nvmrc.
 [build.environment]
   NODE_VERSION = "20"

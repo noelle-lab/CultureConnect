@@ -22,7 +22,7 @@ export default function Stores() {
     <>
       <div className="admin-header">
         <h1>Partner Shops</h1>
-        <p>Manage every shop on the platform — status, services, and details.</p>
+        <p>Manage every shop on the platform - status, services, and details.</p>
       </div>
 
       <div className="table-wrap">

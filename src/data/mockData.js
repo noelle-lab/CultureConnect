@@ -366,7 +366,7 @@ export function shopPayout(onlineTotal) {
 // Shipping estimator (demo)
 // Orders ship from CultureConnect's NYC fulfillment hub. Rates are estimated
 // by distance zone, derived from the destination ZIP code (or state). This is
-// mock logic — no carrier API is called.
+// mock logic - no carrier API is called.
 // ---------------------------------------------------------------------------
 
 export const FREE_SHIPPING_THRESHOLD = 75 // free Standard shipping over this subtotal

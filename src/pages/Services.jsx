@@ -16,7 +16,7 @@ export default function Services() {
           </h1>
           <p className="lead">
             CultureConnect gives family-owned, ethnic-minority-run businesses two
-            ways to grow beyond their neighborhood — with none of the technical
+            ways to grow beyond their neighborhood - with none of the technical
             overhead. Pick one, or use both together.
           </p>
         </div>
@@ -33,7 +33,7 @@ export default function Services() {
               <h2 style={{ fontSize: '1.5rem' }}>List on CultureConnect</h2>
               <p className="muted">
                 We build and manage your storefront on the CultureConnect
-                marketplace — the full white-glove treatment.
+                marketplace - the full white-glove treatment.
               </p>
               <ul>
                 <li>Professional product listings &amp; photography</li>
@@ -59,11 +59,11 @@ export default function Services() {
               <h2 style={{ fontSize: '1.5rem' }}>Cross-listing service</h2>
               <p className="muted">
                 Already want to be on Etsy and eBay? We list, sync, and manage
-                your inventory across platforms — efficiently and in one place.
+                your inventory across platforms - efficiently and in one place.
               </p>
               <ul>
                 <li>One catalog, published to Etsy &amp; eBay automatically</li>
-                <li>Inventory &amp; price sync — no double-selling</li>
+                <li>Inventory &amp; price sync - no double-selling</li>
                 <li>Optimized titles, tags &amp; SEO for each platform</li>
                 <li>Consolidated orders in a single dashboard</li>
                 <li>Add-on to marketplace listing, or standalone</li>
@@ -87,8 +87,8 @@ export default function Services() {
             <p className="muted" style={{ maxWidth: '52em' }}>
               We encourage shops to list online at {Math.round(MARKUP * 100)}% of
               their in-person price. That covers our{' '}
-              {Math.round(COMMISSION_RATE * 100)}% commission — which pays for all
-              marketing, listings, and platform work — while you still net close
+              {Math.round(COMMISSION_RATE * 100)}% commission - which pays for all
+              marketing, listings, and platform work - while you still net close
               to your normal in-store margin. Here's a $100 in-store item:
             </p>
             <div className="grid-2" style={{ maxWidth: 620 }}>
@@ -114,7 +114,7 @@ export default function Services() {
                 <strong>Why it works for you</strong>
                 <p className="muted" style={{ fontSize: '0.9rem' }}>
                   You net ~96% of your usual in-store price while reaching
-                  customers nationwide — with zero time spent on photos,
+                  customers nationwide - with zero time spent on photos,
                   marketing, SEO, or shipping logistics. We only make money when
                   you make a sale.
                 </p>
@@ -131,9 +131,9 @@ export default function Services() {
             {sent ? (
               <div style={{ textAlign: 'center', padding: '10px 0' }}>
                 <div style={{ fontSize: '2.6rem' }}>📨</div>
-                <h2 style={{ color: '#fff' }}>Thanks — we'll be in touch!</h2>
+                <h2 style={{ color: '#fff' }}>Thanks - we'll be in touch!</h2>
                 <p style={{ color: '#f7e6d9' }}>
-                  Our onboarding team reviews every shop personally. (Demo form —
+                  Our onboarding team reviews every shop personally. (Demo form -
                   nothing was actually submitted.)
                 </p>
               </div>
