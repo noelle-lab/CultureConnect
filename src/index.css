@@ -32,8 +32,8 @@
   --radius: 14px;
   --radius-sm: 9px;
 
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-display: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
   --font-logo: 'Soria', 'Georgia', 'Times New Roman', serif;
 }
 
