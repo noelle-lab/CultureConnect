@@ -361,3 +361,86 @@ export function commission(onlineTotal) {
 export function shopPayout(onlineTotal) {
   return Math.round(onlineTotal * (1 - COMMISSION_RATE) * 100) / 100
 }
+
+// ---------------------------------------------------------------------------
+// Shipping estimator (demo)
+// Orders ship from CultureConnect's NYC fulfillment hub. Rates are estimated
+// by distance zone, derived from the destination ZIP code (or state). This is
+// mock logic — no carrier API is called.
+// ---------------------------------------------------------------------------
+
+export const FREE_SHIPPING_THRESHOLD = 75 // free Standard shipping over this subtotal
+
+// US state → distance zone relative to the NYC hub (1 = closest … 4 = farthest).
+const STATE_ZONES = {
+  NY: 1, NJ: 1, CT: 1, PA: 1, MA: 1, RI: 1, DE: 1,
+  MD: 2, DC: 2, VA: 2, NH: 2, VT: 2, ME: 2, OH: 2, WV: 2, NC: 2, MI: 2, IN: 2,
+  SC: 3, GA: 3, KY: 3, TN: 3, IL: 3, WI: 3, MO: 3, IA: 3, MN: 3, AL: 3, MS: 3, AR: 3, FL: 3,
+  LA: 4, OK: 4, TX: 4, KS: 4, NE: 4, SD: 4, ND: 4, CO: 4, WY: 4, MT: 4,
+  NM: 4, AZ: 4, UT: 4, ID: 4, NV: 4, CA: 4, OR: 4, WA: 4, AK: 4, HI: 4,
+}
+
+// Per-zone base rates: [standard, express] in dollars.
+const ZONE_RATES = {
+  1: { standard: 6.5, express: 14.0 },
+  2: { standard: 8.5, express: 17.0 },
+  3: { standard: 10.5, express: 21.0 },
+  4: { standard: 12.5, express: 25.0 },
+}
+
+// Rough ZIP first-digit → zone, used when only a ZIP is provided.
+const ZIP_PREFIX_ZONES = { 0: 1, 1: 1, 2: 2, 3: 3, 4: 2, 5: 3, 6: 3, 7: 4, 8: 4, 9: 4 }
+
+// Pull a 5-digit ZIP and/or 2-letter state out of a free-text address string.
+export function parseDestination(input) {
+  const text = String(input || '').trim()
+  const zip = (text.match(/\b(\d{5})(?:-\d{4})?\b/) || [])[1] || null
+  let state = null
+  const stateMatch = text.toUpperCase().match(/\b([A-Z]{2})\b(?!.*\b[A-Z]{2}\b)/)
+  if (stateMatch && STATE_ZONES[stateMatch[1]]) state = stateMatch[1]
+  return { zip, state, raw: text }
+}
+
+// Resolve a destination (parsed or partial) to a distance zone, or null.
+export function shippingZone({ zip, state } = {}) {
+  if (state && STATE_ZONES[state]) return STATE_ZONES[state]
+  if (zip && zip.length >= 1) return ZIP_PREFIX_ZONES[zip[0]] ?? 3
+  return null
+}
+
+// Estimate shipping options for a destination + cart subtotal.
+// Returns { zone, options: [{ id, label, eta, amount, free }] } or null if the
+// destination can't be resolved.
+export function shippingQuotes(destination, subtotal = 0) {
+  const parsed =
+    typeof destination === 'string' ? parseDestination(destination) : destination || {}
+  const zone = shippingZone(parsed)
+  if (!zone) return null
+  const rates = ZONE_RATES[zone]
+  const etaByZone = {
+    1: { standard: '2–3 business days', express: '1 business day' },
+    2: { standard: '3–4 business days', express: '2 business days' },
+    3: { standard: '4–5 business days', express: '2 business days' },
+    4: { standard: '5–7 business days', express: '2–3 business days' },
+  }
+  const freeStandard = subtotal >= FREE_SHIPPING_THRESHOLD
+  return {
+    zone,
+    options: [
+      {
+        id: 'standard',
+        label: 'Standard',
+        eta: etaByZone[zone].standard,
+        amount: freeStandard ? 0 : rates.standard,
+        free: freeStandard,
+      },
+      {
+        id: 'express',
+        label: 'Express',
+        eta: etaByZone[zone].express,
+        amount: rates.express,
+        free: false,
+      },
+    ],
+  }
+}

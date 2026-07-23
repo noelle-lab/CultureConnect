@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import { onlinePrice, commission } from '../data/mockData'
+import {
+  onlinePrice,
+  commission,
+  shippingQuotes,
+  FREE_SHIPPING_THRESHOLD,
+} from '../data/mockData'
 
 export default function Cart() {
   const { cart, products, stores, updateCartQty, removeFromCart, placeOrder, user } =
@@ -9,6 +14,12 @@ export default function Cart() {
   const [placed, setPlaced] = useState(null)
   const [city, setCity] = useState('')
   const [email, setEmail] = useState(user?.email || '')
+
+  // Address-based shipping estimator.
+  const [address, setAddress] = useState('')
+  const [quote, setQuote] = useState(null) // { zone, options } | null
+  const [shipMethod, setShipMethod] = useState(null) // 'standard' | 'express'
+  const [addressError, setAddressError] = useState('')
 
   const lines = cart
     .map((item) => {
@@ -21,12 +32,34 @@ export default function Cart() {
     .filter(Boolean)
 
   const subtotal = lines.reduce((s, l) => s + l.subtotal, 0)
-  const shipping = subtotal > 0 ? 6.5 : 0
-  const total = subtotal + shipping
+  const selectedOption = quote?.options.find((o) => o.id === shipMethod) || null
+  const shipping = selectedOption?.amount ?? null
+  const total = subtotal + (shipping ?? 0)
+
+  function searchShipping(e) {
+    e.preventDefault()
+    const result = shippingQuotes(address, subtotal)
+    if (!result) {
+      setQuote(null)
+      setShipMethod(null)
+      setAddressError(
+        "Couldn't find a rate for that address — include a US ZIP code or state.",
+      )
+      return
+    }
+    setAddressError('')
+    setQuote(result)
+    // Default to the cheapest option.
+    const cheapest = [...result.options].sort((a, b) => a.amount - b.amount)[0]
+    setShipMethod(cheapest.id)
+    // Use the searched address as the ship-to city if none entered yet.
+    if (!city.trim()) setCity(address.trim())
+  }
 
   function checkout(e) {
     e.preventDefault()
-    const order = placeOrder({ city, email })
+    if (!selectedOption) return
+    const order = placeOrder({ city: city || address, email })
     setPlaced(order)
   }
 
@@ -117,11 +150,19 @@ export default function Cart() {
           </div>
           <div className="calc-row">
             <span>Shipping</span>
-            <span>${shipping.toFixed(2)}</span>
+            <span>
+              {shipping == null ? (
+                <span className="muted">Search address</span>
+              ) : selectedOption?.free ? (
+                <span className="pos">FREE</span>
+              ) : (
+                `$${shipping.toFixed(2)}`
+              )}
+            </span>
           </div>
           <div className="calc-row total">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{shipping == null ? '—' : `$${total.toFixed(2)}`}</span>
           </div>
 
           <div className="field" style={{ marginTop: 16 }}>
@@ -135,19 +176,79 @@ export default function Cart() {
               placeholder="you@example.com"
             />
           </div>
+
           <div className="field">
-            <label>Ship to city</label>
-            <input
-              className="input"
-              required
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="e.g. Denver, CO"
-            />
+            <label>Shipping address</label>
+            <div className="flex gap-8">
+              <input
+                className="input"
+                value={address}
+                onChange={(e) => {
+                  setAddress(e.target.value)
+                  setQuote(null)
+                  setShipMethod(null)
+                }}
+                placeholder="Street, city, ST or ZIP"
+              />
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={searchShipping}
+                disabled={!address.trim()}
+                style={{ whiteSpace: 'nowrap' }}
+              >
+                Get rates
+              </button>
+            </div>
+            {addressError && (
+              <p className="muted" style={{ color: 'var(--clay)', fontSize: '0.8rem', marginTop: 6 }}>
+                {addressError}
+              </p>
+            )}
           </div>
 
-          <button className="btn btn-primary btn-block" type="submit">
-            Place demo order · ${total.toFixed(2)}
+          {quote && (
+            <div className="field">
+              <label>Shipping method</label>
+              <div className="ship-options">
+                {quote.options.map((opt) => (
+                  <label
+                    key={opt.id}
+                    className={`ship-option${shipMethod === opt.id ? ' selected' : ''}`}
+                  >
+                    <input
+                      type="radio"
+                      name="ship-method"
+                      checked={shipMethod === opt.id}
+                      onChange={() => setShipMethod(opt.id)}
+                    />
+                    <span className="ship-option-body">
+                      <span style={{ fontWeight: 600 }}>{opt.label}</span>
+                      <span className="muted" style={{ fontSize: '0.8rem' }}>
+                        {opt.eta}
+                      </span>
+                    </span>
+                    <span style={{ fontWeight: 700 }}>
+                      {opt.free ? <span className="pos">FREE</span> : `$${opt.amount.toFixed(2)}`}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <p className="muted" style={{ fontSize: '0.78rem', marginTop: 8, marginBottom: 0 }}>
+                Estimated from our NYC hub (zone {quote.zone}). Standard ships free on orders
+                over ${FREE_SHIPPING_THRESHOLD}.
+              </p>
+            </div>
+          )}
+
+          <button
+            className="btn btn-primary btn-block"
+            type="submit"
+            disabled={!selectedOption}
+          >
+            {selectedOption
+              ? `Place demo order · $${total.toFixed(2)}`
+              : 'Search address to continue'}
           </button>
           <p className="muted" style={{ fontSize: '0.78rem', textAlign: 'center', marginBottom: 0 }}>
             Demo checkout — CultureConnect keeps a 20% commission (~$

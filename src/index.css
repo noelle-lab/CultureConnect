@@ -1289,6 +1289,38 @@ table.data tr:hover td {
   top: 88px;
 }
 
+/* shipping method options */
+.ship-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ship-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.ship-option:hover {
+  border-color: var(--clay);
+}
+.ship-option.selected {
+  border-color: var(--clay);
+  background: var(--sand-2);
+}
+.ship-option input {
+  accent-color: var(--clay);
+}
+.ship-option-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 /* toggle switch */
 .switch {
   position: relative;
