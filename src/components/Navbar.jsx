@@ -30,22 +30,18 @@ export default function Navbar() {
     <>
       <header className="navbar">
         <div className="container navbar-inner">
-          <Link to="/" className="brand">
-            <img src="/logo.svg" alt="" className="brand-logo" />
-            <span>
-              CultureConnect
-              <small>Authentic · Local · Everywhere</small>
-            </span>
-          </Link>
+          <div className="nav-top">
+            <div className="nav-top-side nav-top-left" />
 
-          <nav className="nav-links">
-            <NavLink to="/shop">Shop</NavLink>
-            <NavLink to="/services">For Businesses</NavLink>
-            <NavLink to="/request-store">Request a City</NavLink>
-            <NavLink to="/about">Our Mission</NavLink>
-          </nav>
+            <Link to="/" className="brand">
+              <img src="/logo.svg" alt="" className="brand-logo" />
+              <span className="brand-name">
+                CultureConnect
+                <small>Authentic · Local · Everywhere</small>
+              </span>
+            </Link>
 
-          <div className="nav-right">
+            <div className="nav-right nav-top-side">
             <Link to="/cart" className="cart-btn">
               🛒 Cart
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
@@ -103,7 +99,15 @@ export default function Navbar() {
                 </button>
               </>
             )}
+            </div>
           </div>
+
+          <nav className="nav-links">
+            <NavLink to="/shop">Shop</NavLink>
+            <NavLink to="/services">For Businesses</NavLink>
+            <NavLink to="/request-store">Request a City</NavLink>
+            <NavLink to="/about">Our Mission</NavLink>
+          </nav>
         </div>
       </header>
 
