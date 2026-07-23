@@ -1,11 +1,11 @@
 /* ---------------- Fonts (self-hosted) ---------------- */
-/* Soria — display face for titles/headings */
+/* Fraunces — display face for titles/headings (variable weight) */
 @font-face {
-  font-family: 'Soria';
+  font-family: 'Fraunces';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 700;
   font-display: swap;
-  src: url('/fonts/soria.woff2') format('woff2');
+  src: url('/fonts/fraunces-variable.woff2') format('woff2-variations');
 }
 
 /* Lora — body face */
@@ -78,7 +78,7 @@
   --radius-sm: 9px;
 
   --font-body: 'Lora', Georgia, 'Times New Roman', serif;
-  --font-display: 'Soria', 'Georgia', 'Times New Roman', serif;
+  --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
 }
 
 * {
