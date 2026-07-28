@@ -56,12 +56,6 @@ export default function ProductDetail() {
         <div>
           <div className="chip-row" style={{ marginBottom: 12 }}>
             <span className="badge badge-culture">{product.category}</span>
-            {product.crosslisted.includes('etsy') && (
-              <span className="badge badge-etsy">Also on Etsy</span>
-            )}
-            {product.crosslisted.includes('ebay') && (
-              <span className="badge badge-ebay">Also on eBay</span>
-            )}
           </div>
 
           <h1 style={{ fontSize: '2rem' }}>{product.name}</h1>
