@@ -178,13 +178,7 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
 }
 
 export default function Listings() {
-  const {
-    draftProducts: products,
-    draftStores: stores,
-    updateProduct,
-    addProduct,
-    removeProduct,
-  } = useApp()
+  const { products, stores, updateProduct, addProduct, removeProduct } = useApp()
   const [editor, setEditor] = useState(null) // null | product | 'new'
 
   function handleSave(form) {

@@ -201,7 +201,7 @@ function BusinessEditor({ initial, onSave, onClose }) {
 }
 
 export default function Stores() {
-  const { draftStores: stores, draftProducts: products, updateStore, addStore } = useApp()
+  const { stores, products, updateStore, addStore } = useApp()
   const [editor, setEditor] = useState(null) // null | { store } | 'new'
 
   function productCount(storeId) {

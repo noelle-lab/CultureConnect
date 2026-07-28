@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext'
 import ProductCard from '../components/ProductCard'
 
 export default function Home() {
-  const { products, stores } = useApp()
+  const { publishedProducts: products, publishedStores: stores } = useApp()
   const featured = products.slice(0, 8)
   const activeStores = stores.filter((s) => s.status === 'active')
 

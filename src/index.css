@@ -881,6 +881,45 @@ h6 {
   color: #e3d5f2;
 }
 
+/* ---------------- Admin: draft / publish bar ---------------- */
+.edit-bar {
+  border-bottom: 1px solid var(--line);
+  background: var(--sand-2);
+}
+.edit-bar.has-edits {
+  background: #fff6e6;
+  border-bottom-color: #f0dca8;
+}
+.edit-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.edit-bar-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.edit-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--warn);
+  box-shadow: 0 0 0 3px rgba(201, 138, 26, 0.18);
+  flex-shrink: 0;
+}
+.edit-dot.live {
+  background: var(--jade);
+  box-shadow: 0 0 0 3px rgba(47, 158, 122, 0.16);
+}
+
 /* ---------------- Admin ---------------- */
 .admin-shell {
   display: grid;
@@ -947,58 +986,6 @@ h6 {
   padding: 30px 34px;
   background: var(--sand);
   overflow-x: auto;
-}
-
-/* Draft / publish banner ------------------------------------------------ */
-.publish-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border: 1px solid #f2c94c;
-  background: #fff8e6;
-}
-.publish-bar.published {
-  border-color: var(--line);
-  background: var(--white);
-}
-.publish-bar-msg {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.publish-bar-msg strong {
-  display: block;
-  color: var(--charcoal);
-  font-size: 0.95rem;
-}
-.publish-bar-sub {
-  display: block;
-  color: var(--charcoal);
-  opacity: 0.75;
-  font-size: 0.82rem;
-  margin-top: 2px;
-}
-.publish-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #e0a800;
-  flex-shrink: 0;
-  box-shadow: 0 0 0 4px rgba(224, 168, 0, 0.15);
-}
-.publish-dot.live {
-  background: #16a34a;
-  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
-}
-.publish-bar-actions {
-  display: flex;
-  gap: 10px;
-  flex-shrink: 0;
 }
 .admin-header {
   margin-bottom: 24px;

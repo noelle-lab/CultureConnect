@@ -6,7 +6,7 @@ import { useApp } from '../context/AppContext'
 // or public-domain license via Openverse. This page credits each photographer
 // and links the license, as those licenses require.
 export default function Credits() {
-  const { stores, products } = useApp()
+  const { publishedStores: stores, publishedProducts: products } = useApp()
 
   const rows = [
     ...stores

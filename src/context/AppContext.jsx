@@ -54,19 +54,22 @@ export function AppProvider({ children }) {
 
   const [user, setUser] = useState(persisted?.user ?? null) // { name, email, role }
   const [cart, setCart] = useState(persisted?.cart ?? []) // [{ productId, qty }]
-  // Catalog is split into two copies. `stores` / `products` are the PUBLISHED
-  // versions the public storefront reads. Admins never edit these directly —
-  // they edit `draftStores` / `draftProducts` (the working copy), and those
-  // changes only reach the public site when an admin clicks "Publish edits".
+
+  // Two snapshots of the catalog, on purpose:
+  //   • `stores` / `products`          = the DRAFT the admin console edits.
+  //   • `publishedStores` / `publishedProducts` = what the PUBLIC storefront shows.
+  // Admin edits only touch the draft; the live site doesn't change until an
+  // admin clicks "Publish edits" (draft → published) or "Discard edits"
+  // (published → draft) in the console top bar. Returning demos that predate
+  // this split fall back to their existing `stores`/`products` as the published
+  // snapshot so their live site doesn't suddenly revert to seed data.
   const [stores, setStores] = useState(persisted?.stores ?? seedStores)
   const [products, setProducts] = useState(persisted?.products ?? seedProducts)
-  // Admin working copy. Falls back to the published catalog for visitors who
-  // predate the draft/publish split (no `draftStores` persisted yet).
-  const [draftStores, setDraftStores] = useState(
-    persisted?.draftStores ?? persisted?.stores ?? seedStores,
+  const [publishedStores, setPublishedStores] = useState(
+    persisted?.publishedStores ?? persisted?.stores ?? seedStores,
   )
-  const [draftProducts, setDraftProducts] = useState(
-    persisted?.draftProducts ?? persisted?.products ?? seedProducts,
+  const [publishedProducts, setPublishedProducts] = useState(
+    persisted?.publishedProducts ?? persisted?.products ?? seedProducts,
   )
   const [cityRequests, setCityRequests] = useState(
     persisted?.cityRequests ?? seedCityRequests,
@@ -83,8 +86,8 @@ export function AppProvider({ children }) {
       cart,
       stores,
       products,
-      draftStores,
-      draftProducts,
+      publishedStores,
+      publishedProducts,
       cityRequests,
       orders,
       admins,
@@ -100,8 +103,8 @@ export function AppProvider({ children }) {
     cart,
     stores,
     products,
-    draftStores,
-    draftProducts,
+    publishedStores,
+    publishedProducts,
     cityRequests,
     orders,
     admins,
@@ -279,10 +282,8 @@ export function AppProvider({ children }) {
   }
 
   // --- Stores (admin) ------------------------------------------------------
-  // All catalog edits land in the DRAFT copy. Nothing an admin changes here is
-  // public until publishEdits() promotes the draft to the published catalog.
   function updateStore(id, patch) {
-    setDraftStores((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)))
+    setStores((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)))
   }
   function addStore(store) {
     const created = {
@@ -293,13 +294,13 @@ export function AppProvider({ children }) {
       rating: null,
       ...store,
     }
-    setDraftStores((prev) => [created, ...prev])
+    setStores((prev) => [created, ...prev])
     return created
   }
 
   // --- Products (admin) ----------------------------------------------------
   function updateProduct(id, patch) {
-    setDraftProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch } : p)))
+    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch } : p)))
   }
   function addProduct(product) {
     const created = {
@@ -313,14 +314,14 @@ export function AppProvider({ children }) {
       image: '',
       ...product,
     }
-    setDraftProducts((prev) => [created, ...prev])
+    setProducts((prev) => [created, ...prev])
     return created
   }
   function removeProduct(id) {
-    setDraftProducts((prev) => prev.filter((p) => p.id !== id))
+    setProducts((prev) => prev.filter((p) => p.id !== id))
   }
   function toggleCrosslist(id, channel) {
-    setDraftProducts((prev) =>
+    setProducts((prev) =>
       prev.map((p) => {
         if (p.id !== id) return p
         const has = p.crosslisted.includes(channel)
@@ -334,40 +335,27 @@ export function AppProvider({ children }) {
     )
   }
 
-  // --- Publishing ----------------------------------------------------------
-  // Number of catalog records that differ between the draft and what's live:
-  // edited, newly added, or removed shops + products. Drives the "Publish
-  // edits" banner in the admin console.
-  const pendingChanges = useMemo(() => {
-    let count = 0
-    const livedStore = new Map(stores.map((s) => [s.id, JSON.stringify(s)]))
-    draftStores.forEach((s) => {
-      if (livedStore.get(s.id) !== JSON.stringify(s)) count++ // added or edited
-    })
-    const draftStoreIds = new Set(draftStores.map((s) => s.id))
-    stores.forEach((s) => {
-      if (!draftStoreIds.has(s.id)) count++ // removed
-    })
-    const livedProduct = new Map(products.map((p) => [p.id, JSON.stringify(p)]))
-    draftProducts.forEach((p) => {
-      if (livedProduct.get(p.id) !== JSON.stringify(p)) count++
-    })
-    const draftProductIds = new Set(draftProducts.map((p) => p.id))
-    products.forEach((p) => {
-      if (!draftProductIds.has(p.id)) count++
-    })
-    return count
-  }, [stores, products, draftStores, draftProducts])
+  // --- Publish / discard draft catalog edits -------------------------------
+  // Are there any admin edits to the catalog that aren't live yet? Compared by
+  // value — a JSON compare is plenty for this front-end prototype's data sizes.
+  const hasPendingEdits = useMemo(
+    () =>
+      JSON.stringify(stores) !== JSON.stringify(publishedStores) ||
+      JSON.stringify(products) !== JSON.stringify(publishedProducts),
+    [stores, products, publishedStores, publishedProducts],
+  )
 
-  // Promote the admin draft to the public catalog.
+  // Push the current draft live: the public storefront now shows these shops
+  // and listings.
   function publishEdits() {
-    setStores(draftStores)
-    setProducts(draftProducts)
+    setPublishedStores(stores)
+    setPublishedProducts(products)
   }
+
   // Throw the draft away and start again from what's currently live.
   function discardEdits() {
-    setDraftStores(stores)
-    setDraftProducts(products)
+    setStores(publishedStores)
+    setProducts(publishedProducts)
   }
 
   // --- Orders (checkout) ---------------------------------------------------
@@ -392,8 +380,8 @@ export function AppProvider({ children }) {
     setCart([])
     setStores(seedStores)
     setProducts(seedProducts)
-    setDraftStores(seedStores)
-    setDraftProducts(seedProducts)
+    setPublishedStores(seedStores)
+    setPublishedProducts(seedProducts)
     setCityRequests(seedCityRequests)
     setOrders(seedOrders)
     // Reset the admin roster back to just the owner, and clear invites. This
@@ -408,11 +396,9 @@ export function AppProvider({ children }) {
       cart,
       stores,
       products,
-      draftStores,
-      draftProducts,
-      pendingChanges,
-      publishEdits,
-      discardEdits,
+      publishedStores,
+      publishedProducts,
+      hasPendingEdits,
       cityRequests,
       orders,
       admins,
@@ -438,6 +424,8 @@ export function AppProvider({ children }) {
       addProduct,
       removeProduct,
       toggleCrosslist,
+      publishEdits,
+      discardEdits,
       placeOrder,
       resetDemo,
     }),
@@ -446,9 +434,9 @@ export function AppProvider({ children }) {
       cart,
       stores,
       products,
-      draftStores,
-      draftProducts,
-      pendingChanges,
+      publishedStores,
+      publishedProducts,
+      hasPendingEdits,
       cityRequests,
       orders,
       admins,
