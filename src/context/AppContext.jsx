@@ -8,7 +8,10 @@ import {
 
 const AppContext = createContext(null)
 
-const STORAGE_KEY = 'cultureconnect.state.v1'
+// Bumped to v2 when shops/products gained real photos + fuller business
+// profiles, so returning visitors load the new seed data instead of stale
+// localStorage that predates the image fields.
+const STORAGE_KEY = 'cultureconnect.state.v2'
 
 // Demo credentials. Auth is intentionally fake - any of these (or any
 // password) will work. Shown on the sign-in screens so the demo is easy to use.

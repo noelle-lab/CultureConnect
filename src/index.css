@@ -1427,3 +1427,167 @@ table.data tr:hover td {
       'thumb controls';
   }
 }
+
+/* ============================================================
+   Real photography: product / shop images + credits
+   ============================================================ */
+.product-thumb img,
+.shop-card-media img,
+.hero-tile img,
+.store-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.thumb-emoji {
+  font-size: 3.4rem;
+}
+.media-emoji {
+  font-size: 8rem;
+}
+
+/* Product detail media now holds a real photo + credit overlay */
+.detail-media {
+  position: relative;
+  overflow: hidden;
+}
+.detail-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+
+/* Hero collage tiles carry photos instead of emoji */
+.hero-tile {
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Small attribution chip pinned to the corner of a photo */
+.photo-credit {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  background: rgba(20, 16, 12, 0.62);
+  color: #fff;
+  font-size: 0.66rem;
+  line-height: 1.3;
+  padding: 3px 8px;
+  border-radius: 8px;
+  max-width: calc(100% - 16px);
+  z-index: 2;
+}
+.photo-credit a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.plain-link {
+  color: inherit;
+  text-decoration: none;
+}
+.plain-link:hover {
+  color: var(--clay);
+}
+
+/* ---------------- Home: partner shop cards ---------------- */
+.shop-card {
+  padding: 0 !important;
+}
+.shop-card-media {
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, var(--sand-2), #fff);
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+}
+.shop-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+/* ---------------- Store detail page ---------------- */
+.store-page {
+  padding-bottom: 20px;
+}
+.store-hero {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 24px 24px;
+}
+.store-hero-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: linear-gradient(135deg, var(--sand-2), #fff);
+  display: grid;
+  place-items: center;
+}
+.store-hero-body h1 {
+  font-size: 2.4rem;
+  margin: 4px 0 6px;
+}
+.store-owner {
+  font-weight: 600;
+  color: var(--clay);
+  margin: 0 0 16px;
+}
+.store-lead {
+  font-size: 1.03rem;
+  color: var(--charcoal);
+  line-height: 1.65;
+  margin: 0 0 16px;
+}
+.store-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 10px 0 8px;
+}
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.info-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.info-card h4 {
+  margin: 10px 0 4px;
+  font-size: 0.95rem;
+}
+.info-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 860px) {
+  .store-hero {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 24px 20px 8px;
+  }
+  .store-info-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .store-hero-body h1 {
+    font-size: 2rem;
+  }
+}

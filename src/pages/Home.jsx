@@ -43,13 +43,27 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-collage">
-            <div className="hero-tile tall">🧶</div>
-            <div className="hero-tile">🍵</div>
-            <div className="hero-tile">🏺</div>
-            <div className="hero-tile">🌶️</div>
-            <div className="hero-tile tall">🪷</div>
-            <div className="hero-tile">☕</div>
-            <div className="hero-tile">🥮</div>
+            <div className="hero-tile tall">
+              <img src="/images/stores/casa-oaxaca.jpg" alt="Embroidered Oaxacan textiles" loading="lazy" />
+            </div>
+            <div className="hero-tile">
+              <img src="/images/products/lotus-tea.jpg" alt="Loose-leaf green tea" loading="lazy" />
+            </div>
+            <div className="hero-tile">
+              <img src="/images/products/oaxaca-pottery.jpg" alt="Barro negro black clay pottery" loading="lazy" />
+            </div>
+            <div className="hero-tile">
+              <img src="/images/products/suya-spice.jpg" alt="West African spices" loading="lazy" />
+            </div>
+            <div className="hero-tile tall">
+              <img src="/images/products/shea-butter.jpg" alt="Raw shea butter" loading="lazy" />
+            </div>
+            <div className="hero-tile">
+              <img src="/images/products/turkish-coffee.jpg" alt="Hand-hammered copper cezve" loading="lazy" />
+            </div>
+            <div className="hero-tile">
+              <img src="/images/products/mooncake.jpg" alt="Lotus seed mooncakes" loading="lazy" />
+            </div>
           </div>
         </div>
       </section>
@@ -86,23 +100,28 @@ export default function Home() {
           </div>
           <div className="product-grid">
             {activeStores.map((s) => (
-              <Link
-                to={`/shop?store=${s.id}`}
-                key={s.id}
-                className="product-card"
-                style={{ padding: 20 }}
-              >
-                <div style={{ fontSize: '2.4rem' }}>{s.emoji}</div>
-                <div style={{ fontWeight: 700, marginTop: 8 }}>{s.name}</div>
-                <div className="muted" style={{ fontSize: '0.85rem' }}>
-                  {s.heritage} · {s.neighborhood}
+              <Link to={`/store/${s.id}`} key={s.id} className="product-card shop-card">
+                <div className="shop-card-media">
+                  {s.image ? (
+                    <img src={s.image} alt={`${s.name} storefront`} loading="lazy" />
+                  ) : (
+                    <span className="thumb-emoji">{s.emoji}</span>
+                  )}
                 </div>
-                <p style={{ fontSize: '0.86rem', marginTop: 8 }} className="muted">
-                  {s.story}
-                </p>
-                <span className="badge badge-cc" style={{ marginTop: 'auto' }}>
-                  ★ {s.rating} · {s.owner}
-                </span>
+                <div className="shop-card-body">
+                  <div style={{ fontWeight: 700 }}>
+                    {s.emoji} {s.name}
+                  </div>
+                  <div className="muted" style={{ fontSize: '0.85rem' }}>
+                    {s.heritage} · {s.neighborhood}
+                  </div>
+                  <p style={{ fontSize: '0.86rem', marginTop: 8 }} className="muted">
+                    {s.story}
+                  </p>
+                  <span className="badge badge-cc" style={{ marginTop: 'auto' }}>
+                    ★ {s.rating} · {s.owner}
+                  </span>
+                </div>
               </Link>
             ))}
           </div>

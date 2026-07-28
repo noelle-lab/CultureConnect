@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import { onlinePrice, MARKUP } from '../data/mockData'
 import ProductCard from '../components/ProductCard'
+import PhotoCredit from '../components/PhotoCredit'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -43,7 +44,14 @@ export default function ProductDetail() {
       </Link>
 
       <div className="detail-grid">
-        <div className="detail-media">{product.emoji}</div>
+        <div className="detail-media">
+          {product.image ? (
+            <img src={product.image} alt={product.name} />
+          ) : (
+            <span className="media-emoji">{product.emoji}</span>
+          )}
+          {product.imageCredit && <PhotoCredit credit={product.imageCredit} />}
+        </div>
 
         <div>
           <div className="chip-row" style={{ marginBottom: 12 }}>
@@ -59,7 +67,7 @@ export default function ProductDetail() {
           <h1 style={{ fontSize: '2rem' }}>{product.name}</h1>
 
           <Link
-            to={`/shop?store=${store.id}`}
+            to={`/store/${store.id}`}
             className="muted"
             style={{ fontWeight: 600, display: 'inline-block', marginBottom: 16 }}
           >
@@ -121,7 +129,11 @@ export default function ProductDetail() {
           <div className="section-head">
             <div>
               <div className="eyebrow-sm">More from this shop</div>
-              <h2 style={{ fontSize: '1.5rem' }}>{store.name}</h2>
+              <h2 style={{ fontSize: '1.5rem' }}>
+                <Link to={`/store/${store.id}`} className="plain-link">
+                  {store.name}
+                </Link>
+              </h2>
             </div>
           </div>
           <div className="product-grid">
