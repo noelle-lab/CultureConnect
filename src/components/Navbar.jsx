@@ -5,7 +5,7 @@ import AuthModal from './AuthModal'
 
 export default function Navbar() {
   const { user, cart, signOut } = useApp()
-  const [authRole, setAuthRole] = useState(null) // null | 'buyer' | 'admin'
+  const [showAuth, setShowAuth] = useState(false) // buyer sign-in modal
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef(null)
   const navigate = useNavigate()
@@ -88,28 +88,18 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <>
-                <button
-                  className="btn btn-ghost btn-sm"
-                  onClick={() => setAuthRole('buyer')}
-                >
-                  Sign in
-                </button>
-                <button
-                  className="btn btn-dark btn-sm"
-                  onClick={() => setAuthRole('admin')}
-                >
-                  🔐 Admin
-                </button>
-              </>
+              <button
+                className="btn btn-dark btn-sm"
+                onClick={() => setShowAuth(true)}
+              >
+                Sign in
+              </button>
             )}
           </div>
         </div>
       </header>
 
-      {authRole && (
-        <AuthModal initialRole={authRole} onClose={() => setAuthRole(null)} />
-      )}
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>
   )
 }

@@ -16,6 +16,7 @@ import About from './pages/About'
 import HowItWorks from './pages/HowItWorks'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
+import InviteRedeem from './pages/InviteRedeem'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
@@ -26,6 +27,7 @@ import CrossListing from './pages/admin/CrossListing'
 import Finance from './pages/admin/Finance'
 import CityRequestsAdmin from './pages/admin/CityRequests'
 import Orders from './pages/admin/Orders'
+import Team from './pages/admin/Team'
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -79,6 +81,7 @@ export default function App() {
           <Route path="finance" element={<Finance />} />
           <Route path="city-requests" element={<CityRequestsAdmin />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="team" element={<Team />} />
         </Route>
 
         {/* Public site */}
@@ -105,6 +108,8 @@ export default function App() {
         />
         <Route path="/contact" element={<PublicShell><Contact /></PublicShell>} />
         <Route path="/credits" element={<PublicShell><Credits /></PublicShell>} />
+        {/* Invite-link landing (admins only reach admin via this + Google) */}
+        <Route path="/invite" element={<PublicShell><InviteRedeem /></PublicShell>} />
         <Route path="*" element={<PublicShell><NotFound /></PublicShell>} />
       </Routes>
     </>
