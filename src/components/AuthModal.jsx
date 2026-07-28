@@ -1,29 +1,25 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useApp, DEMO_ACCOUNTS } from '../context/AppContext'
 
-// Fake sign-in modal. Buyer vs Admin tabs. Any credentials are accepted -
-// this is a demo. The chosen role decides what the app unlocks.
-export default function AuthModal({ initialRole = 'buyer', onClose }) {
+// Fake buyer sign-in modal. Any credentials are accepted — this is a demo.
+// (Admins do NOT use this. They sign in with a real Google account from the
+// discreet link at the bottom of the page — see AdminAuthModal.)
+export default function AuthModal({ onClose }) {
   const { signIn } = useApp()
-  const navigate = useNavigate()
-  const [role, setRole] = useState(initialRole)
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
 
-  const demo = DEMO_ACCOUNTS[role]
+  const demo = DEMO_ACCOUNTS.buyer
 
   function submit(e) {
     e.preventDefault()
-    signIn(role, email || demo.email, name)
+    signIn(email || demo.email, name)
     onClose()
-    if (role === 'admin') navigate('/admin')
   }
 
   function useDemo() {
-    signIn(role, demo.email, role === 'admin' ? 'Noelle (Admin)' : 'Demo Buyer')
+    signIn(demo.email, 'Demo Buyer')
     onClose()
-    if (role === 'admin') navigate('/admin')
   }
 
   return (
@@ -37,33 +33,7 @@ export default function AuthModal({ initialRole = 'buyer', onClose }) {
           Sign in to CultureConnect
         </p>
 
-        <div className="auth-tabs" role="tablist">
-          <button
-            className={role === 'buyer' ? 'active' : ''}
-            onClick={() => setRole('buyer')}
-          >
-            🛍️ Buyer
-          </button>
-          <button
-            className={role === 'admin' ? 'active' : ''}
-            onClick={() => setRole('admin')}
-          >
-            🔐 Admin
-          </button>
-        </div>
-
         <form onSubmit={submit}>
-          {role === 'admin' && (
-            <div className="field">
-              <label>Name</label>
-              <input
-                className="input"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
-              />
-            </div>
-          )}
           <div className="field">
             <label>Email</label>
             <input
@@ -79,7 +49,7 @@ export default function AuthModal({ initialRole = 'buyer', onClose }) {
             <input className="input" type="password" placeholder="••••••••" />
           </div>
           <button className="btn btn-primary btn-block" type="submit">
-            Sign in as {role === 'admin' ? 'Admin' : 'Buyer'}
+            Sign in
           </button>
         </form>
 
@@ -88,12 +58,12 @@ export default function AuthModal({ initialRole = 'buyer', onClose }) {
           style={{ marginTop: 10 }}
           onClick={useDemo}
         >
-          Skip - use demo {role} account
+          Skip - use demo buyer account
         </button>
 
         <div className="demo-hint">
           Demo mode · use <code>{demo.email}</code> with any password, or click the
-          button above. The {role} experience is fully explorable.
+          button above. Buyer sign-in is simulated for the prototype.
         </div>
       </div>
     </div>

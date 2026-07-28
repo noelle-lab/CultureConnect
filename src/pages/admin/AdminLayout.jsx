@@ -20,6 +20,10 @@ const NAV = [
       ['finance', '💰', 'Finance & Payouts'],
     ],
   },
+  {
+    group: 'Team',
+    items: [['team', '👥', 'Team & Invites']],
+  },
 ]
 
 export default function AdminLayout() {
@@ -56,9 +60,13 @@ export default function AdminLayout() {
               ↺ Reset demo
             </button>
             <div className="user-chip">
-              <span className="avatar admin">
-                {(user?.name || 'A').charAt(0).toUpperCase()}
-              </span>
+              {user?.picture ? (
+                <img className="admin-avatar" src={user.picture} alt="" />
+              ) : (
+                <span className="avatar admin">
+                  {(user?.name || 'A').charAt(0).toUpperCase()}
+                </span>
+              )}
               {user?.name || 'Admin'}
             </div>
             <button

@@ -1,6 +1,12 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useApp } from '../context/AppContext'
+import AdminAuthModal from './AdminAuthModal'
 
 export default function Footer() {
+  const { user } = useApp()
+  const [showAdminAuth, setShowAdminAuth] = useState(false)
+
   return (
     <footer className="footer">
       <div className="container">
@@ -42,7 +48,6 @@ export default function Footer() {
             <Link to="/how-it-works">How it works</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/credits">Photo credits</Link>
-            <Link to="/admin">Team login</Link>
           </div>
         </div>
 
@@ -50,7 +55,29 @@ export default function Footer() {
           <span>© 2026 CultureConnect · A demo marketplace concept.</span>
           <span>Starting in New York City · Expanding to SF &amp; DC next.</span>
         </div>
+
+        {/* Team-only, kept at the very bottom so the public doesn't wander in.
+            Real Google sign-in, invite-only. */}
+        <div className="footer-admin">
+          {user?.role === 'admin' ? (
+            <Link to="/admin" className="footer-admin-link">
+              🔐 Admin console
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="footer-admin-link"
+              onClick={() => setShowAdminAuth(true)}
+            >
+              Admin sign in
+            </button>
+          )}
+        </div>
       </div>
+
+      {showAdminAuth && (
+        <AdminAuthModal onClose={() => setShowAdminAuth(false)} />
+      )}
     </footer>
   )
 }
