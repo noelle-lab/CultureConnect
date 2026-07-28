@@ -20,6 +20,7 @@ export const MARKUP = 1.2 // shops are encouraged to list at 120% of in-person p
 // stand in for the fictional shop owners and are not the named characters.
 const LICENSE_URLS = {
   'CC BY 2.0': 'https://creativecommons.org/licenses/by/2.0/',
+  'CC BY 2.5': 'https://creativecommons.org/licenses/by/2.5/',
   'CC BY 3.0': 'https://creativecommons.org/licenses/by/3.0/',
   'CC BY 4.0': 'https://creativecommons.org/licenses/by/4.0/',
   'CC BY-SA 2.0': 'https://creativecommons.org/licenses/by-sa/2.0/',
@@ -553,6 +554,13 @@ export const products = [
     stock: 28,
     crosslisted: ['etsy'],
     description: 'Downy white-tea buds scented with fresh jasmine blossoms over several nights. Delicate, floral, barely sweet.',
+    image: '/images/products/gl-jasmine.jpg',
+    imageCredit: credit(
+      'Loose Jasmine Tea Leaves',
+      'Hayden Soloviev',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Loose_Jasmine_Tea_Leaves.jpg',
+    ),
   },
   {
     id: 'p-gl-phin-coffee',
@@ -564,6 +572,13 @@ export const products = [
     stock: 40,
     crosslisted: ['etsy', 'ebay'],
     description: 'Dark-roasted, chocolatey robusta ground for the phin filter — the bold base for cà phê sữa đá.',
+    image: '/images/products/gl-phin-coffee.jpg',
+    imageCredit: credit(
+      'Vietnamese Iced Coffee Ba Chi Canteen',
+      'Infrogmation of New Orleans',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Vietnamese_Iced_Coffee_Ba_Chi_Canteen.jpg',
+    ),
   },
   {
     id: 'p-gl-phin-filter',
@@ -575,6 +590,13 @@ export const products = [
     stock: 35,
     crosslisted: ['etsy'],
     description: 'The single-cup drip filter every Vietnamese kitchen owns. Slow, meditative, no paper needed.',
+    image: '/images/products/gl-phin-filter.jpg',
+    imageCredit: credit(
+      'Scooping coffee into metal filter, for Vietnamese coffee',
+      'HungryHuy',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Scooping_coffee_into_metal_filter,_for_Vietnamese_coffee.jpg',
+    ),
   },
   {
     id: 'p-gl-chrysanthemum',
@@ -586,6 +608,13 @@ export const products = [
     stock: 26,
     crosslisted: [],
     description: 'Dried chrysanthemum flowers and goji berries for a caffeine-free, honey-gold cup enjoyed after meals.',
+    image: '/images/products/gl-chrysanthemum.jpg',
+    imageCredit: credit(
+      'Korean chrysanthemum tea-Gukhwacha-01',
+      'by gliuoo',
+      'CC BY-SA 2.0',
+      'https://commons.wikimedia.org/wiki/File:Korean_chrysanthemum_tea-Gukhwacha-01.jpg',
+    ),
   },
   {
     id: 'p-gl-lotus-seeds',
@@ -597,6 +626,13 @@ export const products = [
     stock: 30,
     crosslisted: [],
     description: 'Whole dried lotus seeds for sweet soups, chè, and the lotus-seed filling in homemade mooncakes.',
+    image: '/images/products/gl-lotus-seeds.jpg',
+    imageCredit: credit(
+      'Lotus Nelumbo \'Mrs. Perry D. Slocum\' Dried Seed Head 2000px',
+      'Photo by and (c)2008 Derek Ramsey (Ram-Man). Co-attribution must be given to the Chanticleer Garden.',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:Lotus_Nelumbo_%27Mrs._Perry_D._Slocum%27_Dried_Seed_Head_2000px.jpg',
+    ),
   },
   {
     id: 'p-gl-mung-cake',
@@ -608,6 +644,13 @@ export const products = [
     stock: 44,
     crosslisted: ['etsy'],
     description: 'Little pressed cubes of sweet mung-bean cake that melt on the tongue with a cup of hot tea.',
+    image: '/images/products/gl-mung-cake.jpg',
+    imageCredit: credit(
+      'Banh-Dau-Xanh',
+      'MrMaThaMi',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Banh-Dau-Xanh.jpg',
+    ),
   },
   {
     id: 'p-gl-fish-sauce',
@@ -619,6 +662,13 @@ export const products = [
     stock: 50,
     crosslisted: [],
     description: 'Amber, first-pressing nước mắm from Phú Quốc — the savory backbone of Vietnamese cooking.',
+    image: '/images/products/gl-fish-sauce.jpg',
+    imageCredit: credit(
+      'Fish soy sauce bottle (37082990452)',
+      'David Jackmanson from Melbourne, Australia, Australia',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Fish_soy_sauce_bottle_(37082990452).jpg',
+    ),
   },
   {
     id: 'p-gl-sate',
@@ -630,6 +680,13 @@ export const products = [
     stock: 38,
     crosslisted: ['etsy'],
     description: 'Fragrant lemongrass-and-chili oil to spoon over phở, noodle soups, and grilled meats.',
+    image: '/images/products/gl-sate.jpg',
+    imageCredit: credit(
+      'Bowl of Vietnamese chicken soup with chili paste',
+      'HungryHuy',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Bowl_of_Vietnamese_chicken_soup_with_chili_paste.jpg',
+    ),
   },
   {
     id: 'p-gl-rice-paper',
@@ -641,6 +698,13 @@ export const products = [
     stock: 60,
     crosslisted: [],
     description: 'Thin round rice wrappers for fresh summer rolls — just dip, fill, and roll.',
+    image: '/images/products/gl-rice-paper.jpg',
+    imageCredit: credit(
+      'Rice paper butterfly with sunlight shining through (16709)',
+      'Rhododendrites',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Rice_paper_butterfly_with_sunlight_shining_through_(16709).jpg',
+    ),
   },
   {
     id: 'p-gl-pandan',
@@ -652,6 +716,13 @@ export const products = [
     stock: 33,
     crosslisted: [],
     description: 'Natural pandan for the grassy-green aroma and color of Vietnamese sweets, rice, and drinks.',
+    image: '/images/products/gl-pandan.jpg',
+    imageCredit: credit(
+      'Pandanus amaryllifolius, locally known as \'daun pandan\' in Indonesia',
+      'Salmiah La Suma',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Pandanus_amaryllifolius,_locally_known_as_%27daun_pandan%27_in_Indonesia.jpg',
+    ),
   },
   {
     id: 'p-gl-plum-candy',
@@ -663,6 +734,13 @@ export const products = [
     stock: 48,
     crosslisted: [],
     description: 'Sweet-salty-sour dried plum and candied ginger — the classic snack of a Vietnamese grandma’s purse.',
+    image: '/images/products/gl-plum-candy.jpg',
+    imageCredit: credit(
+      'Chinese preserved plum snack',
+      'Alancrh',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:Chinese_preserved_plum_snack.jpg',
+    ),
   },
   {
     id: 'p-gl-lotus-candy',
@@ -674,6 +752,13 @@ export const products = [
     stock: 29,
     crosslisted: ['etsy'],
     description: 'Chewy candied lotus seeds in a red keepsake box — a traditional Tết treat for visitors.',
+    image: '/images/products/gl-lotus-candy.jpg',
+    imageCredit: credit(
+      'Fresh Lotus Seed-4049',
+      'Raimond Spekking',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Fresh_Lotus_Seed-4049.jpg',
+    ),
   },
   {
     id: 'p-gl-tet-hamper',
@@ -685,6 +770,13 @@ export const products = [
     stock: 12,
     crosslisted: ['etsy', 'ebay'],
     description: 'A ready-to-give Lunar New Year hamper of hand-packed tea, a mooncake tin, and assorted candies.',
+    image: '/images/products/gl-tet-hamper.jpg',
+    imageCredit: credit(
+      'Wrapped fruit basket',
+      'Matthew Hoelscher from Doral, Florida, USA.',
+      'CC BY-SA 2.0',
+      'https://commons.wikimedia.org/wiki/File:Wrapped_fruit_basket.jpg',
+    ),
   },
 
   // --- Casa Oaxaca Textiles (Mexican / Oaxacan) ----------------------------
@@ -698,6 +790,13 @@ export const products = [
     stock: 4,
     crosslisted: ['etsy', 'ebay'],
     description: 'A long naturally-dyed runner woven on a pedal loom in Teotitlán del Valle. One of a kind.',
+    image: '/images/products/co-runner-rug.jpg',
+    imageCredit: credit(
+      'Handwoven Bokhara rug made in South Africa',
+      'Iammax56',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Handwoven_Bokhara_rug_made_in_South_Africa.jpg',
+    ),
   },
   {
     id: 'p-co-pillow',
@@ -709,6 +808,13 @@ export const products = [
     stock: 16,
     crosslisted: ['etsy'],
     description: 'A 18-inch cushion cover in Zapotec geometric motifs, backed with cotton and a hidden zipper.',
+    image: '/images/products/co-pillow.jpg',
+    imageCredit: credit(
+      'Sprang pillow case',
+      'Kjersti Lie',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Sprang_pillow_case.jpg',
+    ),
   },
   {
     id: 'p-co-table-runner',
@@ -720,6 +826,13 @@ export const products = [
     stock: 10,
     crosslisted: ['etsy'],
     description: 'Cotton runner hand-embroidered with the whimsical animals of the Otomí tenango tradition.',
+    image: '/images/products/co-table-runner.jpg',
+    imageCredit: credit(
+      'OtomiWomanEmbroidery',
+      'AlejandroLinaresGarcia',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:OtomiWomanEmbroidery.jpg',
+    ),
   },
   {
     id: 'p-co-frida-blouse',
@@ -731,6 +844,13 @@ export const products = [
     stock: 9,
     crosslisted: ['etsy'],
     description: 'A cotton blouse with a densely embroidered floral yoke, in the style of the Oaxacan Isthmus.',
+    image: '/images/products/co-frida-blouse.jpg',
+    imageCredit: credit(
+      'Tlahuitoltepec086',
+      'AlejandroLinaresGarcia',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Tlahuitoltepec086.jpg',
+    ),
   },
   {
     id: 'p-co-sarape',
@@ -742,6 +862,13 @@ export const products = [
     stock: 7,
     crosslisted: ['ebay'],
     description: 'A warm, fringed sarape in banded natural colors — throw, blanket, or wall hanging.',
+    image: '/images/products/co-sarape.jpg',
+    imageCredit: credit(
+      'Serape (blanket) from Mexico, Honolulu Museum of Art 13284.1',
+      'Hiart',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Serape_(blanket)_from_Mexico,_Honolulu_Museum_of_Art_13284.1.JPG',
+    ),
   },
   {
     id: 'p-co-basket',
@@ -753,6 +880,13 @@ export const products = [
     stock: 18,
     crosslisted: [],
     description: 'A handwoven palm basket with lid, used across Oaxaca for tortillas and market runs.',
+    image: '/images/products/co-basket.jpg',
+    imageCredit: credit(
+      'San Juan Bautista Cuicatlan- basket locally woven of colorful plastic strips',
+      'Thayne Tuason',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:San_Juan_Bautista_Cuicatlan-_basket_locally_woven_of_colorful_plastic_strips.jpg',
+    ),
   },
   {
     id: 'p-co-copitas',
@@ -764,6 +898,13 @@ export const products = [
     stock: 14,
     crosslisted: ['etsy'],
     description: 'Four little burnished black-clay cups from San Bartolo Coyotepec — for sipping mezcal, neat.',
+    image: '/images/products/co-copitas.jpg',
+    imageCredit: credit(
+      'Clay cups',
+      'Jaroslaw M.',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Clay_cups.jpg',
+    ),
   },
   {
     id: 'p-co-huaraches',
@@ -775,6 +916,13 @@ export const products = [
     stock: 12,
     crosslisted: ['ebay'],
     description: 'Woven leather huaraches made by a family workshop, with a comfortable recycled-tire sole.',
+    image: '/images/products/co-huaraches.jpg',
+    imageCredit: credit(
+      'HuarachesZaachila',
+      'AlejandroLinaresGarcia',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:HuarachesZaachila.JPG',
+    ),
   },
   {
     id: 'p-co-alebrije',
@@ -786,6 +934,13 @@ export const products = [
     stock: 11,
     crosslisted: ['etsy'],
     description: 'A copal-wood spirit animal, carved and painted by hand in dazzling dotted patterns.',
+    image: '/images/products/co-alebrije.jpg',
+    imageCredit: credit(
+      'Mexican alebrije sculpture, a form of folk art from Oaxaca exhibited at the museu Frida Kahlo',
+      'Rebeccananonof',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Mexican_alebrije_sculpture,_a_form_of_folk_art_from_Oaxaca_exhibited_at_the_museu_Frida_Kahlo.jpg',
+    ),
   },
   {
     id: 'p-co-earrings',
@@ -797,6 +952,13 @@ export const products = [
     stock: 22,
     crosslisted: ['etsy'],
     description: 'Tiny glass beads hand-strung into bright flowers by Huichol-inspired artisans.',
+    image: '/images/products/co-earrings.jpg',
+    imageCredit: credit(
+      'Jewelry set 08',
+      'Anna Maj Michelson from Portland, Estados Unidos',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Jewelry_set_08.jpg',
+    ),
   },
   {
     id: 'p-co-incense',
@@ -808,6 +970,13 @@ export const products = [
     stock: 20,
     crosslisted: [],
     description: 'Golden copal resin with a small barro burner — the sacred, piney smoke of Oaxacan ceremony.',
+    image: '/images/products/co-incense.jpg',
+    imageCredit: credit(
+      'Copal Madagascar',
+      'Didier Descouens',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Copal_Madagascar.jpg',
+    ),
   },
   {
     id: 'p-co-coin-purse',
@@ -819,6 +988,13 @@ export const products = [
     stock: 26,
     crosslisted: [],
     description: 'A little zippered pouch woven from leftover rug wool — no two color combos alike.',
+    image: '/images/products/co-coin-purse.jpg',
+    imageCredit: credit(
+      'Sagada woven coin purse',
+      'Chrisaligo',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Sagada_woven_coin_purse.jpg',
+    ),
   },
 
   // --- Anatolia Home (Turkish) ---------------------------------------------
@@ -832,6 +1008,13 @@ export const products = [
     stock: 18,
     crosslisted: [],
     description: 'A footed bowl hand-painted with carnations and tulips in the centuries-old Kütahya style.',
+    image: '/images/products/an-kutahya-bowl.jpg',
+    imageCredit: credit(
+      'Çanakkale town Ceramic display Horse headed pitcher in 2006 2436',
+      'Dosseman',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:%C3%87anakkale_town_Ceramic_display_Horse_headed_pitcher_in_2006_2436.jpg',
+    ),
   },
   {
     id: 'p-an-iznik-plate',
@@ -843,6 +1026,13 @@ export const products = [
     stock: 12,
     crosslisted: [],
     description: 'A cobalt-and-red display plate echoing the classic Iznik quartz-ware of Ottoman palaces.',
+    image: '/images/products/an-iznik-plate.jpg',
+    imageCredit: credit(
+      'Iznik pottery, British Museum, London - 53477734066',
+      'null',
+      'CC BY-SA 2.0',
+      'https://commons.wikimedia.org/wiki/File:Iznik_pottery,_British_Museum,_London_-_53477734066.jpg',
+    ),
   },
   {
     id: 'p-an-tea-glasses',
@@ -854,6 +1044,13 @@ export const products = [
     stock: 20,
     crosslisted: [],
     description: 'Six tulip-shaped çay glasses with gilded rims and saucers — the shape that keeps tea hot.',
+    image: '/images/products/an-tea-glasses.jpg',
+    imageCredit: credit(
+      'Glass of tea 05119',
+      'Nevit Dilmen',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:Glass_of_tea_05119.jpg',
+    ),
   },
   {
     id: 'p-an-caydanlik',
@@ -865,6 +1062,13 @@ export const products = [
     stock: 8,
     crosslisted: [],
     description: 'The stacked double kettle that brews strong Turkish tea below and dilutes to taste above.',
+    image: '/images/products/an-caydanlik.jpg',
+    imageCredit: credit(
+      'Turkish tea pot (3810169485)',
+      'Peretz Partensky from San Francisco, USA',
+      'CC BY-SA 2.0',
+      'https://commons.wikimedia.org/wiki/File:Turkish_tea_pot_(3810169485).jpg',
+    ),
   },
   {
     id: 'p-an-mosaic-lamp',
@@ -876,6 +1080,13 @@ export const products = [
     stock: 10,
     crosslisted: [],
     description: 'A hanging lamp of hand-cut colored glass and beads that throws a stained-glass glow.',
+    image: '/images/products/an-mosaic-lamp.jpg',
+    imageCredit: credit(
+      'Turkish Mosaic Lamp',
+      'Campo Carlo Magno',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Turkish_Mosaic_Lamp.jpg',
+    ),
   },
   {
     id: 'p-an-bathrobe',
@@ -887,6 +1098,13 @@ export const products = [
     stock: 14,
     crosslisted: [],
     description: 'A lightweight loom-woven robe, quick-drying like a peştemal but wrapped for the bath house.',
+    image: '/images/products/an-bathrobe.jpg',
+    imageCredit: credit(
+      'BathrobeHungup',
+      'GlassCobra',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:BathrobeHungup.jpg',
+    ),
   },
   {
     id: 'p-an-olive-soap',
@@ -898,6 +1116,13 @@ export const products = [
     stock: 40,
     crosslisted: [],
     description: 'Three bars of gentle, green laurel-and-olive soap cured the traditional Antakya way.',
+    image: '/images/products/an-olive-soap.jpg',
+    imageCredit: credit(
+      'Bars of pure Marseille and Aleppo soap, 2024',
+      'DimiTalen',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Bars_of_pure_Marseille_and_Aleppo_soap,_2024.jpg',
+    ),
   },
   {
     id: 'p-an-lokum',
@@ -909,6 +1134,13 @@ export const products = [
     stock: 30,
     crosslisted: [],
     description: 'Rose, pomegranate, and double-pistachio lokum dusted in sugar, in a keepsake box.',
+    image: '/images/products/an-lokum.jpg',
+    imageCredit: credit(
+      'Turkish Delight lokum',
+      'Chris Brown',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Turkish_Delight_lokum.jpg',
+    ),
   },
   {
     id: 'p-an-turkish-coffee',
@@ -920,6 +1152,13 @@ export const products = [
     stock: 34,
     crosslisted: [],
     description: 'Finely powdered, cardamom-scented coffee ground for the cezve. Foam guaranteed.',
+    image: '/images/products/an-turkish-coffee.jpg',
+    imageCredit: credit(
+      'Turkish coffee in Istanbul',
+      'Tema',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:Turkish_coffee_in_Istanbul.jpg',
+    ),
   },
   {
     id: 'p-an-apple-tea',
@@ -931,6 +1170,13 @@ export const products = [
     stock: 36,
     crosslisted: [],
     description: 'The sweet, tangy apple tea served to every guest in a Turkish shop — just add hot water.',
+    image: '/images/products/an-apple-tea.jpg',
+    imageCredit: credit(
+      'Apple Red Tea, May 2025',
+      'Ralff Nestor Nacor',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Apple_Red_Tea,_May_2025.jpg',
+    ),
   },
   {
     id: 'p-an-evil-eye-coasters',
@@ -942,6 +1188,13 @@ export const products = [
     stock: 24,
     crosslisted: [],
     description: 'Four glazed nazar coasters in cobalt blue — protection for your table, or so they say.',
+    image: '/images/products/an-evil-eye-coasters.jpg',
+    imageCredit: credit(
+      'Evil Eye Decorations',
+      'Vik Walker',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Evil_Eye_Decorations.jpg',
+    ),
   },
   {
     id: 'p-an-nazar',
@@ -953,6 +1206,13 @@ export const products = [
     stock: 28,
     crosslisted: [],
     description: 'A cluster of hand-blown glass evil-eye beads to hang by the door and ward off envy.',
+    image: '/images/products/an-nazar.jpg',
+    imageCredit: credit(
+      'Kapadokya\'dan Nazar Boncuğu',
+      'Alev Akın',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Kapadokya%27dan_Nazar_Boncu%C4%9Fu.jpg',
+    ),
   },
   {
     id: 'p-an-jam-duo',
@@ -964,6 +1224,13 @@ export const products = [
     stock: 26,
     crosslisted: [],
     description: 'Two jars of thick, whole-fruit preserves for a proper Turkish breakfast spread.',
+    image: '/images/products/an-jam-duo.jpg',
+    imageCredit: credit(
+      'Confiture de figues, bocaux',
+      'Cjp24',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Confiture_de_figues,_bocaux.jpg',
+    ),
   },
 
   // --- Little Lagos Market (Nigerian) --------------------------------------
@@ -977,6 +1244,13 @@ export const products = [
     stock: 40,
     crosslisted: [],
     description: 'Deep-red, unrefined palm oil for jollof, egusi, and stews — the color of a Nigerian kitchen.',
+    image: '/images/products/ll-palm-oil.jpg',
+    imageCredit: credit(
+      'Palm oil in a white bowl',
+      'Zmu\'az4Z',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Palm_oil_in_a_white_bowl.jpg',
+    ),
   },
   {
     id: 'p-ll-egusi',
@@ -988,6 +1262,13 @@ export const products = [
     stock: 45,
     crosslisted: ['ebay'],
     description: 'Milled melon seeds that thicken and enrich the classic West African egusi soup.',
+    image: '/images/products/ll-egusi.jpg',
+    imageCredit: credit(
+      'Egusi (Melon seeds)',
+      'Ei\'eke',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Egusi_(Melon_seeds).jpg',
+    ),
   },
   {
     id: 'p-ll-garri',
@@ -999,6 +1280,13 @@ export const products = [
     stock: 50,
     crosslisted: [],
     description: 'Fine white garri for eba, or soaked cold with sugar and groundnuts as a quick snack.',
+    image: '/images/products/ll-garri.jpg',
+    imageCredit: credit(
+      'Cassava Flakes (garri)',
+      'Zeerun',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Cassava_Flakes_(garri).jpg',
+    ),
   },
   {
     id: 'p-ll-crayfish',
@@ -1010,6 +1298,13 @@ export const products = [
     stock: 38,
     crosslisted: [],
     description: 'Smoky ground crayfish — the umami secret stirred into soups, stews, and pepper sauces.',
+    image: '/images/products/ll-crayfish.jpg',
+    imageCredit: credit(
+      'A man selling dried crayfish in african market',
+      'Minette Lontsie',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:A_man_selling_dried_crayfish_in_african_market.jpg',
+    ),
   },
   {
     id: 'p-ll-jollof',
@@ -1021,6 +1316,13 @@ export const products = [
     stock: 42,
     crosslisted: ['etsy'],
     description: 'A pre-measured spice mix to settle the great debate — a smoky, party-worthy jollof every time.',
+    image: '/images/products/ll-jollof.jpg',
+    imageCredit: credit(
+      'Jollof rice with vegetable',
+      'Segun Famisa',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Jollof_rice_with_vegetable.jpg',
+    ),
   },
   {
     id: 'p-ll-black-soap',
@@ -1032,6 +1334,13 @@ export const products = [
     stock: 44,
     crosslisted: ['etsy', 'ebay'],
     description: 'Traditional black soap of plantain-skin ash and palm oil, gentle enough for daily washing.',
+    image: '/images/products/ll-black-soap.jpg',
+    imageCredit: credit(
+      'African Black Soap',
+      'Ashley Pomeroy',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:African_Black_Soap.jpg',
+    ),
   },
   {
     id: 'p-ll-body-butter',
@@ -1043,6 +1352,13 @@ export const products = [
     stock: 36,
     crosslisted: ['etsy'],
     description: 'Ivory shea whipped with hibiscus for a light, fast-absorbing everyday moisturizer.',
+    image: '/images/products/ll-body-butter.jpg',
+    imageCredit: credit(
+      'Raw Shea Butter',
+      'Zak Raha',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Raw_Shea_Butter.jpg',
+    ),
   },
   {
     id: 'p-ll-gele',
@@ -1054,6 +1370,13 @@ export const products = [
     stock: 30,
     crosslisted: ['etsy'],
     description: 'A generous length of stiff, vibrant wax-print cloth to tie the show-stopping gele.',
+    image: '/images/products/ll-gele.jpg',
+    imageCredit: credit(
+      'Mills, Obama, GHANA-USA wax print GTP cloth',
+      'Tommy Miles',
+      'CC BY-SA 2.0',
+      'https://commons.wikimedia.org/wiki/File:Mills,_Obama,_GHANA-USA_wax_print_GTP_cloth.jpg',
+    ),
   },
   {
     id: 'p-ll-dashiki',
@@ -1065,6 +1388,13 @@ export const products = [
     stock: 20,
     crosslisted: ['etsy'],
     description: 'A relaxed pullover cut and sewn from bold West African wax-print cotton.',
+    image: '/images/products/ll-dashiki.jpg',
+    imageCredit: credit(
+      'African Prints',
+      'Afimaame',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:African_Prints.jpg',
+    ),
   },
   {
     id: 'p-ll-waist-beads',
@@ -1076,6 +1406,13 @@ export const products = [
     stock: 34,
     crosslisted: ['etsy'],
     description: 'Three strands of traditional glass waist beads — worn for adornment and to feel yourself.',
+    image: '/images/products/ll-waist-beads.jpg',
+    imageCredit: credit(
+      'Colourful waist beads',
+      'Ahiaticourage',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Colourful_waist_beads.jpg',
+    ),
   },
   {
     id: 'p-ll-chinchin',
@@ -1087,6 +1424,13 @@ export const products = [
     stock: 48,
     crosslisted: [],
     description: 'Sweet, nutmeg-scented fried dough cubes — impossible to eat just one handful.',
+    image: '/images/products/ll-chinchin.jpg',
+    imageCredit: credit(
+      'A fried chin chin',
+      'Linason Blessing',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:A_fried_chin_chin.jpg',
+    ),
   },
   {
     id: 'p-ll-plantain-chips',
@@ -1098,6 +1442,13 @@ export const products = [
     stock: 52,
     crosslisted: [],
     description: 'Crisp, lightly salted plantain chips fried the way the roadside sellers back home make them.',
+    image: '/images/products/ll-plantain-chips.jpg',
+    imageCredit: credit(
+      'PLANTAIN CHIPS',
+      'DromoTetteh',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:PLANTAIN_CHIPS.jpg',
+    ),
   },
 
   // --- Himalayan Thread (Nepali / Tibetan) ---------------------------------
@@ -1111,6 +1462,13 @@ export const products = [
     stock: 10,
     crosslisted: [],
     description: 'A chunky, fleece-lined cardigan hand-knit by the collective — warm enough for a Himalayan winter.',
+    image: '/images/products/ht-cardigan.jpg',
+    imageCredit: credit(
+      'Dale of Norway sweater',
+      'Menswear Market',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Dale_of_Norway_sweater.jpg',
+    ),
   },
   {
     id: 'p-ht-shawl',
@@ -1122,6 +1480,13 @@ export const products = [
     stock: 16,
     crosslisted: [],
     description: 'A feather-light, surprisingly warm shawl woven from soft yak-wool blend. Ethically sourced.',
+    image: '/images/products/ht-shawl.jpg',
+    imageCredit: credit(
+      'Pashmina scarf with woven elephant design 03',
+      'Kritzolina',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Pashmina_scarf_with_woven_elephant_design_03.jpg',
+    ),
   },
   {
     id: 'p-ht-gloves',
@@ -1133,6 +1498,13 @@ export const products = [
     stock: 28,
     crosslisted: [],
     description: 'Hand-knit fingerless gloves with a fold-over mitten cap — for typing, texting, or tea-holding.',
+    image: '/images/products/ht-gloves.jpg',
+    imageCredit: credit(
+      'Knitted Glove',
+      'Elizabeth Moutal',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Elizabeth_Moutal,_Knitted_Glove,_c._1936,_NGA_28887.jpg',
+    ),
   },
   {
     id: 'p-ht-slippers',
@@ -1144,6 +1516,13 @@ export const products = [
     stock: 22,
     crosslisted: [],
     description: 'Dense felted-wool house slippers with a suede sole — like a warm hug for cold floors.',
+    image: '/images/products/ht-slippers.jpg',
+    imageCredit: credit(
+      'Pantoffel aus Schafwolle, gefilzt und gewalkt (Osttirol)',
+      'Naturpuur',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Pantoffel_aus_Schafwolle,_gefilzt_und_gewalkt_(Osttirol).jpg',
+    ),
   },
   {
     id: 'p-ht-journal',
@@ -1155,6 +1534,13 @@ export const products = [
     stock: 30,
     crosslisted: [],
     description: 'A journal bound in Nepalese lokta paper, made from the bark of the sustainable daphne shrub.',
+    image: '/images/products/ht-journal.jpg',
+    imageCredit: credit(
+      'Handmade bingo journal',
+      'Lisa Yarost',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Handmade_bingo_journal.jpg',
+    ),
   },
   {
     id: 'p-ht-incense',
@@ -1166,6 +1552,13 @@ export const products = [
     stock: 40,
     crosslisted: [],
     description: 'Rope incense of hand-ground juniper and herbs, burned for purification across the Himalaya.',
+    image: '/images/products/ht-incense.jpg',
+    imageCredit: credit(
+      'Tibetan rope incense 1',
+      'GrammarFascist',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Tibetan_rope_incense_1.JPG',
+    ),
   },
   {
     id: 'p-ht-prayer-flags',
@@ -1177,6 +1570,13 @@ export const products = [
     stock: 35,
     crosslisted: [],
     description: 'A string of block-printed lungta prayer flags to carry blessings on the wind from your porch.',
+    image: '/images/products/ht-prayer-flags.jpg',
+    imageCredit: credit(
+      'Prayer flag above Tanze Gompa',
+      'Moumine',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:Prayer_flag_above_Tanze_Gompa.jpg',
+    ),
   },
   {
     id: 'p-ht-bell',
@@ -1188,6 +1588,13 @@ export const products = [
     stock: 14,
     crosslisted: [],
     description: 'A cast-brass ritual bell with a clear, long sustain to open and close a sitting.',
+    image: '/images/products/ht-bell.jpg',
+    imageCredit: credit(
+      'A Buddhist ritual hand bell, drilbu. From Tibet, early 20th century CE. National Museum of Scotland, Edinburgh',
+      'Osama Shukir Muhammed Amin FRCP(Glasg)',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:A_Buddhist_ritual_hand_bell,_drilbu._From_Tibet,_early_20th_century_CE._National_Museum_of_Scotland,_Edinburgh.jpg',
+    ),
   },
   {
     id: 'p-ht-mala',
@@ -1199,6 +1606,13 @@ export const products = [
     stock: 24,
     crosslisted: [],
     description: 'A 108-bead rudraksha-seed mala for counting breaths, mantras, or simply for wearing.',
+    image: '/images/products/ht-mala.jpg',
+    imageCredit: credit(
+      'Rudraksha tree leaves, Elaeocarpus ganitrus in India 001',
+      'Suyash Dwivedi',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Rudraksha_tree_leaves,_Elaeocarpus_ganitrus_in_India_001.jpg',
+    ),
   },
   {
     id: 'p-ht-kids-mittens',
@@ -1210,6 +1624,13 @@ export const products = [
     stock: 26,
     crosslisted: [],
     description: 'Tiny fleece-lined mittens on a string, hand-knit in cheerful Himalayan color-work.',
+    image: '/images/products/ht-kids-mittens.jpg',
+    imageCredit: credit(
+      'Swiss Military Wool Mittens (15695449197)',
+      'Andrew Toskin',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Swiss_Military_Wool_Mittens_(15695449197).jpg',
+    ),
   },
   {
     id: 'p-ht-nettle-tote',
@@ -1221,6 +1642,13 @@ export const products = [
     stock: 18,
     crosslisted: [],
     description: 'A sturdy tote woven from wild Himalayan allo (nettle) fiber — rugged and naturally textured.',
+    image: '/images/products/ht-nettle-tote.jpg',
+    imageCredit: credit(
+      'Canvas tote bag from Books & Books, Miami, Florida, USA - 20130912',
+      'Jacklee.',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Canvas_tote_bag_from_Books_%26_Books,_Miami,_Florida,_USA_-_20130912.jpg',
+    ),
   },
   {
     id: 'p-ht-zafu',
@@ -1232,6 +1660,13 @@ export const products = [
     stock: 12,
     crosslisted: [],
     description: 'A firm buckwheat-filled zafu with a hand-woven wool cover to lift and support your sit.',
+    image: '/images/products/ht-zafu.jpg',
+    imageCredit: credit(
+      'Zafu meditation cushion used in a scientific study (Rodriguez et al, 2018)',
+      'Victor H. Rodriguez, Carlos T. Medrano, and Inmaculada Plaza',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Zafu_meditation_cushion_used_in_a_scientific_study_(Rodriguez_et_al,_2018).jpg',
+    ),
   },
   {
     id: 'p-ht-large-bowl',
@@ -1243,6 +1678,13 @@ export const products = [
     stock: 8,
     crosslisted: [],
     description: 'A deep-toned seven-inch singing bowl with mallet and cushion, for sound baths and meditation.',
+    image: '/images/products/ht-large-bowl.jpg',
+    imageCredit: credit(
+      'Singing bowl samye ling',
+      'secretlondon123',
+      'CC BY-SA 2.0',
+      'https://commons.wikimedia.org/wiki/File:Singing_bowl_samye_ling.jpg',
+    ),
   },
 
   // --- Manila Pantry (Filipino) --------------------------------------------
@@ -1256,6 +1698,13 @@ export const products = [
     stock: 44,
     crosslisted: [],
     description: 'Sweet, tangy, unmistakably Filipino — the red sauce for everything from fried chicken to spaghetti.',
+    image: '/images/products/mp-banana-ketchup.jpg',
+    imageCredit: credit(
+      'Ketchup bottle over some grass',
+      'Aykhan Zayedzadeh',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Ketchup_bottle_over_some_grass.jpg',
+    ),
   },
   {
     id: 'p-mp-dried-mango',
@@ -1267,6 +1716,13 @@ export const products = [
     stock: 40,
     crosslisted: [],
     description: 'Chewy, intensely sweet dried mango strips from Cebu — the gold standard of Philippine snacks.',
+    image: '/images/products/mp-dried-mango.jpg',
+    imageCredit: credit(
+      'Heap of Sun-dried mango slices',
+      'Lalsing Vanya Valavi from Dhadgaon (Akrani), Nandurbar',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Heap_of_Sun-dried_mango_slices.jpg',
+    ),
   },
   {
     id: 'p-mp-longganisa',
@@ -1278,6 +1734,13 @@ export const products = [
     stock: 22,
     crosslisted: [],
     description: 'Garlicky-sweet breakfast sausages — pan-fry and serve with garlic rice and a fried egg (longsilog).',
+    image: '/images/products/mp-longganisa.jpg',
+    imageCredit: credit(
+      'Cabanatuan longganisa Batutay CNE 04',
+      'CNEcija12345',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Cabanatuan_longganisa_Batutay_CNE_04.jpg',
+    ),
   },
   {
     id: 'p-mp-ube-jam',
@@ -1289,6 +1752,13 @@ export const products = [
     stock: 34,
     crosslisted: [],
     description: 'Rich, violet purple-yam jam for spreading, baking, or spooning straight from the jar.',
+    image: '/images/products/mp-ube-jam.jpg',
+    imageCredit: credit(
+      'കാച്ചിൽ-കിഴങ്ങ്',
+      'Aruna at Malayalam Wikipedia',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:%E0%B4%95%E0%B4%BE%E0%B4%9A%E0%B5%8D%E0%B4%9A%E0%B4%BF%E0%B5%BD-%E0%B4%95%E0%B4%BF%E0%B4%B4%E0%B4%99%E0%B5%8D%E0%B4%99%E0%B5%8D.JPG',
+    ),
   },
   {
     id: 'p-mp-bagoong',
@@ -1300,6 +1770,13 @@ export const products = [
     stock: 30,
     crosslisted: [],
     description: 'Savory-sweet sautéed shrimp paste — the essential partner to green mango and kare-kare.',
+    image: '/images/products/mp-bagoong.jpg',
+    imageCredit: credit(
+      'Fermented shrimp paste',
+      'CNEcija12345',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Fermented_shrimp_paste.jpg',
+    ),
   },
   {
     id: 'p-mp-pancit',
@@ -1311,6 +1788,13 @@ export const products = [
     stock: 48,
     crosslisted: [],
     description: 'Stir-fried instant noodles in calamansi and chili-mansi flavors — the after-school classic.',
+    image: '/images/products/mp-pancit.jpg',
+    imageCredit: credit(
+      'Lucky Me instant pancit canton noodles (Philippines) 01',
+      'Obsidian Soul',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Lucky_Me_instant_pancit_canton_noodles_(Philippines)_01.jpg',
+    ),
   },
   {
     id: 'p-mp-polvoron',
@@ -1322,6 +1806,13 @@ export const products = [
     stock: 38,
     crosslisted: [],
     description: 'Crumbly toasted-milk shortbread candies in classic, pinipig, and cookies-and-cream.',
+    image: '/images/products/mp-polvoron.jpg',
+    imageCredit: credit(
+      'Polvorón de Estepa',
+      'Marianne Perdomo',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Polvor%C3%B3n_de_Estepa.jpg',
+    ),
   },
   {
     id: 'p-mp-coconut-vinegar',
@@ -1333,6 +1824,13 @@ export const products = [
     stock: 32,
     crosslisted: [],
     description: 'Mellow, cloudy coconut-sap vinegar for adobo, paksiw, and dipping sauces.',
+    image: '/images/products/mp-coconut-vinegar.jpg',
+    imageCredit: credit(
+      'Vinegar and Oil Bottle',
+      'Chris Makrenos',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Chris_Makrenos,_Vinegar_and_Oil_Bottle,_c._1939,_NGA_22972.jpg',
+    ),
   },
   {
     id: 'p-mp-barako',
@@ -1344,6 +1842,13 @@ export const products = [
     stock: 28,
     crosslisted: [],
     description: 'Bold, aromatic Liberica coffee from Batangas — strong the way a Filipino morning demands.',
+    image: '/images/products/mp-barako.jpg',
+    imageCredit: credit(
+      'Closeup of Coffee Beans',
+      'Matthew Henry, via Burst by Shopify',
+      'CC BY 2.5',
+      'https://commons.wikimedia.org/wiki/File:Closeup_of_Coffee_Beans.jpg',
+    ),
   },
   {
     id: 'p-mp-sinigang',
@@ -1355,6 +1860,13 @@ export const products = [
     stock: 42,
     crosslisted: [],
     description: 'Five sachets of sour tamarind soup base for the comfort of a rainy-day sinigang.',
+    image: '/images/products/mp-sinigang.jpg',
+    imageCredit: credit(
+      'Sinigang na Baboy',
+      '??? ??? from San Francisco, California, USA',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Sinigang_na_Baboy.jpg',
+    ),
   },
   {
     id: 'p-mp-chicharon',
@@ -1366,6 +1878,13 @@ export const products = [
     stock: 36,
     crosslisted: [],
     description: 'Airy, crunchy pork cracklings with a spiced vinegar dip — the ultimate Filipino pulutan.',
+    image: '/images/products/mp-chicharon.jpg',
+    imageCredit: credit(
+      'Chicharrón fried pork rinds',
+      'Russ Bowling',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Chicharr%C3%B3n_fried_pork_rinds.jpg',
+    ),
   },
   {
     id: 'p-mp-kutsinta',
@@ -1377,6 +1896,13 @@ export const products = [
     stock: 30,
     crosslisted: [],
     description: 'An easy mix for steamed rice cakes — top with grated coconut and salted egg.',
+    image: '/images/products/mp-kutsinta.jpg',
+    imageCredit: credit(
+      'Puto (Filipino rice cake) with cheese',
+      'Obsidian Soul',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Puto_(Filipino_rice_cake)_with_cheese.jpg',
+    ),
   },
   {
     id: 'p-mp-windchime',
@@ -1388,6 +1914,13 @@ export const products = [
     stock: 20,
     crosslisted: [],
     description: 'Translucent capiz shells strung to catch the breeze with a soft, watery clatter.',
+    image: '/images/products/mp-windchime.jpg',
+    imageCredit: credit(
+      'Placuna placenta (MNHN-IM-2009-2413)',
+      'Lozouet Pierre',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Placuna_placenta_(MNHN-IM-2009-2413).jpeg',
+    ),
   },
   {
     id: 'p-mp-parol',
@@ -1399,6 +1932,13 @@ export const products = [
     stock: 14,
     crosslisted: [],
     description: 'A star-shaped capiz parol, the luminous centerpiece of a Filipino Christmas — handmade in Capiz.',
+    image: '/images/products/mp-parol.jpg',
+    imageCredit: credit(
+      'Parol Maker',
+      'Richmond Chi',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Parol_Maker.jpg',
+    ),
   },
   {
     id: 'p-mp-capiz-bowl',
@@ -1410,6 +1950,13 @@ export const products = [
     stock: 18,
     crosslisted: [],
     description: 'A pearly decorative bowl of inlaid capiz shell that glows under the light. Not for hot food.',
+    image: '/images/products/mp-capiz-bowl.jpg',
+    imageCredit: credit(
+      'Capiz shell tray',
+      'Lady01v',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Capiz_shell_tray.jpg',
+    ),
   },
 
   // --- Shanti Ayurveda & Herbs (Indian) ------------------------------------
@@ -1423,6 +1970,13 @@ export const products = [
     stock: 50,
     crosslisted: ['etsy', 'ebay'],
     description: 'High-curcumin turmeric from a single Kerala farm — for cooking and the nightly golden-milk latte.',
+    image: '/images/products/sa-turmeric.jpg',
+    imageCredit: credit(
+      'Curcuma longa roots',
+      'Simon A. Eugster',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:Curcuma_longa_roots.jpg',
+    ),
   },
   {
     id: 'p-sa-triphala',
@@ -1434,6 +1988,13 @@ export const products = [
     stock: 40,
     crosslisted: ['etsy'],
     description: 'The classic three-fruit Ayurvedic blend, ground in-house. A traditional daily wellness staple.',
+    image: '/images/products/sa-triphala.jpg',
+    imageCredit: credit(
+      'Sundrying Curry leaves and Indian Gooseberry',
+      'Jayesh97321',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Sundrying_Curry_leaves_and_Indian_Gooseberry.jpg',
+    ),
   },
   {
     id: 'p-sa-ashwagandha',
@@ -1445,6 +2006,13 @@ export const products = [
     stock: 38,
     crosslisted: ['etsy', 'ebay'],
     description: 'Finely milled ashwagandha root, an adaptogenic herb long taken in warm milk before bed.',
+    image: '/images/products/sa-ashwagandha.jpg',
+    imageCredit: credit(
+      'Ashwagandha Powder and Root on Spoons - 50191697031',
+      'formulatehealth',
+      'CC BY 2.0',
+      'https://commons.wikimedia.org/wiki/File:Ashwagandha_Powder_and_Root_on_Spoons_-_50191697031.jpg',
+    ),
   },
   {
     id: 'p-sa-brahmi',
@@ -1456,6 +2024,13 @@ export const products = [
     stock: 30,
     crosslisted: ['etsy'],
     description: 'A traditional herb of study and calm, stirred into tea, ghee, or a spoon of honey.',
+    image: '/images/products/sa-brahmi.jpg',
+    imageCredit: credit(
+      'ബ്രഹ്മി...Bacopa monnieri',
+      'Ks.mini',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:%E0%B4%AC%E0%B5%8D%E0%B4%B0%E0%B4%B9%E0%B5%8D%E0%B4%AE%E0%B4%BF...Bacopa_monnieri.jpg',
+    ),
   },
   {
     id: 'p-sa-neem',
@@ -1467,6 +2042,13 @@ export const products = [
     stock: 36,
     crosslisted: [],
     description: 'Bitter neem powder for face masks, hair rinses, and the garden — a versatile Ayurvedic staple.',
+    image: '/images/products/sa-neem.jpg',
+    imageCredit: credit(
+      'Neem leaves images',
+      'Renukarenu1861',
+      'CC0 1.0',
+      'https://commons.wikimedia.org/wiki/File:Neem_leaves_images.jpg',
+    ),
   },
   {
     id: 'p-sa-tulsi-tea',
@@ -1478,6 +2060,13 @@ export const products = [
     stock: 44,
     crosslisted: ['etsy'],
     description: 'Caffeine-free tulsi tea with a clove-like warmth — the cup Ramesh presses on every visitor.',
+    image: '/images/products/sa-tulsi-tea.jpg',
+    imageCredit: credit(
+      'Tulsi-flower',
+      'Vaikoovery',
+      'CC BY 3.0',
+      'https://commons.wikimedia.org/wiki/File:Tulsi-flower.JPG',
+    ),
   },
   {
     id: 'p-sa-chyawanprash',
@@ -1489,6 +2078,13 @@ export const products = [
     stock: 28,
     crosslisted: ['ebay'],
     description: 'A dark, spiced amla-and-herb preserve taken by the spoonful — a beloved winter tradition.',
+    image: '/images/products/sa-chyawanprash.jpg',
+    imageCredit: credit(
+      'Chyawanprash Info',
+      'Ssma1312',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Chyawanprash_Info.jpg',
+    ),
   },
   {
     id: 'p-sa-sesame-oil',
@@ -1500,6 +2096,13 @@ export const products = [
     stock: 34,
     crosslisted: ['etsy'],
     description: 'Warming sesame oil for the daily self-massage (abhyanga) before a bath.',
+    image: '/images/products/sa-sesame-oil.jpg',
+    imageCredit: credit(
+      'Sesame-oil',
+      'Adam Engelhart',
+      'CC BY-SA 2.0',
+      'https://commons.wikimedia.org/wiki/File:Sesame-oil.jpg',
+    ),
   },
   {
     id: 'p-sa-hair-oil',
@@ -1511,6 +2114,13 @@ export const products = [
     stock: 40,
     crosslisted: ['etsy', 'ebay'],
     description: 'A fragrant herb-infused oil massaged into the scalp for shine and a slow, unwinding ritual.',
+    image: '/images/products/sa-hair-oil.jpg',
+    imageCredit: credit(
+      'Bottle, hair oil',
+      'not researched',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Bottle,_hair_oil_(AM_1965.78.847-5).jpg',
+    ),
   },
   {
     id: 'p-sa-kumkumadi',
@@ -1522,6 +2132,13 @@ export const products = [
     stock: 20,
     crosslisted: ['etsy'],
     description: 'A saffron-infused facial oil from a classical formula, patted on a few drops at a time.',
+    image: '/images/products/sa-kumkumadi.jpg',
+    imageCredit: credit(
+      'Optical caustic Cosmetic oil bottle in the sun mj',
+      'Mariojan photo',
+      'CC BY 4.0',
+      'https://commons.wikimedia.org/wiki/File:Optical_caustic_Cosmetic_oil_bottle_in_the_sun_mj.jpg',
+    ),
   },
   {
     id: 'p-sa-ubtan',
@@ -1533,6 +2150,13 @@ export const products = [
     stock: 32,
     crosslisted: ['etsy'],
     description: 'A chickpea-flour, turmeric, and sandalwood ubtan — the bridal glow-up ritual of India.',
+    image: '/images/products/sa-ubtan.jpg',
+    imageCredit: credit(
+      'Gram flour AvL',
+      'AlexanderVanLoon',
+      'CC BY-SA 3.0',
+      'https://commons.wikimedia.org/wiki/File:Gram_flour_AvL.jpg',
+    ),
   },
   {
     id: 'p-sa-trikatu',
@@ -1544,17 +2168,31 @@ export const products = [
     stock: 30,
     crosslisted: [],
     description: 'A warming blend of ginger and two peppers, a pinch taken with honey before meals by tradition.',
+    image: '/images/products/sa-trikatu.jpg',
+    imageCredit: credit(
+      'Black peppercorns gn',
+      'Gnangcomapp',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Black_peppercorns_gn.jpg',
+    ),
   },
   {
     id: 'p-sa-balm',
     storeId: 'st-shanti-ayurveda',
-    name: 'Ayurvedic Herbal Balm (50g)',
+    name: 'Steam-Distilled Rose Water Toner (200ml)',
     category: 'Beauty & Wellness',
     inPersonPrice: 12.0,
-    emoji: '🪔',
+    emoji: '🌹',
     stock: 42,
     crosslisted: ['etsy'],
-    description: 'A menthol-and-herb balm to rub on temples, neck, and tired shoulders. Cooling and aromatic.',
+    description: 'Pure steam-distilled rose water — a gentle facial toner and cooling mist, splashed on after washing or misted through the day.',
+    image: '/images/products/sa-balm.jpg',
+    imageCredit: credit(
+      'Rose and water bottle',
+      'Brianmetcalf',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Rose_and_water_bottle.jpg',
+    ),
   },
   {
     id: 'p-sa-ccf-tea',
@@ -1566,6 +2204,13 @@ export const products = [
     stock: 46,
     crosslisted: ['etsy'],
     description: 'The gentle after-meal seed tea of Ayurvedic kitchens — simmer a spoonful and sip warm.',
+    image: '/images/products/sa-ccf-tea.jpg',
+    imageCredit: credit(
+      'Cumin seed',
+      'W.alter',
+      'CC BY-SA 4.0',
+      'https://commons.wikimedia.org/wiki/File:Cumin_seed.jpg',
+    ),
   },
   {
     id: 'p-sa-tongue-scraper',
@@ -1577,6 +2222,13 @@ export const products = [
     stock: 50,
     crosslisted: ['etsy', 'ebay'],
     description: 'A curved copper scraper for the traditional morning oral-care ritual (jihwa prakshalana).',
+    image: '/images/products/sa-tongue-scraper.jpg',
+    imageCredit: credit(
+      'Wooshy-tongue-cleaner',
+      'Enver Shillova',
+      'CC BY 3.0',
+      'https://commons.wikimedia.org/wiki/File:Wooshy-tongue-cleaner.jpg',
+    ),
   },
 ]
 

@@ -18,20 +18,12 @@ export default function ProductCard({ product }) {
       </Link>
       <div className="product-body">
         <span className="product-store">
-          {store?.emoji} {store?.name} · {store?.heritage}
+          {store?.name} · {store?.heritage}
         </span>
         <Link to={`/product/${product.id}`} className="product-name">
           {product.name}
         </Link>
-        <div className="chip-row">
-          {product.crosslisted.includes('etsy') && (
-            <span className="badge badge-etsy">Etsy</span>
-          )}
-          {product.crosslisted.includes('ebay') && (
-            <span className="badge badge-ebay">eBay</span>
-          )}
-          <span className="badge badge-culture">{product.category}</span>
-        </div>
+        <span className="product-cat">{product.category}</span>
         <div className="product-foot">
           <span className="price">${price.toFixed(2)}</span>
           <button

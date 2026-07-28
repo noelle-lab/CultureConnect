@@ -28,6 +28,12 @@ export default function StoreDetail() {
         `${store.name}, ${store.address}`,
       )}`
     : null
+  // This shop's goods are also cross-listed on Etsy — surface a single link to
+  // its Etsy storefront here, rather than badging every individual listing.
+  const onEtsy = store.services?.includes('crosslisting')
+  const etsyUrl = onEtsy
+    ? `https://www.etsy.com/search?q=${encodeURIComponent(store.name)}`
+    : null
 
   return (
     <div className="store-page">
@@ -91,6 +97,16 @@ export default function StoreDetail() {
                 className="btn btn-ghost"
               >
                 📍 Get directions
+              </a>
+            )}
+            {etsyUrl && (
+              <a
+                href={etsyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-etsy"
+              >
+                Shop this store on Etsy →
               </a>
             )}
           </div>
