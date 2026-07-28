@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext'
 import ProductCard from '../components/ProductCard'
 
 export default function Shop() {
-  const { products, stores } = useApp()
+  const { publishedProducts: products, publishedStores: stores } = useApp()
   const [params, setParams] = useSearchParams()
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState('featured')

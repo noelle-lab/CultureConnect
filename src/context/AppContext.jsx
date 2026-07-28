@@ -54,8 +54,23 @@ export function AppProvider({ children }) {
 
   const [user, setUser] = useState(persisted?.user ?? null) // { name, email, role }
   const [cart, setCart] = useState(persisted?.cart ?? []) // [{ productId, qty }]
+
+  // Two snapshots of the catalog, on purpose:
+  //   • `stores` / `products`          = the DRAFT the admin console edits.
+  //   • `publishedStores` / `publishedProducts` = what the PUBLIC storefront shows.
+  // Admin edits only touch the draft; the live site doesn't change until an
+  // admin clicks "Publish edits" (draft → published) or "Discard edits"
+  // (published → draft) in the console top bar. Returning demos that predate
+  // this split fall back to their existing `stores`/`products` as the published
+  // snapshot so their live site doesn't suddenly revert to seed data.
   const [stores, setStores] = useState(persisted?.stores ?? seedStores)
   const [products, setProducts] = useState(persisted?.products ?? seedProducts)
+  const [publishedStores, setPublishedStores] = useState(
+    persisted?.publishedStores ?? persisted?.stores ?? seedStores,
+  )
+  const [publishedProducts, setPublishedProducts] = useState(
+    persisted?.publishedProducts ?? persisted?.products ?? seedProducts,
+  )
   const [cityRequests, setCityRequests] = useState(
     persisted?.cityRequests ?? seedCityRequests,
   )
@@ -71,6 +86,8 @@ export function AppProvider({ children }) {
       cart,
       stores,
       products,
+      publishedStores,
+      publishedProducts,
       cityRequests,
       orders,
       admins,
@@ -81,7 +98,18 @@ export function AppProvider({ children }) {
     } catch {
       /* ignore quota errors */
     }
-  }, [user, cart, stores, products, cityRequests, orders, admins, invites])
+  }, [
+    user,
+    cart,
+    stores,
+    products,
+    publishedStores,
+    publishedProducts,
+    cityRequests,
+    orders,
+    admins,
+    invites,
+  ])
 
   // --- Buyer auth (fake) ---------------------------------------------------
   // Buyers / businesses get an intentionally fake sign-in — any credentials
@@ -307,6 +335,29 @@ export function AppProvider({ children }) {
     )
   }
 
+  // --- Publish / discard draft catalog edits -------------------------------
+  // Are there any admin edits to the catalog that aren't live yet? Compared by
+  // value — a JSON compare is plenty for this front-end prototype's data sizes.
+  const hasPendingEdits = useMemo(
+    () =>
+      JSON.stringify(stores) !== JSON.stringify(publishedStores) ||
+      JSON.stringify(products) !== JSON.stringify(publishedProducts),
+    [stores, products, publishedStores, publishedProducts],
+  )
+
+  // Push the current draft live: the public storefront now shows these shops
+  // and listings.
+  function publishEdits() {
+    setPublishedStores(stores)
+    setPublishedProducts(products)
+  }
+
+  // Throw the draft away and start again from what's currently live.
+  function discardEdits() {
+    setStores(publishedStores)
+    setProducts(publishedProducts)
+  }
+
   // --- Orders (checkout) ---------------------------------------------------
   function placeOrder(details) {
     const id = `ord-${1043 + orders.length}`
@@ -329,6 +380,8 @@ export function AppProvider({ children }) {
     setCart([])
     setStores(seedStores)
     setProducts(seedProducts)
+    setPublishedStores(seedStores)
+    setPublishedProducts(seedProducts)
     setCityRequests(seedCityRequests)
     setOrders(seedOrders)
     // Reset the admin roster back to just the owner, and clear invites. This
@@ -343,6 +396,9 @@ export function AppProvider({ children }) {
       cart,
       stores,
       products,
+      publishedStores,
+      publishedProducts,
+      hasPendingEdits,
       cityRequests,
       orders,
       admins,
@@ -368,10 +424,24 @@ export function AppProvider({ children }) {
       addProduct,
       removeProduct,
       toggleCrosslist,
+      publishEdits,
+      discardEdits,
       placeOrder,
       resetDemo,
     }),
-    [user, cart, stores, products, cityRequests, orders, admins, invites],
+    [
+      user,
+      cart,
+      stores,
+      products,
+      publishedStores,
+      publishedProducts,
+      hasPendingEdits,
+      cityRequests,
+      orders,
+      admins,
+      invites,
+    ],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

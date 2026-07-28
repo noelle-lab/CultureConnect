@@ -27,7 +27,8 @@ const NAV = [
 ]
 
 export default function AdminLayout() {
-  const { user, signOut, resetDemo } = useApp()
+  const { user, signOut, resetDemo, hasPendingEdits, publishEdits, discardEdits } =
+    useApp()
   const navigate = useNavigate()
 
   return (
@@ -79,6 +80,48 @@ export default function AdminLayout() {
               Sign out
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Draft / publish bar: admin edits stay in a draft until they're pushed
+          live here, so nothing on the public storefront changes by surprise. */}
+      <div className={`edit-bar${hasPendingEdits ? ' has-edits' : ''}`}>
+        <div className="container edit-bar-inner">
+          {hasPendingEdits ? (
+            <>
+              <span className="edit-bar-status">
+                <span className="edit-dot" />
+                You have unpublished edits — the live storefront hasn't changed
+                yet.
+              </span>
+              <div className="flex center gap-8">
+                <button
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => {
+                    if (
+                      confirm(
+                        'Discard all unpublished edits and revert to the live storefront? This cannot be undone.',
+                      )
+                    )
+                      discardEdits()
+                  }}
+                >
+                  Discard edits
+                </button>
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={publishEdits}
+                >
+                  ✓ Publish edits
+                </button>
+              </div>
+            </>
+          ) : (
+            <span className="edit-bar-status muted">
+              <span className="edit-dot live" />
+              The live storefront is up to date — no unpublished edits.
+            </span>
+          )}
         </div>
       </div>
 

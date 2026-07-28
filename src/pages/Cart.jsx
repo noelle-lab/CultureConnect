@@ -9,8 +9,15 @@ import {
 } from '../data/mockData'
 
 export default function Cart() {
-  const { cart, products, stores, updateCartQty, removeFromCart, placeOrder, user } =
-    useApp()
+  const {
+    cart,
+    publishedProducts: products,
+    publishedStores: stores,
+    updateCartQty,
+    removeFromCart,
+    placeOrder,
+    user,
+  } = useApp()
   const [placed, setPlaced] = useState(null)
   const [city, setCity] = useState('')
   const [email, setEmail] = useState(user?.email || '')
