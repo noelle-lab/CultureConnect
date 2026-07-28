@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useApp } from '../context/AppContext'
-import AuthModal from './AuthModal'
+import AdminAuthModal from './AdminAuthModal'
 
 // Gate for the admin area. If not signed in as an admin, show a lock screen
-// with an inline sign-in modal instead of the protected content.
+// with the invite-only Google sign-in instead of the protected content.
 export default function RequireAdmin({ children }) {
   const { user } = useApp()
   const [showAuth, setShowAuth] = useState(false)
@@ -19,22 +19,31 @@ export default function RequireAdmin({ children }) {
         <div style={{ fontSize: '3rem', marginBottom: 8 }}>🔐</div>
         <h2 style={{ marginBottom: 6 }}>Admin access only</h2>
         <p className="muted" style={{ marginTop: 0 }}>
-          The operations dashboard - shop discovery, cross-listing, finance, and
-          city buildout - lives behind an admin sign-in.
+          The operations console - shop discovery, listings, cross-listing,
+          finance, and city buildout - is invite-only and signed in with a real
+          Google account.
         </p>
         {user && (
-          <div className="notice" style={{ background: '#fdeceb', borderColor: '#f3c9c5', color: '#8f271e' }}>
-            You're signed in as a <strong>buyer</strong>. Switch to an admin
-            account to continue.
+          <div
+            className="notice"
+            style={{
+              background: '#fdeceb',
+              borderColor: '#f3c9c5',
+              color: '#8f271e',
+            }}
+          >
+            You're signed in as a <strong>buyer</strong>. Admin access needs an
+            invited Google account.
           </div>
         )}
-        <button className="btn btn-dark btn-block" onClick={() => setShowAuth(true)}>
-          🔐 Sign in as Admin
+        <button
+          className="btn btn-dark btn-block"
+          onClick={() => setShowAuth(true)}
+        >
+          🔐 Sign in with Google
         </button>
       </div>
-      {showAuth && (
-        <AuthModal initialRole="admin" onClose={() => setShowAuth(false)} />
-      )}
+      {showAuth && <AdminAuthModal onClose={() => setShowAuth(false)} />}
     </div>
   )
 }

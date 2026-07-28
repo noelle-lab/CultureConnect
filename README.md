@@ -28,17 +28,43 @@ npm run build    # production build to dist/
 npm run preview  # serve the production build
 ```
 
-## Signing in (demo)
+## Signing in
 
-The site opens as a storefront. Sign-in buttons are in the top-right.
+There are **two different sign-ins**, on purpose:
 
-| Role  | How to sign in |
-|-------|----------------|
-| **Buyer** | Click **Sign in** → *Buyer* tab. Any email/password works, or click "Skip - use demo buyer account". |
-| **Admin** | Click **🔐 Admin** → any credentials, or "Skip - use demo admin account". Unlocks the full operations console at `/admin`. |
+| Who | Sign-in | Where |
+|-----|---------|-------|
+| **Buyers / businesses** | **Fake** — any email/password works (it's a demo storefront). | **Sign in** button, top-right. |
+| **Admins (our team)** | **Real Google account, invite-only.** | Discreet **Admin sign in** link at the very **bottom of the page** (in the footer), so the public never wanders in. |
 
-Demo credentials are shown right on the sign-in modal. The admin area is gated -
-buyers can't see it.
+### Admin access: real Google sign-in + invites
+
+Admins sign in with a genuine Google account, and access is **invite-only**:
+
+1. An existing admin opens **Team & Invites** in the console (`/admin/team`),
+   types the new person's email, and clicks **Create invite link**.
+2. They **email that link to the person themselves** — the app never sends it.
+3. The invitee opens the link (`/invite?token=…`), which unlocks admin access
+   for their email on their device, then signs in with the **matching Google
+   account**.
+
+Only emails that have redeemed a valid invite can get in. Links are HMAC-signed
+(so they can't be hand-edited to a different email) and expire after 14 days.
+The founder account (`noelle@c10family.com`) is seeded as the first admin so
+there's always a way to send the first invite.
+
+**Turning on real Google accounts:** set `VITE_GOOGLE_CLIENT_ID` (see
+[`.env.example`](.env.example) for the 5-minute setup). Until it's set, admin
+sign-in runs in a clearly-labelled **demo mode** — you just type the "Google"
+email instead of really authenticating, and the whole invite flow still works.
+
+> **Prototype honesty:** this is a front-end-only app with no backend, so the
+> invite check and Google token decode happen in the browser. That's a solid,
+> demonstrable gate, but true server-enforced security would verify tokens on a
+> backend. All of that logic lives in one place — `src/lib/adminAuth.js` — for
+> an easy future swap.
+
+Demo buyer credentials are shown right on the buyer sign-in modal.
 
 ---
 
@@ -75,6 +101,12 @@ buyers can't see it.
 - **Orders** - every order with the commission split and fulfillment status.
 - **Finance & Payouts** - the business-model engine: 20% commission, per-shop
   payout ledger, and a pricing calculator built around the 120%-of-in-store rule.
+- **Team & Invites** - manage who has admin access: create invite links, see
+  pending invites, and revoke access.
+
+Admins can **create new businesses**, **edit their bios and details**, **add
+listings**, and **add photos** to both businesses and listings (paste a URL or
+upload a file) - all from the console.
 
 ### The business model, built in
 CultureConnect takes a **20% commission** on online sales. Shops are encouraged
