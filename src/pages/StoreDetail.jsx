@@ -146,6 +146,41 @@ export default function StoreDetail() {
         </div>
       </section>
 
+      {/* MEET THE OWNER */}
+      {(store.ownerImage || store.bio) && (
+        <section className="container section owner-section">
+          <div className="owner-band">
+            <div className="owner-portrait">
+              {store.ownerImage ? (
+                <img
+                  src={store.ownerImage}
+                  alt={`${store.ownerName || store.owner}, ${store.name}`}
+                />
+              ) : (
+                <span className="media-emoji">{store.emoji}</span>
+              )}
+              {store.ownerImageCredit && (
+                <PhotoCredit credit={store.ownerImageCredit} />
+              )}
+            </div>
+            <div className="owner-copy">
+              <div className="eyebrow-sm">Meet the owner</div>
+              <h2>{store.ownerName || store.owner}</h2>
+              <p className="owner-role">
+                {store.owner}
+                {store.founded ? ` · Since ${store.founded}` : ''} ·{' '}
+                {store.neighborhood}
+              </p>
+              {(store.bio || [store.longStory || store.story]).map((para, i) => (
+                <p key={i} className="owner-para">
+                  {para}
+                </p>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* PRODUCTS */}
       <section id="shelf" className="container section">
         <div className="section-head">

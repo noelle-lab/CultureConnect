@@ -39,7 +39,17 @@ export default function Navbar() {
           </Link>
 
           <nav className="nav-links">
-            <NavLink to="/shop">Shop</NavLink>
+            <div className="nav-dropdown">
+              <NavLink to="/shop" className="nav-dropdown-trigger">
+                Shop <span className="caret">▾</span>
+              </NavLink>
+              <div className="nav-dropdown-menu">
+                <NavLink to="/shop" end>
+                  🛍️ All products
+                </NavLink>
+                <NavLink to="/businesses">🏬 Browse businesses</NavLink>
+              </div>
+            </div>
             <NavLink to="/services">For Businesses</NavLink>
             <NavLink to="/request-store">Request a City</NavLink>
             <NavLink to="/about">Our Mission</NavLink>

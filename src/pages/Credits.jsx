@@ -12,6 +12,9 @@ export default function Credits() {
     ...stores
       .filter((s) => s.imageCredit)
       .map((s) => ({ kind: 'Shop', name: s.name, ...s.imageCredit })),
+    ...stores
+      .filter((s) => s.ownerImageCredit)
+      .map((s) => ({ kind: 'Owner portrait', name: s.name, ...s.ownerImageCredit })),
     ...products
       .filter((p) => p.imageCredit)
       .map((p) => ({ kind: 'Product', name: p.name, ...p.imageCredit })),
@@ -32,7 +35,10 @@ export default function Credits() {
             </a>
             . We credit each photographer and license below. The shops
             themselves are illustrative demo businesses; the photos represent
-            the kind of goods and storefronts these NYC family shops sell.
+            the kind of goods and storefronts these NYC family shops sell. The
+            people in the owner portraits are real individuals photographed in
+            these communities — they stand in for our fictional shopkeepers and
+            are not the named characters.
           </p>
         </div>
       </div>

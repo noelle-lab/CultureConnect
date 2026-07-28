@@ -1591,3 +1591,295 @@ table.data tr:hover td {
     font-size: 2rem;
   }
 }
+
+/* ============================================================
+   Shop nav dropdown (Shop → All products / Browse businesses)
+   ============================================================ */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown-trigger .caret {
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+.nav-dropdown-menu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  min-width: 210px;
+  padding: 8px;
+  z-index: 60;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.14s ease, transform 0.14s ease, visibility 0.14s;
+}
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-dropdown-menu a {
+  display: block;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+.nav-dropdown-menu a:hover {
+  background: var(--sand-2);
+}
+.nav-dropdown-menu a.active {
+  color: var(--clay);
+}
+
+/* ============================================================
+   Shop-by-business strip (top of the Shop page)
+   ============================================================ */
+.shop-by-business {
+  margin: 4px 0 26px;
+}
+.sbb-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.sbb-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.sbb-card {
+  flex: 0 0 auto;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 16px 12px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.sbb-card:hover {
+  border-color: var(--clay);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.sbb-avatar {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--sand-2);
+  border: 2px solid var(--saffron-soft);
+  font-size: 1.6rem;
+}
+.sbb-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sbb-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.sbb-sub {
+  font-size: 0.75rem;
+}
+
+/* ============================================================
+   Businesses directory (/businesses)
+   ============================================================ */
+.business-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 22px;
+}
+.business-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.business-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+.business-media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, var(--sand-2), #fff);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.business-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.business-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.business-owner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -34px 0 2px;
+}
+.owner-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--sand-2);
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-sm);
+  font-size: 1.4rem;
+  flex: 0 0 auto;
+}
+.owner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.owner-meta {
+  display: flex;
+  flex-direction: column;
+  padding-top: 26px;
+}
+.owner-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 700;
+}
+.owner-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.business-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+.business-name:hover {
+  color: var(--clay);
+}
+.business-sub {
+  font-size: 0.82rem;
+}
+.business-story {
+  font-size: 0.9rem;
+  color: var(--charcoal);
+  line-height: 1.55;
+  margin: 4px 0 2px;
+}
+.business-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   Meet-the-owner band on the store detail page
+   ============================================================ */
+.owner-section {
+  padding-top: 8px;
+}
+.owner-band {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 34px;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  padding: 26px;
+}
+.owner-portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--sand-2), #fff);
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+}
+.owner-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.owner-copy h2 {
+  margin: 6px 0 4px;
+  font-size: 1.9rem;
+}
+.owner-role {
+  color: var(--clay);
+  font-weight: 600;
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+}
+.owner-para {
+  color: var(--charcoal);
+  line-height: 1.72;
+  margin: 0 0 14px;
+}
+.owner-para:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 860px) {
+  .owner-band {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+  .owner-portrait {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .owner-copy h2 {
+    font-size: 1.6rem;
+  }
+}
