@@ -15,10 +15,12 @@ import {
 
 const AppContext = createContext(null)
 
-// Bumped to v3 when admin auth moved to real Google Sign-In + invite-only
-// access (adding the `admins` and `invites` collections). Returning visitors
-// get the new shape instead of stale localStorage that predates it.
-const STORAGE_KEY = 'cultureconnect.state.v3'
+// Bumped to v4 for the merge of two parallel v3 shapes: the marketplace grew
+// to 7 businesses with ~15 products each, owner portraits, and two-paragraph
+// founder stories, while admin auth moved to real Google Sign-In + invite-only
+// access (the `admins` and `invites` collections). Returning visitors load the
+// new seed data instead of a stale v3 that only had one half of these fields.
+const STORAGE_KEY = 'cultureconnect.state.v4'
 
 // Demo credentials for the FAKE buyer sign-in only. Any email / password works.
 // Admins do NOT use this — they sign in with a real Google account (invite-only).

@@ -6,6 +6,7 @@ import RequireAdmin from './components/RequireAdmin'
 
 import Home from './pages/Home'
 import Shop from './pages/Shop'
+import Businesses from './pages/Businesses'
 import StoreDetail from './pages/StoreDetail'
 import ProductDetail from './pages/ProductDetail'
 import Credits from './pages/Credits'
@@ -87,6 +88,10 @@ export default function App() {
         {/* Public site */}
         <Route path="/" element={<PublicShell><Home /></PublicShell>} />
         <Route path="/shop" element={<PublicShell><Shop /></PublicShell>} />
+        <Route
+          path="/businesses"
+          element={<PublicShell><Businesses /></PublicShell>}
+        />
         <Route
           path="/store/:id"
           element={<PublicShell><StoreDetail /></PublicShell>}

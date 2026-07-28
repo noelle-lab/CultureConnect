@@ -72,8 +72,12 @@ Demo buyer credentials are shown right on the buyer sign-in modal.
 
 ### Public storefront
 - **Home** - mission-driven hero, featured products, partner-shop spotlights, how-it-works, mission band.
-- **Shop** - full catalog with search, category & heritage filters, and sorting.
-- **Shop pages** (`/store/:id`) - each partner shop's own page: its story, the
+- **Shop** - full catalog (7 businesses, ~15 products each) with a "shop by
+  business" strip, search, category & heritage filters, and sorting.
+- **Businesses** (`/businesses`) - a browse-by-business directory: every
+  family shop as a card with its owner, heritage, story snippet, and specialties.
+- **Shop pages** (`/store/:id`) - each partner shop's own page: a "meet the
+  owner" section with a real portrait and a two-paragraph founder story, the
   family behind it, its brick-and-mortar NYC location + hours, a real storefront
   photo, and everything it sells.
 - **Product detail** - in-store vs. online price, add-to-cart / buy-now, related items.
@@ -134,15 +138,18 @@ src/
 > demo** button in the admin bar.
 
 ### Photography & the demo shops
-All product and storefront images are **real (non-AI) photographs** sourced from
-openly-licensed collections (Flickr / Wikimedia Commons) via
-[Openverse](https://openverse.org), each shared under a Creative Commons or
-public-domain license. Every photo is credited to its photographer and license
-on the **Photo credits** page (`/credits`) and in an overlay on the image.
+All product, storefront, and owner-portrait images are **real (non-AI)
+photographs** sourced from openly-licensed collections (Flickr / Wikimedia
+Commons) via [Openverse](https://openverse.org), each shared under a Creative
+Commons or public-domain license. Every photo is credited to its photographer
+and license on the **Photo credits** page (`/credits`) and in an overlay on the
+image.
 
-The six partner shops are **illustrative demo businesses** - fictional
+The seven partner shops are **illustrative demo businesses** - fictional
 NYC family-owned, minority-run shops (Vietnamese, Oaxacan, Turkish, Nigerian,
-Nepali/Tibetan, Filipino) at plausible neighborhood locations. The photos
-represent the *kind* of goods and storefronts these shops sell; they are not a
-specific real business. Real onboarding would use each shop's own catalog,
-pricing, and photos.
+Nepali/Tibetan, Filipino, and an Indian Ayurvedic apothecary) at plausible
+neighborhood locations. The photos represent the *kind* of goods and storefronts
+these shops sell; they are not a specific real business. The people in the owner
+portraits are **real individuals** photographed in these communities — they
+stand in for the fictional shopkeepers and are not the named characters. Real
+onboarding would use each shop's own catalog, pricing, and photos.

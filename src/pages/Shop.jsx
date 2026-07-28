@@ -62,6 +62,12 @@ export default function Shop() {
 
   const featuredStore = storeFilter && stores.find((s) => s.id === storeFilter)
 
+  // Stores that actually have listings, for the "shop by business" strip.
+  const sellingStores = useMemo(() => {
+    const live = new Set(products.map((p) => p.storeId))
+    return stores.filter((s) => live.has(s.id))
+  }, [stores, products])
+
   return (
     <div className="container section">
       <div className="section-head">
@@ -95,6 +101,34 @@ export default function Shop() {
           <option value="name">Name: A–Z</option>
         </select>
       </div>
+
+      {!storeFilter && (
+        <div className="shop-by-business">
+          <div className="sbb-head">
+            <span className="eyebrow-sm">Shop by business</span>
+            <Link to="/businesses" className="muted" style={{ fontWeight: 600 }}>
+              Browse all businesses →
+            </Link>
+          </div>
+          <div className="sbb-row">
+            {sellingStores.map((s) => (
+              <Link key={s.id} to={`/store/${s.id}`} className="sbb-card">
+                <span className="sbb-avatar">
+                  {s.ownerImage ? (
+                    <img src={s.ownerImage} alt={s.ownerName || s.owner} loading="lazy" />
+                  ) : (
+                    <span>{s.emoji}</span>
+                  )}
+                </span>
+                <span className="sbb-name">
+                  {s.emoji} {s.name}
+                </span>
+                <span className="sbb-sub muted">{s.heritage}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="shop-layout">
         <aside className="filter-card">
