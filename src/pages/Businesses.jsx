@@ -6,7 +6,7 @@ import { useApp } from '../context/AppContext'
 // CultureConnect gets a card here with its owner, story snippet, and a link
 // through to its full business page.
 export default function Businesses() {
-  const { stores, products } = useApp()
+  const { publishedStores: stores, publishedProducts: products } = useApp()
 
   const countByStore = useMemo(() => {
     const m = {}

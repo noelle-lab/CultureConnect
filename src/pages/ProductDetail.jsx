@@ -8,7 +8,7 @@ import PhotoCredit from '../components/PhotoCredit'
 export default function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { products, stores, addToCart } = useApp()
+  const { publishedProducts: products, publishedStores: stores, addToCart } = useApp()
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
 

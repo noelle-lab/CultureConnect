@@ -7,7 +7,7 @@ import PhotoCredit from '../components/PhotoCredit'
 // brick-and-mortar location, a real storefront photo, and everything it sells.
 export default function StoreDetail() {
   const { id } = useParams()
-  const { stores, products } = useApp()
+  const { publishedStores: stores, publishedProducts: products } = useApp()
 
   const store = stores.find((s) => s.id === id)
   if (!store) {

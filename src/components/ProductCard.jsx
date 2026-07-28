@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext'
 import { onlinePrice } from '../data/mockData'
 
 export default function ProductCard({ product }) {
-  const { stores, addToCart } = useApp()
+  const { publishedStores: stores, addToCart } = useApp()
   const store = stores.find((s) => s.id === product.storeId)
   const price = onlinePrice(product.inPersonPrice)
 
