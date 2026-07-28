@@ -128,42 +128,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="section" style={{ background: 'var(--white)', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
-        <div className="container">
-          <div className="section-head" style={{ justifyContent: 'center', textAlign: 'center' }}>
-            <div>
-              <div className="eyebrow-sm">How CultureConnect works</div>
-              <h2>From a neighborhood shelf to your doorstep</h2>
-            </div>
-          </div>
-          <div className="steps">
-            <div className="step">
-              <div className="num">1</div>
-              <h4>We partner with shops</h4>
-              <p>Our team discovers and onboards family-owned cultural businesses, starting in NYC.</p>
-            </div>
-            <div className="step">
-              <div className="num">2</div>
-              <h4>We handle the tech</h4>
-              <p>Listings, photos, marketing, and cross-listing to Etsy &amp; eBay - all done for them.</p>
-            </div>
-            <div className="step">
-              <div className="num">3</div>
-              <h4>You shop authentically</h4>
-              <p>Browse verified cultural goods and buy directly, no matter where you live.</p>
-            </div>
-            <div className="step">
-              <div className="num">4</div>
-              <h4>Shops grow nationwide</h4>
-              <p>Small businesses reach customers far beyond their block - and their culture travels with them.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* MISSION BAND */}
-      <section className="section">
+      <section className="section" style={{ borderTop: '1px solid var(--line)' }}>
         <div className="container">
           <div className="band">
             <div className="eyebrow-sm" style={{ color: 'var(--saffron)' }}>
