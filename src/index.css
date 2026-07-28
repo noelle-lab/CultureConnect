@@ -948,6 +948,58 @@ h6 {
   background: var(--sand);
   overflow-x: auto;
 }
+
+/* Draft / publish banner ------------------------------------------------ */
+.publish-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid #f2c94c;
+  background: #fff8e6;
+}
+.publish-bar.published {
+  border-color: var(--line);
+  background: var(--white);
+}
+.publish-bar-msg {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.publish-bar-msg strong {
+  display: block;
+  color: var(--charcoal);
+  font-size: 0.95rem;
+}
+.publish-bar-sub {
+  display: block;
+  color: var(--charcoal);
+  opacity: 0.75;
+  font-size: 0.82rem;
+  margin-top: 2px;
+}
+.publish-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e0a800;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px rgba(224, 168, 0, 0.15);
+}
+.publish-dot.live {
+  background: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+}
+.publish-bar-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
 .admin-header {
   margin-bottom: 24px;
 }

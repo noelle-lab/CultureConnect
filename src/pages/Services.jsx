@@ -47,7 +47,7 @@ export default function Services() {
                 <br />
                 <small>
                   No upfront cost. We only earn when you do. List at{' '}
-                  {Math.round(MARKUP * 100)}% of your in-store price.
+                  {Math.round(MARKUP * 100)}% of your shop price.
                 </small>
               </div>
             </div>
@@ -86,15 +86,15 @@ export default function Services() {
             <h2 style={{ fontSize: '1.6rem' }}>How the 20% commission works</h2>
             <p className="muted" style={{ maxWidth: '52em' }}>
               We encourage shops to list online at {Math.round(MARKUP * 100)}% of
-              their in-person price. That covers our{' '}
+              their shop price. That covers our{' '}
               {Math.round(COMMISSION_RATE * 100)}% commission - which pays for all
               marketing, listings, and platform work - while you still net close
-              to your normal in-store margin. Here's a $100 in-store item:
+              to your normal margin. Here's a $100 shop item:
             </p>
             <div className="grid-2" style={{ maxWidth: 620 }}>
               <div>
                 <div className="calc-row">
-                  <span>In-store price</span>
+                  <span>Shop price</span>
                   <span>$100.00</span>
                 </div>
                 <div className="calc-row">
@@ -113,7 +113,7 @@ export default function Services() {
               <div className="panel" style={{ background: 'var(--sand)' }}>
                 <strong>Why it works for you</strong>
                 <p className="muted" style={{ fontSize: '0.9rem' }}>
-                  You net ~96% of your usual in-store price while reaching
+                  You net ~96% of your usual shop price while reaching
                   customers nationwide - with zero time spent on photos,
                   marketing, SEO, or shipping logistics. We only make money when
                   you make a sale.

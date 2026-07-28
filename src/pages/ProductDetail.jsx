@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
-import { onlinePrice, MARKUP } from '../data/mockData'
+import { onlinePrice } from '../data/mockData'
 import ProductCard from '../components/ProductCard'
 import PhotoCredit from '../components/PhotoCredit'
 
@@ -74,7 +74,6 @@ export default function ProductDetail() {
 
           <div style={{ margin: '20px 0' }}>
             <span className="price-lg">${price.toFixed(2)}</span>
-            <span className="strike">${product.inPersonPrice.toFixed(2)} in-store</span>
           </div>
 
           <div className="flex center gap-12" style={{ marginBottom: 18 }}>
@@ -110,9 +109,8 @@ export default function ProductDetail() {
             <p className="muted" style={{ margin: '6px 0 0', fontSize: '0.9rem' }}>
               Every purchase supports a family-owned business directly.
               CultureConnect handles marketing, listings, and fulfillment so
-              shops can focus on their craft. Online prices reflect a modest{' '}
-              {Math.round((MARKUP - 1) * 100)}% markup over in-store pricing to
-              cover that service.
+              shops can focus on their craft - our modest service fee funds all
+              of that.
             </p>
           </div>
         </div>

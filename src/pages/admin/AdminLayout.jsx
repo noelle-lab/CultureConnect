@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavLink, Outlet, Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 
@@ -27,8 +28,16 @@ const NAV = [
 ]
 
 export default function AdminLayout() {
-  const { user, signOut, resetDemo } = useApp()
+  const { user, signOut, resetDemo, pendingChanges, publishEdits, discardEdits } =
+    useApp()
   const navigate = useNavigate()
+  const [justPublished, setJustPublished] = useState(false)
+
+  function handlePublish() {
+    publishEdits()
+    setJustPublished(true)
+    setTimeout(() => setJustPublished(false), 3000)
+  }
 
   return (
     <div>
@@ -108,6 +117,44 @@ export default function AdminLayout() {
         </aside>
 
         <main className="admin-content">
+          {pendingChanges > 0 ? (
+            <div className="publish-bar">
+              <div className="publish-bar-msg">
+                <span className="publish-dot" />
+                <div>
+                  <strong>
+                    {pendingChanges} unpublished{' '}
+                    {pendingChanges === 1 ? 'change' : 'changes'}
+                  </strong>
+                  <span className="publish-bar-sub">
+                    Your edits are visible to admins only. Click publish to make
+                    them live on the storefront.
+                  </span>
+                </div>
+              </div>
+              <div className="publish-bar-actions">
+                <button
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => {
+                    if (confirm('Discard all unpublished edits and revert to the live catalog?'))
+                      discardEdits()
+                  }}
+                >
+                  Discard
+                </button>
+                <button className="btn btn-primary btn-sm" onClick={handlePublish}>
+                  ✓ Publish edits
+                </button>
+              </div>
+            </div>
+          ) : justPublished ? (
+            <div className="publish-bar published">
+              <div className="publish-bar-msg">
+                <span className="publish-dot live" />
+                <strong>All changes published — your storefront is up to date.</strong>
+              </div>
+            </div>
+          ) : null}
           <Outlet />
         </main>
       </div>

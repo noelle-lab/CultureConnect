@@ -12,7 +12,7 @@ const STAGE_LABEL = {
 // Shop discovery + research board. Admins log and organize minority-owned
 // shops they find (starting in NYC), and move them through the pipeline.
 export default function Discovery() {
-  const { stores, addStore, updateStore } = useApp()
+  const { draftStores: stores, addStore, updateStore } = useApp()
   const [cityFilter, setCityFilter] = useState('all')
   const [adding, setAdding] = useState(false)
   const [form, setForm] = useState({

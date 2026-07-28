@@ -10,7 +10,7 @@ const CHANNELS = [
 
 // Cross-listing control center: publish/unpublish each product to Etsy & eBay.
 export default function CrossListing() {
-  const { products, stores, toggleCrosslist } = useApp()
+  const { draftProducts: products, draftStores: stores, toggleCrosslist } = useApp()
 
   // Only shops that opted into the cross-listing service.
   const eligibleStoreIds = useMemo(
