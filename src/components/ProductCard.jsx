@@ -10,7 +10,11 @@ export default function ProductCard({ product }) {
   return (
     <div className="product-card">
       <Link to={`/product/${product.id}`} className="product-thumb">
-        {product.emoji}
+        {product.image ? (
+          <img src={product.image} alt={product.name} loading="lazy" />
+        ) : (
+          <span className="thumb-emoji">{product.emoji}</span>
+        )}
       </Link>
       <div className="product-body">
         <span className="product-store">

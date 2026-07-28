@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import ProductCard from '../components/ProductCard'
 
@@ -73,6 +73,15 @@ export default function Shop() {
               ? `${featuredStore.heritage} · ${featuredStore.neighborhood}`
               : 'Authentic goods from family-owned cultural businesses.'}
           </p>
+          {featuredStore && (
+            <Link
+              to={`/store/${featuredStore.id}`}
+              className="muted"
+              style={{ fontWeight: 600 }}
+            >
+              Read {featuredStore.name}’s story &amp; visit info →
+            </Link>
+          )}
         </div>
         <select
           className="select"
