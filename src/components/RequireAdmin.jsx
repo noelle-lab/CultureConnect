@@ -19,8 +19,8 @@ export default function RequireAdmin({ children }) {
         <div style={{ fontSize: '3rem', marginBottom: 8 }}>🔐</div>
         <h2 style={{ marginBottom: 6 }}>Admin access only</h2>
         <p className="muted" style={{ marginTop: 0 }}>
-          The operations dashboard — shop discovery, cross-listing, finance, and
-          city buildout — lives behind an admin sign-in.
+          The operations dashboard - shop discovery, cross-listing, finance, and
+          city buildout - lives behind an admin sign-in.
         </p>
         {user && (
           <div className="notice" style={{ background: '#fdeceb', borderColor: '#f3c9c5', color: '#8f271e' }}>

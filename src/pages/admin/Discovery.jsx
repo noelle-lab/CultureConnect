@@ -68,7 +68,7 @@ export default function Discovery() {
       <div className="admin-header">
         <h1>Shop Discovery</h1>
         <p>
-          Research, log, and organize minority-owned family shops — then move them
+          Research, log, and organize minority-owned family shops - then move them
           through the onboarding pipeline. Starting in NYC, expanding to SF &amp; DC.
         </p>
       </div>
@@ -203,7 +203,7 @@ export default function Discovery() {
                   <div style={{ fontSize: '1.4rem' }}>{s.emoji}</div>
                   <div style={{ fontWeight: 700, fontSize: '0.94rem' }}>{s.name}</div>
                   <div className="muted" style={{ fontSize: '0.78rem' }}>
-                    {s.heritage || '—'} · {s.neighborhood || s.city}
+                    {s.heritage || '-'} · {s.neighborhood || s.city}
                   </div>
                   {s.story && (
                     <p

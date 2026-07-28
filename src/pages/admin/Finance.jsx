@@ -160,7 +160,7 @@ export default function Finance() {
             className="notice"
             style={{ marginTop: 14, marginBottom: 0 }}
           >
-            Shop nets {money(keep)} vs. {money(Number(inStore) || 0)} in-store —
+            Shop nets {money(keep)} vs. {money(Number(inStore) || 0)} in-store -
             that's{' '}
             {inStore > 0 ? Math.round((keep / Number(inStore)) * 100) : 0}% of the
             original price, with zero marketing effort.

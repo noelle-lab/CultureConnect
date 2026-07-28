@@ -10,7 +10,7 @@ const AppContext = createContext(null)
 
 const STORAGE_KEY = 'cultureconnect.state.v1'
 
-// Demo credentials. Auth is intentionally fake — any of these (or any
+// Demo credentials. Auth is intentionally fake - any of these (or any
 // password) will work. Shown on the sign-in screens so the demo is easy to use.
 export const DEMO_ACCOUNTS = {
   buyer: { email: 'buyer@cultureconnect.shop', password: 'shop123' },

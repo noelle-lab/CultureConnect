@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp, DEMO_ACCOUNTS } from '../context/AppContext'
 
-// Fake sign-in modal. Buyer vs Admin tabs. Any credentials are accepted —
+// Fake sign-in modal. Buyer vs Admin tabs. Any credentials are accepted -
 // this is a demo. The chosen role decides what the app unlocks.
 export default function AuthModal({ initialRole = 'buyer', onClose }) {
   const { signIn } = useApp()
@@ -88,7 +88,7 @@ export default function AuthModal({ initialRole = 'buyer', onClose }) {
           style={{ marginTop: 10 }}
           onClick={useDemo}
         >
-          Skip — use demo {role} account
+          Skip - use demo {role} account
         </button>
 
         <div className="demo-hint">

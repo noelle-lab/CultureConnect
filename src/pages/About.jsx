@@ -10,8 +10,8 @@ export default function About() {
             Cultural accessibility, from every big city to every small one.
           </h1>
           <p className="lead" style={{ maxWidth: '40em' }}>
-            CultureConnect exists to help authentic cultural goods — and the
-            families who make them — reach all of the United States, not just the
+            CultureConnect exists to help authentic cultural goods - and the
+            families who make them - reach all of the United States, not just the
             urban centers with the largest minority populations.
           </p>
         </div>
@@ -27,7 +27,7 @@ export default function About() {
               </h2>
               <p className="muted">
                 Ethnic-minority-run businesses in large cities often lack the
-                funding — and sometimes the technological proficiency — to market
+                funding - and sometimes the technological proficiency - to market
                 themselves and expand their reach to a wider customer base. Their
                 goods rarely make it beyond a handful of neighborhoods.
               </p>
@@ -46,7 +46,7 @@ export default function About() {
               <p style={{ color: 'var(--charcoal)' }}>
                 By partnering with ethnic mom-and-pop shops, we give small
                 businesses a platform to tap into ecommerce markets far beyond
-                their local areas — culture-specific marketing, done for them.
+                their local areas - culture-specific marketing, done for them.
               </p>
               <p style={{ color: 'var(--charcoal)' }}>
                 We step away from the orientalism of mass-market platforms and
@@ -73,7 +73,7 @@ export default function About() {
               ['🫱🏽‍🫲🏾', 'Families first', 'Shops keep ~96% of their usual in-store margin. We only earn when they sell.'],
               ['✨', 'Authentic, not orientalist', 'Goods are presented by the families who make them, with real stories and heritage.'],
               ['🗺️', 'Everywhere, not just hubs', 'We prioritize expansion to cities that are underserved, guided by real buyer demand.'],
-              ['🧑‍💻', 'We handle the tech', 'Listings, photos, marketing, cross-listing, and logistics — so shop owners don\'t have to.'],
+              ['🧑‍💻', 'We handle the tech', 'Listings, photos, marketing, cross-listing, and logistics - so shop owners don\'t have to.'],
             ].map(([icon, title, body]) => (
               <div className="panel" key={title}>
                 <div style={{ fontSize: '2rem' }}>{icon}</div>

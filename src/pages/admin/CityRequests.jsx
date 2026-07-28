@@ -8,7 +8,7 @@ const NEXT_LABEL = {
   launched: 'Launched ✓',
 }
 
-// Admin view of the city buildout — buyer requests drive expansion planning.
+// Admin view of the city buildout - buyer requests drive expansion planning.
 export default function CityRequestsAdmin() {
   const { cityRequests, setCityRequestStatus } = useApp()
   const ranked = [...cityRequests].sort((a, b) => b.votes - a.votes)
@@ -28,7 +28,7 @@ export default function CityRequestsAdmin() {
       <div className="admin-header">
         <h1>City Buildout</h1>
         <p>
-          Buyer-submitted city requests, ranked by demand — the roadmap for where
+          Buyer-submitted city requests, ranked by demand - the roadmap for where
           CultureConnect expands next.
         </p>
       </div>
@@ -75,7 +75,7 @@ export default function CityRequestsAdmin() {
                   </div>
                 </td>
                 <td className="muted" style={{ maxWidth: 260, fontSize: '0.85rem' }}>
-                  {c.note ? `“${c.note}”` : '—'}
+                  {c.note ? `“${c.note}”` : '-'}
                 </td>
                 <td className="muted">{c.date}</td>
                 <td>

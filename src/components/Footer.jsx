@@ -15,7 +15,7 @@ export default function Footer() {
             </Link>
             <p style={{ maxWidth: '28em', fontSize: '0.9rem' }}>
               Bringing family-owned, ethnic-minority-run businesses from big
-              cities to every city in the U.S. — making authentic cultural goods
+              cities to every city in the U.S. - making authentic cultural goods
               easier to discover and buy, wherever you live.
             </p>
           </div>

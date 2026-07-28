@@ -21,7 +21,7 @@ export default function Dashboard() {
     <>
       <div className="admin-header">
         <h1>Dashboard</h1>
-        <p>The state of CultureConnect — sales, shops, and expansion at a glance.</p>
+        <p>The state of CultureConnect - sales, shops, and expansion at a glance.</p>
       </div>
 
       <div className="kpi-grid">

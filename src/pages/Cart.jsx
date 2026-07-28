@@ -43,7 +43,7 @@ export default function Cart() {
       setQuote(null)
       setShipMethod(null)
       setAddressError(
-        "Couldn't find a rate for that address — include a US ZIP code or state.",
+        "Couldn't find a rate for that address - include a US ZIP code or state.",
       )
       return
     }
@@ -83,7 +83,7 @@ export default function Cart() {
             {shopCount === 1 ? 'business' : 'businesses'} today.
           </p>
           <div className="notice" style={{ textAlign: 'left' }}>
-            This is a demo checkout — no payment was processed and no email was
+            This is a demo checkout - no payment was processed and no email was
             sent. The order now appears in the admin dashboard.
           </div>
           <Link to="/shop" className="btn btn-primary">
@@ -162,7 +162,7 @@ export default function Cart() {
           </div>
           <div className="calc-row total">
             <span>Total</span>
-            <span>{shipping == null ? '—' : `$${total.toFixed(2)}`}</span>
+            <span>{shipping == null ? '-' : `$${total.toFixed(2)}`}</span>
           </div>
 
           <div className="field" style={{ marginTop: 16 }}>
@@ -251,7 +251,7 @@ export default function Cart() {
               : 'Search address to continue'}
           </button>
           <p className="muted" style={{ fontSize: '0.78rem', textAlign: 'center', marginBottom: 0 }}>
-            Demo checkout — CultureConnect keeps a 20% commission (~$
+            Demo checkout - CultureConnect keeps a 20% commission (~$
             {commission(subtotal).toFixed(2)}) to fund marketing &amp; operations.
           </p>
         </form>
