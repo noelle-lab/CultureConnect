@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 import { aggregate, orderTotals, money } from '../../data/analytics'
+import { COMMISSION_RATE } from '../../data/mockData'
 
 export default function Dashboard() {
   const { orders, products, stores, cityRequests } = useApp()
@@ -31,7 +32,7 @@ export default function Dashboard() {
           <div className="delta up">▲ 22% vs last month</div>
         </div>
         <div className="kpi">
-          <div className="label">Our commission (20%)</div>
+          <div className="label">Our commission ({Math.round(COMMISSION_RATE * 100)}%)</div>
           <div className="value">{money(totals.commission)}</div>
           <div className="delta up">▲ 22% vs last month</div>
         </div>

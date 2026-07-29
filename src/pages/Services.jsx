@@ -83,7 +83,7 @@ export default function Services() {
         <div className="container">
           <div className="panel">
             <div className="eyebrow-sm">Simple, transparent pricing</div>
-            <h2 style={{ fontSize: '1.6rem' }}>How the 20% commission works</h2>
+            <h2 style={{ fontSize: '1.6rem' }}>How the {Math.round(COMMISSION_RATE * 100)}% commission works</h2>
             <p className="muted" style={{ maxWidth: '52em' }}>
               We encourage shops to list online at {Math.round(MARKUP * 100)}% of
               their shop price. That covers our{' '}
@@ -99,21 +99,21 @@ export default function Services() {
                 </div>
                 <div className="calc-row">
                   <span>Online price ({Math.round(MARKUP * 100)}%)</span>
-                  <span>$120.00</span>
+                  <span>$108.00</span>
                 </div>
                 <div className="calc-row">
-                  <span>CultureConnect (20%)</span>
-                  <span className="neg">− $24.00</span>
+                  <span>CultureConnect ({Math.round(COMMISSION_RATE * 100)}%)</span>
+                  <span className="neg">− $8.64</span>
                 </div>
                 <div className="calc-row total">
                   <span>You keep</span>
-                  <span className="pos">$96.00</span>
+                  <span className="pos">$99.36</span>
                 </div>
               </div>
               <div className="panel" style={{ background: 'var(--sand)' }}>
                 <strong>Why it works for you</strong>
                 <p className="muted" style={{ fontSize: '0.9rem' }}>
-                  You net ~96% of your usual shop price while reaching
+                  You net ~99% of your usual shop price while reaching
                   customers nationwide - with zero time spent on photos,
                   marketing, SEO, or shipping logistics. We only make money when
                   you make a sale.

@@ -87,7 +87,7 @@ Demo buyer credentials are shown right on the buyer sign-in modal.
 - **Our Mission (About)** - the problem, the goal, and our principles.
 
 ### Two services for shops
-1. **List on CultureConnect** - full white-glove marketplace listing. 20% commission, no upfront cost.
+1. **List on CultureConnect** - full white-glove marketplace listing. 8% commission, no upfront cost.
 2. **Cross-listing service** - publish & sync one catalog to **Etsy** and **eBay** from a single dashboard.
 
 ### Admin operations console (`/admin`)
@@ -99,8 +99,8 @@ Demo buyer credentials are shown right on the buyer sign-in modal.
 - **Listings** - every product; edit in-store price (online price auto-marks up), stock, and channels.
 - **Cross-Listing** - toggle each product live on Etsy / eBay for enrolled shops.
 - **Orders** - every order with the commission split and fulfillment status.
-- **Finance & Payouts** - the business-model engine: 20% commission, per-shop
-  payout ledger, and a pricing calculator built around the 120%-of-in-store rule.
+- **Finance & Payouts** - the business-model engine: 8% commission, per-shop
+  payout ledger, and a pricing calculator built around the 108%-of-in-store rule.
 - **Team & Invites** - manage who has admin access: create invite links, see
   pending invites, and revoke access.
 
@@ -109,9 +109,9 @@ listings**, and **add photos** to both businesses and listings (paste a URL or
 upload a file) - all from the console.
 
 ### The business model, built in
-CultureConnect takes a **20% commission** on online sales. Shops are encouraged
-to list at **120% of their in-person price**, which covers the commission while
-they still net ~96% of their usual in-store value - with zero marketing effort.
+CultureConnect takes an **8% commission** on online sales. Shops are encouraged
+to list at **108% of their in-person price**, which covers the commission while
+they still net ~99% of their usual in-store value - with zero marketing effort.
 All of this is wired through the app (see `src/data/mockData.js` and the Finance
 page).
 

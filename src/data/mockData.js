@@ -1,10 +1,10 @@
 // CultureConnect seed data.
 // Everything here is demo data. Prices are stored as the shop's real
 // in-person price; the online price shown to buyers is marked up (default
-// 120% of the in-person price) and CultureConnect keeps a 20% commission.
+// 108% of the in-person price) and CultureConnect keeps an 8% commission.
 
-export const COMMISSION_RATE = 0.2 // CultureConnect's cut of each online sale
-export const MARKUP = 1.2 // shops are encouraged to list at 120% of in-person price
+export const COMMISSION_RATE = 0.08 // CultureConnect's cut of each online sale
+export const MARKUP = 1.08 // shops are encouraged to list at 108% of in-person price
 
 // ---------------------------------------------------------------------------
 // Photo credits
@@ -2342,7 +2342,7 @@ export function onlinePrice(inPersonPrice) {
   return Math.round(inPersonPrice * MARKUP * 100) / 100
 }
 
-// CultureConnect's 20% commission on a given online price.
+// CultureConnect's 8% commission on a given online price.
 export function commission(onlineTotal) {
   return Math.round(onlineTotal * COMMISSION_RATE * 100) / 100
 }
