@@ -8,9 +8,20 @@ sell authentic goods nationwide, while our team discovers, onboards, and markets
 them behind the scenes. Buyers anywhere in the country can discover and purchase
 genuine cultural products that are otherwise hard to find outside major cities.
 
-This repo is a working front-end prototype built with **React + Vite**. Auth is
-intentionally faked and all data is mock data persisted to `localStorage`, so the
-whole experience is explorable with no backend.
+This repo is a working prototype built with **React + Vite**. Admin sign-in is
+real (Google, invite-only); buyer sign-in is intentionally faked.
+
+Data can run two ways:
+
+- **Shared database (recommended).** With a `DATABASE_URL` set, all shops,
+  listings, orders, city requests, and the admin roster live in a **shared
+  Postgres database**, reached through Netlify Functions. An edit by one admin
+  shows up for every other admin and on the live storefront. See
+  [Shared database backend](#shared-database-backend).
+- **Local demo (no setup).** With no `DATABASE_URL`, the app falls back to
+  storing everything in the browser's `localStorage`, so the whole experience
+  is still explorable with no backend — but data is per-browser and **not
+  shared** between people or with the public site.
 
 ---
 
@@ -27,6 +38,44 @@ Other scripts:
 npm run build    # production build to dist/
 npm run preview  # serve the production build
 ```
+
+## Shared database backend
+
+By default a fresh checkout runs in **local demo mode** (per-browser
+`localStorage`). To make admin edits real and shared — visible to every other
+admin and on the public storefront — point the app at a Postgres database.
+
+**What it is.** A tiny serverless API (`netlify/functions/state.js` and
+`mutate.js`) reads and writes one Postgres table on behalf of the browser. The
+React app talks to it through `/api/*`. The database holds the nine shared
+collections (shops, products, the published storefront snapshot, orders, city
+requests, the admin roster, and invites). Your sign-in session and shopping
+cart stay in your own browser — those are personal, not shared.
+
+**Setup (~5 minutes, free tier):**
+
+1. Create a free Postgres database at [neon.tech](https://neon.tech) (any
+   Postgres works; Neon pairs cleanly with Netlify Functions).
+2. Copy its **pooled** connection string.
+3. **Production:** in Netlify → *Site settings → Environment variables*, add
+   `DATABASE_URL` = that string, then redeploy.
+4. **Local full-stack dev:** put `DATABASE_URL=…` in a `.env` file and run
+   `netlify dev` (instead of `npm run dev`) so the functions run alongside Vite.
+
+The table and demo seed data are created automatically on first request — no
+migrations to run. The **Reset demo** button in the admin bar re-seeds the
+shared database.
+
+**Live updates.** This stack has no websockets, so the app **polls** the API
+every few seconds. Another admin's change (or a publish) therefore appears
+within a few seconds, not truly instantly. Writes are serialised in a database
+transaction, so two admins saving at once don't clobber each other.
+
+**Honest limitations (prototype).** The API is currently unauthenticated —
+anyone who can reach the functions can call them; a production version would
+verify the caller's Google token on the server (all admin-auth logic already
+lives in one place, `src/lib/adminAuth.js`, for that swap). Buyer sign-in and
+payments remain simulated.
 
 ## Signing in
 
@@ -124,18 +173,26 @@ src/
   main.jsx                 App entry + providers
   App.jsx                  Routes (public shell vs. admin shell)
   index.css                Full design system / styling
-  context/AppContext.jsx   Fake auth, cart, and all mutable state (localStorage)
+  context/AppContext.jsx   Auth, cart, and all mutable state (shared DB, or localStorage fallback)
+  lib/
+    remoteState.js         Browser client for the /api backend
+    adminAuth.js           Admin invite signing + Google credential decode
   data/
     mockData.js            Seed shops, products, cities, orders + pricing helpers
     analytics.js           Order/aggregate math + money formatting
   components/              Navbar, Footer, ProductCard, AuthModal, RequireAdmin
   pages/                  Public pages (Home, Shop, Cart, Services, …)
   pages/admin/            Admin console pages
+netlify/functions/         Serverless API over the shared Postgres database
+  state.js                 GET  /api/state   — read all shared collections
+  mutate.js                POST /api/mutate  — apply one write, transactionally
+  _db.js / _seed.js / _ops.js   DB plumbing, demo seed, and the write operations
 ```
 
-> **Note:** This is a prototype. Authentication, payments, and cross-listing
-> integrations are simulated for demonstration. Data resets via the **Reset
-> demo** button in the admin bar.
+> **Note:** This is a prototype. Payments and cross-listing integrations are
+> simulated for demonstration, and the shared-database API is not yet
+> authenticated (see [Shared database backend](#shared-database-backend)). Data
+> resets via the **Reset demo** button in the admin bar.
 
 ### Photography & the demo shops
 All product, storefront, and owner-portrait images are **real (non-AI)

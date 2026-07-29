@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import {
   stores as seedStores,
   products as seedProducts,
@@ -13,6 +20,7 @@ import {
   inviteLinkFor,
 } from '../lib/adminAuth'
 import { clearAllDrafts } from '../lib/useFormDraft'
+import { fetchState, mutateState } from '../lib/remoteState'
 
 const AppContext = createContext(null)
 
@@ -21,7 +29,35 @@ const AppContext = createContext(null)
 // founder stories, while admin auth moved to real Google Sign-In + invite-only
 // access (the `admins` and `invites` collections). Returning visitors load the
 // new seed data instead of a stale v3 that only had one half of these fields.
+//
+// NOTE: as of the shared-database migration this localStorage snapshot is only
+// a fallback/cache. When a backend is configured (DATABASE_URL set, see
+// netlify/functions/), the shared collections below come from — and are saved
+// to — that database instead, so every admin and the public site see the same
+// data. Without a backend the app still runs entirely from this snapshot, which
+// is the original front-end-only demo mode (per-browser, not shared).
 const STORAGE_KEY = 'cultureconnect.state.v4'
+
+// How often (ms) to poll the backend for other admins' changes. This stack has
+// no websockets, so we poll; the per-collection rev counter makes each poll
+// cheap and only re-renders what actually changed. A few seconds is a good
+// balance between "feels live" and not hammering the function.
+const POLL_INTERVAL_MS = 4000
+
+// Which context state maps to which shared collection name on the server.
+// (user + cart are deliberately absent — they're per-person session state that
+// stays in this browser, never shared.)
+const SHARED_COLLECTIONS = [
+  'stores',
+  'products',
+  'publishedStores',
+  'publishedProducts',
+  'cityRequests',
+  'orders',
+  'admins',
+  'invites',
+  'invitedEmails',
+]
 
 // Demo credentials for the FAKE buyer sign-in only. Any email / password works.
 // Admins do NOT use this — they sign in with a real Google account (invite-only).
@@ -107,20 +143,135 @@ export function AppProvider({ children }) {
     persisted?.invitedEmails ?? [],
   )
 
-  // Keep the admin roster live across tabs/windows. Invites are accepted on the
-  // invitee's own tab (they open the link there), which writes to localStorage —
-  // but React state in a tab that's already open (e.g. the owner sitting on the
-  // Team page) won't notice on its own. Listening for `storage` events lets that
-  // tab pick up the acceptance the moment it happens, so the new admin moves into
-  // the Admins section and out of Pending without a manual refresh.
-  //
-  // We only sync the invite/roster collections here — not `user`, which is this
-  // tab's own sign-in session and must stay put. Each setter returns the previous
-  // value unchanged when nothing actually differs, so identical writes bouncing
-  // between tabs can't cause a re-render loop.
+  // --- Shared-backend wiring ------------------------------------------------
+  // backendMode: 'unknown' until the first fetch resolves, then 'remote' (a
+  // database is configured — data is shared across everyone) or 'local' (no
+  // backend — original per-browser demo mode).
+  const [backendMode, setBackendMode] = useState('unknown')
+  const backendModeRef = useRef('unknown')
+  useEffect(() => {
+    backendModeRef.current = backendMode
+  }, [backendMode])
+
+  // Last-seen server rev per collection. A poll only adopts a collection when
+  // its rev has moved, so unchanged data never causes a needless re-render.
+  const revsRef = useRef({})
+  // Count of in-flight writes. While >0 we skip polling so a slow poll can't
+  // momentarily revert an optimistic local edit before its write lands.
+  const inflightRef = useRef(0)
+
+  // Map collection name -> its setter, for applying server state generically.
+  const settersRef = useRef(null)
+  if (!settersRef.current) {
+    settersRef.current = {
+      stores: setStores,
+      products: setProducts,
+      publishedStores: setPublishedStores,
+      publishedProducts: setPublishedProducts,
+      cityRequests: setCityRequests,
+      orders: setOrders,
+      admins: setAdmins,
+      invites: setInvites,
+      invitedEmails: setInvitedEmails,
+    }
+  }
+
+  // Adopt server state: for each collection whose rev changed, replace local
+  // state (skipping the write when the value is byte-for-byte identical, so we
+  // don't trigger a pointless render). Used by both the poll and the response
+  // to our own writes.
+  function applyRemote(collections, revs) {
+    if (!collections) return
+    const setters = settersRef.current
+    for (const name of SHARED_COLLECTIONS) {
+      if (!(name in collections)) continue
+      const incomingRev = revs?.[name]
+      const known = revsRef.current[name]
+      if (incomingRev !== undefined && incomingRev === known) continue
+      const incoming = collections[name]
+      setters[name]((prev) =>
+        JSON.stringify(prev) === JSON.stringify(incoming) ? prev : incoming,
+      )
+      revsRef.current[name] = incomingRev
+    }
+  }
+
+  // On mount: ask the backend for the shared state. If it's configured, switch
+  // to 'remote' and adopt it; if not (or on error), stay in local demo mode.
+  useEffect(() => {
+    let cancelled = false
+    fetchState()
+      .then((res) => {
+        if (cancelled) return
+        if (res.available) {
+          applyRemote(res.collections, res.revs)
+          setBackendMode('remote')
+        } else {
+          setBackendMode('local')
+        }
+      })
+      .catch((err) => {
+        if (cancelled) return
+        // Network/server hiccup — fall back to local mode rather than break.
+        console.warn(
+          'CultureConnect: could not reach the shared database, using local demo mode.',
+          err,
+        )
+        setBackendMode('local')
+      })
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Poll for other admins' changes while in remote mode.
+  useEffect(() => {
+    if (backendMode !== 'remote') return
+    const id = setInterval(() => {
+      if (inflightRef.current > 0) return // don't fight our own in-flight write
+      fetchState()
+        .then((res) => {
+          if (res.available) applyRemote(res.collections, res.revs)
+        })
+        .catch(() => {
+          /* transient; the next tick will try again */
+        })
+    }, POLL_INTERVAL_MS)
+    return () => clearInterval(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [backendMode])
+
+  // Send a write to the backend (no-op in local mode, where the localStorage
+  // effect below is the store). Fire-and-forget: the local state was already
+  // updated optimistically, and the authoritative response is adopted when it
+  // lands. `await`-able for the few callers that need confirmation.
+  function pushOp(op, args) {
+    if (backendModeRef.current !== 'remote') return Promise.resolve(null)
+    inflightRef.current += 1
+    return mutateState(op, args)
+      .then((res) => {
+        if (res.available) applyRemote(res.collections, res.revs)
+        return res
+      })
+      .catch((err) => {
+        console.error(`CultureConnect: failed to save "${op}"`, err)
+        return null
+      })
+      .finally(() => {
+        inflightRef.current -= 1
+      })
+  }
+
+  // Keep the admin roster live across tabs/windows in LOCAL mode. Invites are
+  // accepted on the invitee's own tab (they open the link there), which writes
+  // to localStorage — but React state in a tab that's already open won't notice
+  // on its own. In remote mode the poll handles this (and every other) sync, so
+  // this listener is really just for the no-backend demo.
   useEffect(() => {
     function onStorage(e) {
       if (e.key !== STORAGE_KEY || !e.newValue) return
+      if (backendModeRef.current === 'remote') return
       let next
       try {
         next = JSON.parse(e.newValue)
@@ -142,7 +293,8 @@ export function AppProvider({ children }) {
     return () => window.removeEventListener('storage', onStorage)
   }, [])
 
-  // Persist everything so the demo survives refreshes.
+  // Persist a snapshot to localStorage. In local mode this IS the store; in
+  // remote mode it's just a cache/fallback (harmless) and per-browser user/cart.
   useEffect(() => {
     const snapshot = {
       user,
@@ -178,7 +330,7 @@ export function AppProvider({ children }) {
 
   // --- Buyer auth (fake) ---------------------------------------------------
   // Buyers / businesses get an intentionally fake sign-in — any credentials
-  // work. Admins do NOT use this path.
+  // work. Admins do NOT use this path. (Session-only, stays in this browser.)
   function signIn(email, name) {
     setUser({ role: 'buyer', email, name: name || 'Guest Buyer' })
   }
@@ -217,7 +369,9 @@ export function AppProvider({ children }) {
 
   // Called after a successful Google sign-in. `profile` comes from
   // decodeGoogleCredential (or the demo fallback). Only lets verified,
-  // invited accounts in. Returns { ok } or { ok:false, reason }.
+  // invited accounts in. Returns { ok } or { ok:false, reason }. Stays
+  // synchronous; the roster's last-sign-in bookkeeping persists in the
+  // background.
   function signInAdminGoogle(profile) {
     if (!profile?.email) return { ok: false, reason: 'no-email' }
     if (profile.emailVerified === false)
@@ -226,7 +380,8 @@ export function AppProvider({ children }) {
       return { ok: false, reason: 'not-invited' }
 
     const email = normalizeEmail(profile.email)
-    // Remember the latest name/photo Google gave us.
+    const today = new Date().toISOString().slice(0, 10)
+    // Remember the latest name/photo Google gave us (optimistic + persisted).
     setAdmins((prev) =>
       prev.map((a) =>
         a.email === email
@@ -234,11 +389,17 @@ export function AppProvider({ children }) {
               ...a,
               name: profile.name || a.name,
               picture: profile.picture || a.picture,
-              lastSignIn: new Date().toISOString().slice(0, 10),
+              lastSignIn: today,
             }
           : a,
       ),
     )
+    pushOp('recordAdminSignIn', {
+      email,
+      name: profile.name || '',
+      picture: profile.picture || '',
+      date: today,
+    })
     setUser({
       role: 'admin',
       email,
@@ -257,21 +418,24 @@ export function AppProvider({ children }) {
     const token = await createInviteToken(clean)
     const link = inviteLinkFor(token)
     const id = `inv-${Date.now()}`
+    const invite = {
+      id,
+      email: clean,
+      token,
+      link,
+      createdAt: new Date().toISOString().slice(0, 10),
+      redeemed: false,
+    }
     // Remember this address forever (most-recent first, no duplicates), so it's
     // offered as a suggestion next time — even if the invite is later revoked.
     setInvitedEmails((prev) => [clean, ...prev.filter((e) => e !== clean)])
     setInvites((prev) => [
-      {
-        id,
-        email: clean,
-        token,
-        link,
-        createdAt: new Date().toISOString().slice(0, 10),
-        redeemed: false,
-      },
+      invite,
       // Drop any older pending invite for the same email — one active link each.
       ...prev.filter((i) => i.email !== clean),
     ])
+    // Persist so the invite works from any device / any admin's console.
+    await pushOp('createInvite', { invite })
     return { id, email: clean, token, link }
   }
 
@@ -286,9 +450,8 @@ export function AppProvider({ children }) {
   }
 
   // Accept an invite (the invitee clicks "Accept invitation" on the /invite page).
-  // This is the deliberate step that adds the email to the admin roster and
-  // remembers the account on this device (persisted to localStorage, so it
-  // survives refreshes and return visits). Returns { ok, email } or { ok:false }.
+  // This is the deliberate step that adds the email to the shared admin roster.
+  // Returns { ok, email } or { ok:false }.
   async function acceptInvite(token) {
     const res = await verifyInviteToken(token)
     if (!res.ok) return res
@@ -316,12 +479,15 @@ export function AppProvider({ children }) {
         i.token === token ? { ...i, redeemed: true, acceptedAt: today } : i,
       ),
     )
+    // Persist to the shared roster so every admin's console sees the new member.
+    await pushOp('acceptInvite', { email, token, date: today })
     return { ok: true, email }
   }
 
   // Cancel a pending invite link.
   function revokeInvite(id) {
     setInvites((prev) => prev.filter((i) => i.id !== id))
+    pushOp('revokeInvite', { id })
   }
 
   // Remove an admin's access (owner can't be removed). Signs them out if it's
@@ -332,9 +498,10 @@ export function AppProvider({ children }) {
     setAdmins((prev) => prev.filter((a) => a.email !== e))
     setInvites((prev) => prev.filter((i) => i.email !== e))
     if (normalizeEmail(user?.email) === e && user?.role === 'admin') setUser(null)
+    pushOp('revokeAdmin', { email: e })
   }
 
-  // --- Cart ----------------------------------------------------------------
+  // --- Cart (per-browser, not shared) --------------------------------------
   function addToCart(productId, qty = 1) {
     setCart((prev) => {
       const existing = prev.find((i) => i.productId === productId)
@@ -362,32 +529,34 @@ export function AppProvider({ children }) {
 
   // --- City requests -------------------------------------------------------
   function addCityRequest(req) {
-    setCityRequests((prev) => [
-      {
-        id: `cr-${Date.now()}`,
-        votes: 1,
-        status: 'requested',
-        submittedBy: user?.email ?? 'anonymous',
-        date: new Date().toISOString().slice(0, 10),
-        ...req,
-      },
-      ...prev,
-    ])
+    const record = {
+      id: `cr-${Date.now()}`,
+      votes: 1,
+      status: 'requested',
+      submittedBy: user?.email ?? 'anonymous',
+      date: new Date().toISOString().slice(0, 10),
+      ...req,
+    }
+    setCityRequests((prev) => [record, ...prev])
+    pushOp('addCityRequest', { req: record })
   }
   function voteCityRequest(id) {
     setCityRequests((prev) =>
       prev.map((c) => (c.id === id ? { ...c, votes: c.votes + 1 } : c)),
     )
+    pushOp('voteCityRequest', { id })
   }
   function setCityRequestStatus(id, status) {
     setCityRequests((prev) =>
       prev.map((c) => (c.id === id ? { ...c, status } : c)),
     )
+    pushOp('setCityRequestStatus', { id, status })
   }
 
   // --- Stores (admin) ------------------------------------------------------
   function updateStore(id, patch) {
     setStores((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)))
+    pushOp('updateStore', { id, patch })
   }
   function addStore(store) {
     const created = {
@@ -399,12 +568,14 @@ export function AppProvider({ children }) {
       ...store,
     }
     setStores((prev) => [created, ...prev])
+    pushOp('addStore', { store: created })
     return created
   }
 
   // --- Products (admin) ----------------------------------------------------
   function updateProduct(id, patch) {
     setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch } : p)))
+    pushOp('updateProduct', { id, patch })
   }
   function addProduct(product) {
     const created = {
@@ -418,10 +589,12 @@ export function AppProvider({ children }) {
       ...product,
     }
     setProducts((prev) => [created, ...prev])
+    pushOp('addProduct', { product: created })
     return created
   }
   function removeProduct(id) {
     setProducts((prev) => prev.filter((p) => p.id !== id))
+    pushOp('removeProduct', { id })
   }
   function toggleCrosslist(id, channel) {
     setProducts((prev) =>
@@ -436,6 +609,7 @@ export function AppProvider({ children }) {
         }
       }),
     )
+    pushOp('toggleCrosslist', { id, channel })
   }
 
   // --- Publish / discard draft catalog edits -------------------------------
@@ -449,16 +623,18 @@ export function AppProvider({ children }) {
   )
 
   // Push the current draft live: the public storefront now shows these shops
-  // and listings.
+  // and listings — for everyone, on every device.
   function publishEdits() {
     setPublishedStores(stores)
     setPublishedProducts(products)
+    pushOp('publishEdits', {})
   }
 
   // Throw the draft away and start again from what's currently live.
   function discardEdits() {
     setStores(publishedStores)
     setProducts(publishedProducts)
+    pushOp('discardEdits', {})
   }
 
   // --- Orders (checkout) ---------------------------------------------------
@@ -474,6 +650,7 @@ export function AppProvider({ children }) {
     }
     setOrders((prev) => [order, ...prev])
     clearCart()
+    pushOp('placeOrder', { order })
     return order
   }
 
@@ -494,6 +671,8 @@ export function AppProvider({ children }) {
     setAdmins(seedAdmins)
     setInvites([])
     setInvitedEmails([])
+    // In remote mode, reset the shared database too — for everyone.
+    pushOp('reset', {})
   }
 
   const value = useMemo(
@@ -510,6 +689,9 @@ export function AppProvider({ children }) {
       admins,
       invites,
       invitedEmails,
+      // Whether edits are shared via the backend ('remote') or local-only
+      // ('local'); 'unknown' during the first load. Handy for a UI indicator.
+      backendMode,
       signIn,
       signOut,
       signInOwner,
@@ -553,6 +735,7 @@ export function AppProvider({ children }) {
       admins,
       invites,
       invitedEmails,
+      backendMode,
     ],
   )
 
