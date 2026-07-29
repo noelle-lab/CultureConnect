@@ -1,10 +1,32 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { COMMISSION_RATE, MARKUP } from '../data/mockData'
+import { useApp, OWNER_ACCOUNTS } from '../context/AppContext'
+
+// The two demo shop owners you can sign in as, in the order shown on the page.
+const DEMO_OWNERS = [
+  {
+    email: 'mehmet@anatoliahome.shop',
+    plan: 'CultureConnect listing',
+    blurb: 'Manages their marketplace listings, pricing and stock.',
+  },
+  {
+    email: 'linh@goldenlotus.shop',
+    plan: 'Listing + cross-listing',
+    blurb: 'Also publishes and syncs the catalog to Etsy & eBay.',
+  },
+]
 
 export default function Services() {
   const [sent, setSent] = useState(false)
   const [service, setService] = useState('listing')
+  const { user, stores, signInOwner } = useApp()
+  const navigate = useNavigate()
+
+  function signInAs(email) {
+    const res = signInOwner(email)
+    if (res.ok) navigate('/portal')
+  }
 
   return (
     <>
@@ -118,6 +140,59 @@ export default function Services() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* EXISTING OWNER SIGN-IN */}
+      <section className="section anchor-target" id="owner-signin" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="panel">
+            <div className="eyebrow-sm">Already a partner shop?</div>
+            <h2 style={{ fontSize: '1.6rem', marginBottom: 4 }}>
+              Sign in to your owner portal
+            </h2>
+            <p className="muted" style={{ maxWidth: '52em', marginTop: 0 }}>
+              Manage your CultureConnect listings, pricing and stock. Shops on the
+              cross-listing plan also manage their Etsy and eBay listings — with
+              every platform's fees worked out for you.
+            </p>
+
+            {user?.role === 'owner' ? (
+              <div className="notice" style={{ maxWidth: 520 }}>
+                You're signed in as <strong>{user.name}</strong> ({user.shop}).{' '}
+                <Link to="/portal" style={{ color: 'var(--clay)', fontWeight: 600 }}>
+                  Go to your dashboard →
+                </Link>
+              </div>
+            ) : (
+              <div className="owner-signin-grid">
+                {DEMO_OWNERS.map((o) => {
+                  const acct = OWNER_ACCOUNTS[o.email]
+                  const store = stores.find((s) => s.id === acct?.storeId)
+                  return (
+                    <div key={o.email} className="owner-card">
+                      <div className="flex between center" style={{ gap: 10 }}>
+                        <strong style={{ fontSize: '1.05rem' }}>{store?.name}</strong>
+                        <span className="badge badge-cc">{o.plan}</span>
+                      </div>
+                      <p className="muted" style={{ fontSize: '0.88rem', margin: '6px 0 12px' }}>
+                        {o.blurb}
+                      </p>
+                      <div className="demo-hint" style={{ marginBottom: 12 }}>
+                        Demo sign-in · <code>{o.email}</code> · any password
+                      </div>
+                      <button
+                        className="btn btn-primary btn-block"
+                        onClick={() => signInAs(o.email)}
+                      >
+                        Sign in as {acct?.name}
+                      </button>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </div>
       </section>

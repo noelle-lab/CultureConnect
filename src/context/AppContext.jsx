@@ -29,6 +29,26 @@ export const DEMO_ACCOUNTS = {
   buyer: { email: 'buyer@cultureconnect.shop', password: 'shop123' },
 }
 
+// FAKE business-owner sign-ins for the shop portal (linked from the "For
+// Businesses" page). Each account is tied to one existing partner shop; the
+// portal shows only the services that shop is enrolled in — so an owner on the
+// "listing" plan sees just their CultureConnect listings, while an owner on both
+// plans also gets the cross-listing manager. Auth is simulated for the demo.
+export const OWNER_ACCOUNTS = {
+  // Enrolled in CultureConnect listing only.
+  'mehmet@anatoliahome.shop': {
+    storeId: 'st-anatolia',
+    name: 'Mehmet Demir',
+    shop: 'Anatolia Home',
+  },
+  // Enrolled in CultureConnect listing AND the cross-listing service.
+  'linh@goldenlotus.shop': {
+    storeId: 'st-golden-lotus',
+    name: 'Linh Tran',
+    shop: 'Golden Lotus Provisions',
+  },
+}
+
 // The team roster always starts with the founder so there's a way to send the
 // first invite. Everyone else gets on the list by redeeming an invite link.
 const seedAdmins = [
@@ -164,6 +184,23 @@ export function AppProvider({ children }) {
   }
   function signOut() {
     setUser(null)
+  }
+
+  // --- Business-owner auth (fake) ------------------------------------------
+  // Sign in as one of the demo shop owners (see OWNER_ACCOUNTS). Attaches the
+  // owner's storeId so the portal knows which shop's listings to manage.
+  // Returns { ok } or { ok:false }.
+  function signInOwner(email) {
+    const acct = OWNER_ACCOUNTS[normalizeEmail(email)]
+    if (!acct) return { ok: false }
+    setUser({
+      role: 'owner',
+      email: normalizeEmail(email),
+      name: acct.name,
+      storeId: acct.storeId,
+      shop: acct.shop,
+    })
+    return { ok: true }
   }
 
   // --- Admin auth (real Google + invite-only) ------------------------------
@@ -475,6 +512,7 @@ export function AppProvider({ children }) {
       invitedEmails,
       signIn,
       signOut,
+      signInOwner,
       isAuthorizedAdmin,
       signInAdminGoogle,
       createInvite,

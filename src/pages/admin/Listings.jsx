@@ -35,15 +35,6 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
   )
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
-  function toggleChannel(ch) {
-    setForm((f) => ({
-      ...f,
-      crosslisted: f.crosslisted.includes(ch)
-        ? f.crosslisted.filter((c) => c !== ch)
-        : [...f.crosslisted, ch],
-    }))
-  }
-
   function submit(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.storeId) return
@@ -161,25 +152,10 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
           />
         </div>
 
-        <div className="field">
-          <label>Cross-listing channels</label>
-          <div className="flex gap-8 wrap">
-            {['etsy', 'ebay'].map((ch) => (
-              <label
-                key={ch}
-                className="flex center gap-8"
-                style={{ cursor: 'pointer', fontSize: '0.85rem' }}
-              >
-                <input
-                  type="checkbox"
-                  checked={form.crosslisted.includes(ch)}
-                  onChange={() => toggleChannel(ch)}
-                />
-                {ch === 'etsy' ? 'Etsy' : 'eBay'}
-              </label>
-            ))}
-          </div>
-        </div>
+        <p className="muted" style={{ fontSize: '0.8rem', marginTop: 4 }}>
+          Cross-listing to Etsy &amp; eBay is now managed by each shop from their
+          owner portal.
+        </p>
 
         <div className="flex gap-8" style={{ marginTop: 8 }}>
           <button className="btn btn-primary" type="submit">
