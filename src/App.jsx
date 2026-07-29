@@ -19,6 +19,8 @@ import HowItWorks from './pages/HowItWorks'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 import InviteRedeem from './pages/InviteRedeem'
+import OwnerPortal from './pages/OwnerPortal'
+import RequireOwner from './components/RequireOwner'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
@@ -104,6 +106,16 @@ export default function App() {
         />
         <Route path="/cart" element={<PublicShell><Cart /></PublicShell>} />
         <Route path="/services" element={<PublicShell><Services /></PublicShell>} />
+        <Route
+          path="/portal"
+          element={
+            <PublicShell>
+              <RequireOwner>
+                <OwnerPortal />
+              </RequireOwner>
+            </PublicShell>
+          }
+        />
         <Route
           path="/request-store"
           element={<PublicShell><RequestStore /></PublicShell>}

@@ -89,6 +89,11 @@ export default function Navbar() {
                         Admin Dashboard
                       </Link>
                     )}
+                    {user.role === 'owner' && (
+                      <Link to="/portal" onClick={() => setMenuOpen(false)}>
+                        Owner Portal
+                      </Link>
+                    )}
                     <Link to="/shop" onClick={() => setMenuOpen(false)}>
                       Continue shopping
                     </Link>
