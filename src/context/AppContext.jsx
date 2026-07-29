@@ -86,6 +86,41 @@ export function AppProvider({ children }) {
     persisted?.invitedEmails ?? [],
   )
 
+  // Keep the admin roster live across tabs/windows. Invites are accepted on the
+  // invitee's own tab (they open the link there), which writes to localStorage —
+  // but React state in a tab that's already open (e.g. the owner sitting on the
+  // Team page) won't notice on its own. Listening for `storage` events lets that
+  // tab pick up the acceptance the moment it happens, so the new admin moves into
+  // the Admins section and out of Pending without a manual refresh.
+  //
+  // We only sync the invite/roster collections here — not `user`, which is this
+  // tab's own sign-in session and must stay put. Each setter returns the previous
+  // value unchanged when nothing actually differs, so identical writes bouncing
+  // between tabs can't cause a re-render loop.
+  useEffect(() => {
+    function onStorage(e) {
+      if (e.key !== STORAGE_KEY || !e.newValue) return
+      let next
+      try {
+        next = JSON.parse(e.newValue)
+      } catch {
+        return
+      }
+      if (!next) return
+      const sync = (setter, incoming) => {
+        if (incoming === undefined) return
+        setter((prev) =>
+          JSON.stringify(prev) === JSON.stringify(incoming) ? prev : incoming,
+        )
+      }
+      sync(setAdmins, next.admins)
+      sync(setInvites, next.invites)
+      sync(setInvitedEmails, next.invitedEmails)
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
+
   // Persist everything so the demo survives refreshes.
   useEffect(() => {
     const snapshot = {
