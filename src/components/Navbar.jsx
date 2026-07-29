@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 import AuthModal from './AuthModal'
+import SearchBar from './SearchBar'
 
 export default function Navbar() {
   const { user, cart, signOut } = useApp()
@@ -54,6 +55,8 @@ export default function Navbar() {
             <NavLink to="/request-store">Request a City</NavLink>
             <NavLink to="/about">Our Mission</NavLink>
           </nav>
+
+          <SearchBar />
 
           <div className="nav-right">
             <Link to="/cart" className="cart-btn">

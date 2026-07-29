@@ -28,14 +28,27 @@ function CopyButton({ text, label = 'Copy link' }) {
 }
 
 export default function Team() {
-  const { admins, invites, createInvite, revokeInvite, revokeAdmin, user } =
-    useApp()
+  const {
+    admins,
+    invites,
+    invitedEmails,
+    createInvite,
+    revokeInvite,
+    revokeAdmin,
+    user,
+  } = useApp()
   const [email, setEmail] = useState('')
   const [busy, setBusy] = useState(false)
   const [created, setCreated] = useState(null) // most recent invite
   const [error, setError] = useState('')
 
   const pending = invites.filter((i) => !i.redeemed)
+
+  // Everyone we've ever invited who isn't currently an admin — the addresses
+  // worth offering as a quick re-invite. Remembered across sessions.
+  const rememberedEmails = invitedEmails.filter(
+    (e) => !admins.some((a) => a.email === e),
+  )
 
   async function submit(e) {
     e.preventDefault()
@@ -86,16 +99,46 @@ export default function Team() {
               <input
                 className="input"
                 type="email"
+                list="invited-emails"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
               />
+              <datalist id="invited-emails">
+                {rememberedEmails.map((e) => (
+                  <option key={e} value={e} />
+                ))}
+              </datalist>
             </div>
             <button className="btn btn-primary" type="submit" disabled={busy}>
               {busy ? 'Creating…' : 'Create invite link'}
             </button>
           </div>
         </form>
+
+        {rememberedEmails.length > 0 && (
+          <div className="remembered-emails">
+            <span className="muted" style={{ fontSize: '0.82rem' }}>
+              Previously invited:
+            </span>
+            <div className="chip-row" style={{ marginTop: 6 }}>
+              {rememberedEmails.slice(0, 8).map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  className="email-chip"
+                  onClick={() => {
+                    setEmail(e)
+                    setError('')
+                  }}
+                  title={`Invite ${e} again`}
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         {error && (
           <div
             className="notice"

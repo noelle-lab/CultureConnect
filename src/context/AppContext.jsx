@@ -78,6 +78,13 @@ export function AppProvider({ children }) {
   // Admin roster + outstanding invite links (see src/lib/adminAuth.js).
   const [admins, setAdmins] = useState(persisted?.admins ?? seedAdmins)
   const [invites, setInvites] = useState(persisted?.invites ?? [])
+  // A lasting memory of every email that's ever been invited — even after an
+  // invite is redeemed, revoked, or the person is later removed. This is what
+  // powers the "previously invited" autocomplete on the Team page, so an admin
+  // never has to retype an address they've invited before.
+  const [invitedEmails, setInvitedEmails] = useState(
+    persisted?.invitedEmails ?? [],
+  )
 
   // Persist everything so the demo survives refreshes.
   useEffect(() => {
@@ -92,6 +99,7 @@ export function AppProvider({ children }) {
       orders,
       admins,
       invites,
+      invitedEmails,
     }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot))
@@ -109,6 +117,7 @@ export function AppProvider({ children }) {
     orders,
     admins,
     invites,
+    invitedEmails,
   ])
 
   // --- Buyer auth (fake) ---------------------------------------------------
@@ -175,6 +184,9 @@ export function AppProvider({ children }) {
     const token = await createInviteToken(clean)
     const link = inviteLinkFor(token)
     const id = `inv-${Date.now()}`
+    // Remember this address forever (most-recent first, no duplicates), so it's
+    // offered as a suggestion next time — even if the invite is later revoked.
+    setInvitedEmails((prev) => [clean, ...prev.filter((e) => e !== clean)])
     setInvites((prev) => [
       {
         id,
@@ -407,6 +419,7 @@ export function AppProvider({ children }) {
     // does NOT touch anyone's real Google account — only our local allow-list.
     setAdmins(seedAdmins)
     setInvites([])
+    setInvitedEmails([])
   }
 
   const value = useMemo(
@@ -422,6 +435,7 @@ export function AppProvider({ children }) {
       orders,
       admins,
       invites,
+      invitedEmails,
       signIn,
       signOut,
       isAuthorizedAdmin,
@@ -463,6 +477,7 @@ export function AppProvider({ children }) {
       orders,
       admins,
       invites,
+      invitedEmails,
     ],
   )
 
