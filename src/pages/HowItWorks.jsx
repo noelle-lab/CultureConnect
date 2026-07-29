@@ -92,7 +92,7 @@ export default function HowItWorks() {
                 <li>We build the listings, shoot the photos, and run the marketing.</li>
                 <li>
                   A {Math.round(COMMISSION_RATE * 100)}% commission covers all of it -
-                  list at {Math.round(MARKUP * 100)}% of your shop price and keep ~96%.
+                  list at {Math.round(MARKUP * 100)}% of your shop price and keep ~99%.
                 </li>
                 <li>Live sales dashboard and monthly payouts, no upfront cost.</li>
               </ul>
@@ -120,9 +120,9 @@ export default function HowItWorks() {
               usual margin. Here's a $100 shop item:
             </p>
             <div className="calc-row"><span>Shop price</span><span>$100.00</span></div>
-            <div className="calc-row"><span>Online price ({Math.round(MARKUP * 100)}%)</span><span>$120.00</span></div>
-            <div className="calc-row"><span>CultureConnect ({Math.round(COMMISSION_RATE * 100)}%)</span><span className="neg">− $24.00</span></div>
-            <div className="calc-row total"><span>Shop keeps</span><span className="pos">$96.00</span></div>
+            <div className="calc-row"><span>Online price ({Math.round(MARKUP * 100)}%)</span><span>$108.00</span></div>
+            <div className="calc-row"><span>CultureConnect ({Math.round(COMMISSION_RATE * 100)}%)</span><span className="neg">− $8.64</span></div>
+            <div className="calc-row total"><span>Shop keeps</span><span className="pos">$99.36</span></div>
           </div>
         </div>
       </section>

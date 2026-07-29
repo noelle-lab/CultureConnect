@@ -70,7 +70,7 @@ export default function About() {
           </div>
           <div className="product-grid">
             {[
-              ['🫱🏽‍🫲🏾', 'Families first', 'Shops keep ~96% of their usual margin. We only earn when they sell.'],
+              ['🫱🏽‍🫲🏾', 'Families first', 'Shops keep ~99% of their usual margin. We only earn when they sell.'],
               ['✨', 'Authentic, not orientalist', 'Goods are presented by the families who make them, with real stories and heritage.'],
               ['🗺️', 'Everywhere, not just hubs', 'We prioritize expansion to cities that are underserved, guided by real buyer demand.'],
               ['🧑‍💻', 'We handle the tech', 'Listings, photos, marketing, cross-listing, and logistics - so shop owners don\'t have to.'],

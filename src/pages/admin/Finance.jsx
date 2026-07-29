@@ -90,7 +90,7 @@ export default function Finance() {
                   <th>Shop</th>
                   <th className="text-right">Units</th>
                   <th className="text-right">Gross</th>
-                  <th className="text-right">Our 20%</th>
+                  <th className="text-right">Our {Math.round(COMMISSION_RATE * 100)}%</th>
                   <th className="text-right">Payout</th>
                 </tr>
               </thead>

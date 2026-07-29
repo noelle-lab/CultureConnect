@@ -6,6 +6,7 @@ import {
   commission,
   shippingQuotes,
   FREE_SHIPPING_THRESHOLD,
+  COMMISSION_RATE,
 } from '../data/mockData'
 
 export default function Cart() {
@@ -258,7 +259,7 @@ export default function Cart() {
               : 'Search address to continue'}
           </button>
           <p className="muted" style={{ fontSize: '0.78rem', textAlign: 'center', marginBottom: 0 }}>
-            Demo checkout - CultureConnect keeps a 20% commission (~$
+            Demo checkout - CultureConnect keeps a {Math.round(COMMISSION_RATE * 100)}% commission (~$
             {commission(subtotal).toFixed(2)}) to fund marketing &amp; operations.
           </p>
         </form>
