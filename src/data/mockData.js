@@ -2226,8 +2226,21 @@ export const orders = [
 // ---------------------------------------------------------------------------
 
 // The price a buyer pays online (shop's in-person price marked up).
+// Snap a dollar amount to the nearest "charm" price ending in .99 or .00.
+function charmPrice(value) {
+  const base = Math.floor(value)
+  // Allowed nearby targets: (base-1).99, base.00, base.99, (base+1).00
+  const candidates = [base - 0.01, base, base + 0.99, base + 1]
+  let best = candidates[0]
+  for (const c of candidates) {
+    if (Math.abs(value - c) < Math.abs(value - best)) best = c
+  }
+  return Math.round(best * 100) / 100
+}
+
 export function onlinePrice(inPersonPrice) {
-  return Math.round(inPersonPrice * MARKUP * 100) / 100
+  // Marked up from the shop's in-person price, then rounded to a .99/.00 price.
+  return charmPrice(inPersonPrice * MARKUP)
 }
 
 // CultureConnect's 8% commission on a given online price.
