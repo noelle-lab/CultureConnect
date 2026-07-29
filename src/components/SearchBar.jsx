@@ -32,11 +32,18 @@ export default function SearchBar({ variant = 'nav' }) {
   const { publishedStores: stores, publishedProducts: products } = useApp()
   const navigate = useNavigate()
 
+  // In the navbar the bar collapses to a single search icon so the header stays
+  // on one line; clicking the icon expands it into a full-width search field.
+  // Everywhere else (e.g. the search page) it renders expanded from the start.
+  const collapsible = variant === 'nav'
+  const [expanded, setExpanded] = useState(!collapsible)
+
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
   const [focused, setFocused] = useState(false)
   const [phIndex, setPhIndex] = useState(0)
   const wrapRef = useRef(null)
+  const inputRef = useRef(null)
 
   const placeholders = useMemo(
     () => buildPlaceholders(stores, products),
@@ -46,12 +53,12 @@ export default function SearchBar({ variant = 'nav' }) {
   // Rotate the grey placeholder text — but hold still while the user is
   // actually typing or focused, so it never yanks a prompt out from under them.
   useEffect(() => {
-    if (focused || query) return
+    if (focused || query || !expanded) return
     const t = setInterval(() => {
       setPhIndex((i) => (i + 1) % placeholders.length)
     }, 3200)
     return () => clearInterval(t)
-  }, [focused, query, placeholders.length])
+  }, [focused, query, expanded, placeholders.length])
 
   // Live suggestions as you type (businesses + products + heritages).
   const suggestions = useMemo(() => {
@@ -59,19 +66,35 @@ export default function SearchBar({ variant = 'nav' }) {
     return searchCatalog(query, stores, products, { limit: 6 })
   }, [query, stores, products])
 
-  // Close the dropdown on an outside click.
+  // When the nav search expands, drop focus straight into the input.
+  useEffect(() => {
+    if (collapsible && expanded) inputRef.current?.focus()
+  }, [collapsible, expanded])
+
+  // Collapse the nav search back to an icon (and close the dropdown).
+  function collapse() {
+    setOpen(false)
+    if (collapsible) setExpanded(false)
+  }
+
+  // Close the dropdown on an outside click; also collapse the nav search when
+  // it's empty so the header returns to a single tidy line.
   useEffect(() => {
     function onClick(e) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false)
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) {
+        setOpen(false)
+        if (collapsible && !query.trim()) setExpanded(false)
+      }
     }
     document.addEventListener('mousedown', onClick)
     return () => document.removeEventListener('mousedown', onClick)
-  }, [])
+  }, [collapsible, query])
 
   function goToResults(q) {
     const term = (q ?? query).trim()
     if (!term) return
     setOpen(false)
+    if (collapsible) setExpanded(false)
     navigate(`/search?q=${encodeURIComponent(term)}`)
   }
 
@@ -81,14 +104,37 @@ export default function SearchBar({ variant = 'nav' }) {
   }
 
   function handleKeyDown(e) {
-    if (e.key === 'Escape') setOpen(false)
+    if (e.key === 'Escape') {
+      if (query) {
+        setOpen(false)
+      } else {
+        collapse()
+      }
+    }
   }
 
-  const showDropdown = open && !!suggestions
+  const showDropdown = open && expanded && !!suggestions
+
+  // Collapsed state: just the search icon button, sitting inline in the header.
+  if (collapsible && !expanded) {
+    return (
+      <button
+        type="button"
+        className={`search-toggle search-toggle-${variant}`}
+        aria-label="Open search"
+        aria-expanded="false"
+        onClick={() => setExpanded(true)}
+      >
+        <span aria-hidden="true">🔍</span>
+      </button>
+    )
+  }
 
   return (
     <form
-      className={`search-bar search-bar-${variant}`}
+      className={`search-bar search-bar-${variant}${
+        collapsible ? ' search-bar-expanded' : ''
+      }`}
       ref={wrapRef}
       onSubmit={handleSubmit}
       role="search"
@@ -97,6 +143,7 @@ export default function SearchBar({ variant = 'nav' }) {
         🔍
       </span>
       <input
+        ref={inputRef}
         className="search-input"
         type="search"
         aria-label="Search businesses, products, and heritages"
@@ -121,7 +168,18 @@ export default function SearchBar({ variant = 'nav' }) {
           onClick={() => {
             setQuery('')
             setOpen(false)
+            inputRef.current?.focus()
           }}
+        >
+          ×
+        </button>
+      )}
+      {collapsible && !query && (
+        <button
+          type="button"
+          className="search-clear"
+          aria-label="Close search"
+          onClick={collapse}
         >
           ×
         </button>
@@ -170,6 +228,7 @@ export default function SearchBar({ variant = 'nav' }) {
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => {
                     setOpen(false)
+                    if (collapsible) setExpanded(false)
                     navigate(`/store/${s.id}`)
                   }}
                 >
@@ -194,6 +253,7 @@ export default function SearchBar({ variant = 'nav' }) {
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => {
                     setOpen(false)
+                    if (collapsible) setExpanded(false)
                     navigate(`/product/${p.id}`)
                   }}
                 >
