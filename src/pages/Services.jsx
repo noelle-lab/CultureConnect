@@ -69,7 +69,7 @@ export default function Services() {
                 <li>Add-on to marketplace listing, or standalone</li>
               </ul>
               <div className="service-price">
-                $29/mo + {Math.round(COMMISSION_RATE * 0.5 * 100)}% per sale
+                $10/mo, no cost per sale
                 <br />
                 <small>Flat fee covers unlimited cross-listed products.</small>
               </div>
