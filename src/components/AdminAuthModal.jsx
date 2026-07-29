@@ -27,7 +27,6 @@ export default function AdminAuthModal({ onClose }) {
         <button className="modal-close" onClick={onClose} aria-label="Close">
           ✕
         </button>
-        <div style={{ fontSize: '2.4rem', lineHeight: 1 }}>🔐</div>
         <h2 style={{ fontSize: '1.4rem', margin: '10px 0 4px' }}>
           Admin sign in
         </h2>

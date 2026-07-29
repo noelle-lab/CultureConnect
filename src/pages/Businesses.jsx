@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useApp } from '../context/AppContext'
 
@@ -7,6 +7,8 @@ import { useApp } from '../context/AppContext'
 // through to its full business page.
 export default function Businesses() {
   const { publishedStores: stores, publishedProducts: products } = useApp()
+  const [query, setQuery] = useState('')
+  const [sort, setSort] = useState('featured')
 
   const countByStore = useMemo(() => {
     const m = {}
@@ -14,11 +16,27 @@ export default function Businesses() {
     return m
   }, [products])
 
-  // Sellers first (anything with live listings), then anyone still onboarding.
   const ordered = useMemo(() => {
-    const rank = (s) => (countByStore[s.id] > 0 ? 0 : 1)
-    return [...stores].sort((a, b) => rank(a) - rank(b))
-  }, [stores, countByStore])
+    let list = stores.filter((s) => {
+      if (!query) return true
+      const hay = `${s.name} ${s.owner} ${s.heritage} ${s.neighborhood} ${s.story}`.toLowerCase()
+      return hay.includes(query.toLowerCase())
+    })
+    const count = (s) => countByStore[s.id] || 0
+    if (sort === 'featured') {
+      // Sellers first (anything with live listings), then anyone still onboarding.
+      list = [...list].sort((a, b) => (count(b) > 0 ? 1 : 0) - (count(a) > 0 ? 1 : 0))
+    } else if (sort === 'name') {
+      list = [...list].sort((a, b) => a.name.localeCompare(b.name))
+    } else if (sort === 'name-desc') {
+      list = [...list].sort((a, b) => b.name.localeCompare(a.name))
+    } else if (sort === 'rating') {
+      list = [...list].sort((a, b) => (b.rating || 0) - (a.rating || 0))
+    } else if (sort === 'products') {
+      list = [...list].sort((a, b) => count(b) - count(a))
+    }
+    return list
+  }, [stores, countByStore, query, sort])
 
   return (
     <div className="container section">
@@ -37,6 +55,31 @@ export default function Businesses() {
         </Link>
       </div>
 
+      <div
+        className="flex between center wrap"
+        style={{ gap: 12, margin: '0 0 24px' }}
+      >
+        <input
+          className="input"
+          placeholder="Search businesses…"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{ maxWidth: 320 }}
+        />
+        <select
+          className="select"
+          style={{ maxWidth: 240 }}
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <option value="featured">Sort: Featured</option>
+          <option value="name">Name: A–Z</option>
+          <option value="name-desc">Name: Z–A</option>
+          <option value="rating">Rating: High to Low</option>
+          <option value="products">Most products</option>
+        </select>
+      </div>
+
       <div className="business-grid">
         {ordered.map((s) => {
           const count = countByStore[s.id] || 0
@@ -46,7 +89,7 @@ export default function Businesses() {
                 {s.image ? (
                   <img src={s.image} alt={`${s.name} storefront`} loading="lazy" />
                 ) : (
-                  <span className="thumb-emoji">{s.emoji}</span>
+                  <span className="thumb-fallback">{s.name?.charAt(0) || '?'}</span>
                 )}
               </Link>
 
@@ -56,7 +99,7 @@ export default function Businesses() {
                     {s.ownerImage ? (
                       <img src={s.ownerImage} alt={s.ownerName || s.owner} loading="lazy" />
                     ) : (
-                      <span>{s.emoji}</span>
+                      <span className="thumb-fallback">{(s.ownerName || s.owner || s.name)?.charAt(0) || '?'}</span>
                     )}
                   </span>
                   <span className="owner-meta">
@@ -66,7 +109,7 @@ export default function Businesses() {
                 </div>
 
                 <Link to={`/store/${s.id}`} className="business-name">
-                  {s.emoji} {s.name}
+                  {s.name}
                 </Link>
                 <div className="muted business-sub">
                   {s.heritage} · {s.neighborhood}
@@ -104,6 +147,12 @@ export default function Businesses() {
           )
         })}
       </div>
+
+      {ordered.length === 0 && (
+        <div className="empty">
+          <p>No businesses match your search.</p>
+        </div>
+      )}
     </div>
   )
 }

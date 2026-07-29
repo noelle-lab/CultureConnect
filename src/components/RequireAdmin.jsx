@@ -16,7 +16,6 @@ export default function RequireAdmin({ children }) {
         className="panel"
         style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center' }}
       >
-        <div style={{ fontSize: '3rem', marginBottom: 8 }}>🔐</div>
         <h2 style={{ marginBottom: 6 }}>Admin access only</h2>
         <p className="muted" style={{ marginTop: 0 }}>
           The operations console - shop discovery, listings, cross-listing,
@@ -40,7 +39,7 @@ export default function RequireAdmin({ children }) {
           className="btn btn-dark btn-block"
           onClick={() => setShowAuth(true)}
         >
-          🔐 Sign in with Google
+          Sign in with Google
         </button>
       </div>
       {showAuth && <AdminAuthModal onClose={() => setShowAuth(false)} />}

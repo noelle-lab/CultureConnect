@@ -13,7 +13,7 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-inner">
           <div>
-            <span className="eyebrow">🌍 Now serving New York City · SF &amp; DC next</span>
+            <span className="eyebrow">Now serving New York City · SF &amp; DC next</span>
             <h1>
               Authentic cultural goods, <span className="accent">delivered everywhere.</span>
             </h1>
@@ -25,7 +25,7 @@ export default function Home() {
             </p>
             <div className="hero-cta">
               <Link to="/shop" className="btn btn-primary">
-                🛍️ Shop the marketplace
+                Shop the marketplace
               </Link>
               <Link to="/services" className="btn btn-ghost">
                 Own a shop? List with us →
@@ -105,13 +105,11 @@ export default function Home() {
                   {s.image ? (
                     <img src={s.image} alt={`${s.name} storefront`} loading="lazy" />
                   ) : (
-                    <span className="thumb-emoji">{s.emoji}</span>
+                    <span className="thumb-fallback">{s.name?.charAt(0) || '?'}</span>
                   )}
                 </div>
                 <div className="shop-card-body">
-                  <div style={{ fontWeight: 700 }}>
-                    {s.emoji} {s.name}
-                  </div>
+                  <div style={{ fontWeight: 700 }}>{s.name}</div>
                   <div className="muted" style={{ fontSize: '0.85rem' }}>
                     {s.heritage} · {s.neighborhood}
                   </div>
@@ -150,7 +148,7 @@ export default function Home() {
                 Read our mission
               </Link>
               <Link to="/request-store" className="btn btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>
-                📍 Request your city
+                Request your city
               </Link>
             </div>
           </div>

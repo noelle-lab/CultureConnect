@@ -308,7 +308,6 @@ export function AppProvider({ children }) {
       category: 'Food & Pantry',
       inPersonPrice: 0,
       stock: 0,
-      emoji: '🏷️',
       crosslisted: [],
       description: '',
       image: '',

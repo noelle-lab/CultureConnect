@@ -22,7 +22,6 @@ export default function Discovery() {
     city: 'New York City',
     neighborhood: '',
     story: '',
-    emoji: '🏬',
   })
 
   const cities = useMemo(
@@ -58,7 +57,6 @@ export default function Discovery() {
       city: 'New York City',
       neighborhood: '',
       story: '',
-      emoji: '🏬',
     })
     setAdding(false)
   }
@@ -119,25 +117,14 @@ export default function Discovery() {
               />
             </div>
           </div>
-          <div className="grid-2">
-            <div className="field">
-              <label>Heritage / culture</label>
-              <input
-                className="input"
-                value={form.heritage}
-                onChange={(e) => setForm({ ...form, heritage: e.target.value })}
-                placeholder="e.g. Ethiopian"
-              />
-            </div>
-            <div className="field">
-              <label>Emoji</label>
-              <input
-                className="input"
-                value={form.emoji}
-                onChange={(e) => setForm({ ...form, emoji: e.target.value })}
-                maxLength={4}
-              />
-            </div>
+          <div className="field">
+            <label>Heritage / culture</label>
+            <input
+              className="input"
+              value={form.heritage}
+              onChange={(e) => setForm({ ...form, heritage: e.target.value })}
+              placeholder="e.g. Ethiopian"
+            />
           </div>
           <div className="grid-2">
             <div className="field">
@@ -200,7 +187,6 @@ export default function Discovery() {
                   className="panel"
                   style={{ padding: 14 }}
                 >
-                  <div style={{ fontSize: '1.4rem' }}>{s.emoji}</div>
                   <div style={{ fontWeight: 700, fontSize: '0.94rem' }}>{s.name}</div>
                   <div className="muted" style={{ fontSize: '0.78rem' }}>
                     {s.heritage || '-'} · {s.neighborhood || s.city}

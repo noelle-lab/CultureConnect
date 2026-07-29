@@ -121,7 +121,7 @@ export default function Team() {
               <CopyButton text={created.link} />
             </div>
             <p className="muted" style={{ fontSize: '0.85rem', margin: '10px 0 0' }}>
-              📧 Email this link to {created.email} yourself — the site won't send
+              Email this link to {created.email} yourself — the site won't send
               it for you. When they open it and sign in with Google, they get
               admin access. The link expires in 14 days and only works for that
               email.

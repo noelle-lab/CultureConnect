@@ -56,7 +56,12 @@ export default function Shop() {
       list = [...list].sort((a, b) => a.inPersonPrice - b.inPersonPrice)
     if (sort === 'price-desc')
       list = [...list].sort((a, b) => b.inPersonPrice - a.inPersonPrice)
-    if (sort === 'name') list = [...list].sort((a, b) => a.name.localeCompare(b.name))
+    if (sort === 'name')
+      list = [...list].sort((a, b) => a.name.localeCompare(b.name))
+    if (sort === 'name-desc')
+      list = [...list].sort((a, b) => b.name.localeCompare(a.name))
+    if (sort === 'stock')
+      list = [...list].sort((a, b) => b.stock - a.stock)
     return list
   }, [products, stores, storeFilter, activeCats, activeHeritages, query, sort])
 
@@ -99,6 +104,8 @@ export default function Shop() {
           <option value="price-asc">Price: Low to High</option>
           <option value="price-desc">Price: High to Low</option>
           <option value="name">Name: A–Z</option>
+          <option value="name-desc">Name: Z–A</option>
+          <option value="stock">Availability: Most in stock</option>
         </select>
       </div>
 
@@ -117,12 +124,10 @@ export default function Shop() {
                   {s.ownerImage ? (
                     <img src={s.ownerImage} alt={s.ownerName || s.owner} loading="lazy" />
                   ) : (
-                    <span>{s.emoji}</span>
+                    <span className="thumb-fallback">{s.name?.charAt(0) || '?'}</span>
                   )}
                 </span>
-                <span className="sbb-name">
-                  {s.emoji} {s.name}
-                </span>
+                <span className="sbb-name">{s.name}</span>
                 <span className="sbb-sub muted">{s.heritage}</span>
               </Link>
             ))}
@@ -190,7 +195,6 @@ export default function Shop() {
             </div>
           ) : (
             <div className="empty">
-              <div className="big">🔍</div>
               <p>No products match those filters yet.</p>
               <button className="btn btn-ghost btn-sm" onClick={clearFilters}>
                 Clear filters

@@ -80,7 +80,7 @@ export default function Finance() {
               className="btn btn-ghost btn-sm"
               onClick={() => alert('Demo: payouts marked as sent. In production this would trigger ACH transfers to each shop.')}
             >
-              💸 Run payouts
+              Run payouts
             </button>
           </div>
           <div className="table-wrap">
@@ -98,10 +98,7 @@ export default function Finance() {
                 {ledger.map((r) => (
                   <tr key={r.store.id}>
                     <td>
-                      <div className="flex center gap-8">
-                        <span style={{ fontSize: '1.2rem' }}>{r.store.emoji}</span>
-                        <span style={{ fontWeight: 600 }}>{r.store.name}</span>
-                      </div>
+                      <span style={{ fontWeight: 600 }}>{r.store.name}</span>
                     </td>
                     <td className="text-right">{r.units}</td>
                     <td className="text-right">{money(r.gross)}</td>

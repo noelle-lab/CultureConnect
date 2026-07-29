@@ -7,7 +7,7 @@ export default function HowItWorks() {
       {/* HERO */}
       <section className="hero">
         <div className="container" style={{ padding: '60px 0 44px' }}>
-          <span className="eyebrow">🧭 How CultureConnect works</span>
+          <span className="eyebrow">How CultureConnect works</span>
           <h1 style={{ fontSize: '2.8rem', maxWidth: '15em' }}>
             From a neighborhood shelf to your doorstep.
           </h1>
@@ -80,8 +80,8 @@ export default function HowItWorks() {
                 <li>Don't see your city yet? Request it and vote demand up the list.</li>
               </ul>
               <div style={{ marginTop: 18, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <Link to="/shop" className="btn btn-primary">🛍️ Shop the marketplace</Link>
-                <Link to="/request-store" className="btn btn-ghost">📍 Request your city</Link>
+                <Link to="/shop" className="btn btn-primary">Shop the marketplace</Link>
+                <Link to="/request-store" className="btn btn-ghost">Request your city</Link>
               </div>
             </div>
             <div className="panel" style={{ background: 'var(--saffron-soft)', borderColor: '#eeddb4' }}>
@@ -139,9 +139,9 @@ export default function HowItWorks() {
               where it starts.
             </p>
             <div style={{ marginTop: 20, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <Link to="/shop" className="btn btn-primary">🛍️ Shop now</Link>
+              <Link to="/shop" className="btn btn-primary">Shop now</Link>
               <Link to="/services" className="btn btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>
-                🤝 List your shop
+                List your shop
               </Link>
               <Link to="/contact" className="btn btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>
                 Talk to us

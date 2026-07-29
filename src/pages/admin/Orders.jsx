@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext'
 import { orderTotals, money } from '../../data/analytics'
 
@@ -10,10 +10,31 @@ export default function Orders() {
   // Local status overrides for the demo (orders live in seed/context; we keep
   // a lightweight local map so the admin can move them along visually).
   const [statusMap, setStatusMap] = useState({})
+  const [query, setQuery] = useState('')
+  const [sort, setSort] = useState('date-desc')
 
   function statusOf(o) {
     return statusMap[o.id] ?? o.status
   }
+
+  const visible = useMemo(() => {
+    let list = orders.filter((o) => {
+      if (!query) return true
+      const hay = `${o.id} ${o.buyer} ${o.city}`.toLowerCase()
+      return hay.includes(query.toLowerCase())
+    })
+    const grossOf = (o) => orderTotals(o, products).gross
+    const unitsOf = (o) => orderTotals(o, products).units
+    const cmp = {
+      'date-desc': (a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0),
+      'date-asc': (a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0),
+      'gross-desc': (a, b) => grossOf(b) - grossOf(a),
+      'gross-asc': (a, b) => grossOf(a) - grossOf(b),
+      'units-desc': (a, b) => unitsOf(b) - unitsOf(a),
+      buyer: (a, b) => a.buyer.localeCompare(b.buyer),
+    }[sort]
+    return cmp ? [...list].sort(cmp) : list
+  }, [orders, products, query, sort])
   function cycle(o) {
     const cur = statusOf(o)
     const idx = STATUSES.indexOf(cur)
@@ -26,6 +47,34 @@ export default function Orders() {
       <div className="admin-header">
         <h1>Orders</h1>
         <p>Every online order, with the commission split and fulfillment status.</p>
+      </div>
+
+      <div className="flex between center wrap" style={{ marginBottom: 16, gap: 12 }}>
+        <div className="flex center wrap" style={{ gap: 10 }}>
+          <input
+            className="input"
+            placeholder="Search orders…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{ width: 220 }}
+          />
+          <select
+            className="select"
+            style={{ width: 'auto' }}
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="date-desc">Date: Newest first</option>
+            <option value="date-asc">Date: Oldest first</option>
+            <option value="gross-desc">Gross: High to Low</option>
+            <option value="gross-asc">Gross: Low to High</option>
+            <option value="units-desc">Units: High to Low</option>
+            <option value="buyer">Buyer: A–Z</option>
+          </select>
+        </div>
+        <span className="muted" style={{ fontSize: '0.88rem' }}>
+          {visible.length} of {orders.length} orders
+        </span>
       </div>
 
       <div className="table-wrap">
@@ -44,7 +93,7 @@ export default function Orders() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((o) => {
+            {visible.map((o) => {
               const t = orderTotals(o, products)
               const st = statusOf(o)
               const isOpen = expanded === o.id
@@ -92,7 +141,7 @@ export default function Orders() {
                                 style={{ padding: '6px 0', fontSize: '0.88rem' }}
                               >
                                 <span>
-                                  {l.product.emoji} {l.product.name}{' '}
+                                  {l.product.name}{' '}
                                   <span className="muted">
                                     · {store?.name} × {l.qty}
                                   </span>

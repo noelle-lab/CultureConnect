@@ -70,14 +70,13 @@ export default function About() {
           </div>
           <div className="product-grid">
             {[
-              ['🫱🏽‍🫲🏾', 'Families first', 'Shops keep ~99% of their usual margin. We only earn when they sell.'],
-              ['✨', 'Authentic, not orientalist', 'Goods are presented by the families who make them, with real stories and heritage.'],
-              ['🗺️', 'Everywhere, not just hubs', 'We prioritize expansion to cities that are underserved, guided by real buyer demand.'],
-              ['🧑‍💻', 'We handle the tech', 'Listings, photos, marketing, cross-listing, and logistics - so shop owners don\'t have to.'],
-            ].map(([icon, title, body]) => (
+              ['Families first', 'Shops keep ~99% of their usual margin. We only earn when they sell.'],
+              ['Authentic, not orientalist', 'Goods are presented by the families who make them, with real stories and heritage.'],
+              ['Everywhere, not just hubs', 'We prioritize expansion to cities that are underserved, guided by real buyer demand.'],
+              ['We handle the tech', 'Listings, photos, marketing, cross-listing, and logistics - so shop owners don\'t have to.'],
+            ].map(([title, body]) => (
               <div className="panel" key={title}>
-                <div style={{ fontSize: '2rem' }}>{icon}</div>
-                <h3 style={{ fontSize: '1.1rem', margin: '8px 0 4px' }}>{title}</h3>
+                <h3 style={{ fontSize: '1.1rem', margin: '0 0 4px' }}>{title}</h3>
                 <p className="muted" style={{ fontSize: '0.9rem', margin: 0 }}>
                   {body}
                 </p>
@@ -98,7 +97,7 @@ export default function About() {
             </p>
             <div style={{ marginTop: 18, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Link to="/request-store" className="btn btn-primary">
-                📍 Request your city
+                Request your city
               </Link>
               <Link to="/services" className="btn btn-ghost" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>
                 Own a shop? Partner with us →

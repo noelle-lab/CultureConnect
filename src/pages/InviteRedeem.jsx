@@ -48,14 +48,12 @@ export default function InviteRedeem() {
       >
         {state.phase === 'verifying' && (
           <>
-            <div style={{ fontSize: '2.6rem' }}>⏳</div>
             <h2>Checking your invite…</h2>
           </>
         )}
 
         {state.phase === 'ready' && (
           <>
-            <div style={{ fontSize: '2.6rem' }}>🎉</div>
             <h2 style={{ marginBottom: 6 }}>You're invited</h2>
             <p className="muted" style={{ marginTop: 0 }}>
               Admin access has been unlocked for <strong>{state.email}</strong> on
@@ -94,7 +92,6 @@ export default function InviteRedeem() {
 
         {state.phase === 'error' && (
           <>
-            <div style={{ fontSize: '2.6rem' }}>🔒</div>
             <h2 style={{ marginBottom: 6 }}>This invite link isn't valid</h2>
             <p className="muted" style={{ marginTop: 0 }}>
               {state.reason === 'expired'

@@ -13,7 +13,7 @@ export default function ProductCard({ product }) {
         {product.image ? (
           <img src={product.image} alt={product.name} loading="lazy" />
         ) : (
-          <span className="thumb-emoji">{product.emoji}</span>
+          <span className="thumb-fallback">{product.name?.charAt(0) || '?'}</span>
         )}
       </Link>
       <div className="product-body">

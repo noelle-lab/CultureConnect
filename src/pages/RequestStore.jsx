@@ -45,7 +45,7 @@ export default function RequestStore() {
       <div className="detail-grid" style={{ gridTemplateColumns: '1fr 1.3fr' }}>
         {/* Form */}
         <form className="panel" onSubmit={submit} style={{ alignSelf: 'start' }}>
-          <h3 style={{ marginTop: 0 }}>📍 Request your city</h3>
+          <h3 style={{ marginTop: 0 }}>Request your city</h3>
           {submitted && (
             <div className="notice">
               Thanks! Your city has been added to the board below.
@@ -90,7 +90,7 @@ export default function RequestStore() {
         {/* Board */}
         <div>
           <div className="flex between center" style={{ marginBottom: 12 }}>
-            <h3 style={{ margin: 0 }}>🔥 Most-requested cities</h3>
+            <h3 style={{ margin: 0 }}>Most-requested cities</h3>
             <span className="muted" style={{ fontSize: '0.85rem' }}>
               {ranked.length} cities requested
             </span>

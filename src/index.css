@@ -759,21 +759,6 @@ h6 {
   display: flex;
   flex-direction: column;
 }
-.service-card .icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
-  font-size: 1.7rem;
-  margin-bottom: 16px;
-}
-.service-card.a .icon {
-  background: var(--saffron-soft);
-}
-.service-card.b .icon {
-  background: #e5eefb;
-}
 .service-card ul {
   list-style: none;
   padding: 0;
@@ -968,10 +953,6 @@ h6 {
 .admin-nav a.active {
   background: var(--clay);
   color: #fff;
-}
-.admin-nav .nav-ico {
-  width: 20px;
-  text-align: center;
 }
 .admin-nav .group-label {
   font-size: 0.66rem;
@@ -1293,7 +1274,16 @@ table.data tr:hover td {
   background: var(--sand-2);
   display: grid;
   place-items: center;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--clay);
+  overflow: hidden;
+}
+.cart-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .qty {
   display: inline-flex;
@@ -1492,11 +1482,24 @@ table.data tr:hover td {
   object-fit: cover;
   display: block;
 }
-.thumb-emoji {
-  font-size: 3.4rem;
+/* Neutral text placeholder shown when an item has no photo yet. */
+.thumb-fallback,
+.media-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--sand);
+  color: var(--clay);
+  font-weight: 700;
+  text-transform: uppercase;
 }
-.media-emoji {
-  font-size: 8rem;
+.thumb-fallback {
+  font-size: 2rem;
+}
+.media-fallback {
+  font-size: 4rem;
 }
 
 /* Product detail media now holds a real photo + credit overlay */
@@ -1615,12 +1618,8 @@ table.data tr:hover td {
   border-radius: var(--radius);
   padding: 18px;
 }
-.info-icon {
-  font-size: 1.6rem;
-  line-height: 1;
-}
 .info-card h4 {
-  margin: 10px 0 4px;
+  margin: 0 0 4px;
   font-size: 0.95rem;
 }
 .info-card p {
@@ -2031,6 +2030,15 @@ table.data tr:hover td {
   border-radius: 8px;
   object-fit: cover;
   border: 1px solid var(--line);
+}
+.row-thumb-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sand);
+  color: var(--clay);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* Image picker (URL or upload). */

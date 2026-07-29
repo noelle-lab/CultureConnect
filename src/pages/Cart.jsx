@@ -83,7 +83,6 @@ export default function Cart() {
           className="panel"
           style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}
         >
-          <div style={{ fontSize: '3.2rem' }}>🎉</div>
           <h2>Order confirmed!</h2>
           <p className="muted">
             Order <strong>{placed.id}</strong> is on its way to {placed.city}.
@@ -106,7 +105,6 @@ export default function Cart() {
     return (
       <div className="container section">
         <div className="empty">
-          <div className="big">🛒</div>
           <h2>Your cart is empty</h2>
           <p>Discover authentic goods from family-owned cultural shops.</p>
           <Link to="/shop" className="btn btn-primary">
@@ -124,11 +122,17 @@ export default function Cart() {
         <div>
           {lines.map((l) => (
             <div key={l.productId} className="cart-line">
-              <div className="cart-thumb">{l.product.emoji}</div>
+              <div className="cart-thumb">
+                {l.product.image ? (
+                  <img src={l.product.image} alt={l.product.name} />
+                ) : (
+                  l.product.name?.charAt(0) || '?'
+                )}
+              </div>
               <div>
                 <div style={{ fontWeight: 600 }}>{l.product.name}</div>
                 <div className="muted" style={{ fontSize: '0.83rem' }}>
-                  {l.store?.emoji} {l.store?.name} · ${l.unit.toFixed(2)} each
+                  {l.store?.name} · ${l.unit.toFixed(2)} each
                 </div>
                 <button
                   className="back-link"

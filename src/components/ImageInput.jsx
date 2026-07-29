@@ -60,7 +60,7 @@ export default function ImageInput({
             placeholder={
               value?.startsWith('data:')
                 ? 'Uploaded image'
-                : 'Paste image URL, or upload →'
+                : 'Paste image URL, or upload'
             }
             disabled={value?.startsWith('data:')}
           />
@@ -70,7 +70,7 @@ export default function ImageInput({
               className="btn btn-ghost btn-sm"
               onClick={() => fileRef.current?.click()}
             >
-              ⬆ Upload
+              Upload
             </button>
             {value && (
               <button

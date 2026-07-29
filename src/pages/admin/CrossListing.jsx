@@ -4,8 +4,8 @@ import { onlinePrice } from '../../data/mockData'
 import { money } from '../../data/analytics'
 
 const CHANNELS = [
-  { key: 'etsy', label: 'Etsy', badge: 'badge-etsy', emoji: '🧵' },
-  { key: 'ebay', label: 'eBay', badge: 'badge-ebay', emoji: '🏷️' },
+  { key: 'etsy', label: 'Etsy', badge: 'badge-etsy' },
+  { key: 'ebay', label: 'eBay', badge: 'badge-ebay' },
 ]
 
 // Cross-listing control center: publish/unpublish each product to Etsy & eBay.
@@ -46,9 +46,7 @@ export default function CrossListing() {
         {stats.map((s) => (
           <div className="kpi" key={s.key}>
             <div className="label">Live on {s.label}</div>
-            <div className="value">
-              {s.emoji} {s.count}
-            </div>
+            <div className="value">{s.count}</div>
             <div className="delta">of {eligible.length} eligible products</div>
           </div>
         ))}
@@ -56,7 +54,6 @@ export default function CrossListing() {
 
       {eligible.length === 0 ? (
         <div className="empty">
-          <div className="big">🔁</div>
           <p>
             No shops are enrolled in cross-listing yet. Enable it per shop under{' '}
             <strong>Partner Shops</strong>.
@@ -73,7 +70,7 @@ export default function CrossListing() {
                 <th className="text-right">Stock</th>
                 {CHANNELS.map((c) => (
                   <th key={c.key} style={{ textAlign: 'center' }}>
-                    {c.emoji} {c.label}
+                    {c.label}
                   </th>
                 ))}
               </tr>
@@ -84,14 +81,9 @@ export default function CrossListing() {
                 return (
                   <tr key={p.id}>
                     <td>
-                      <div className="flex center gap-8">
-                        <span style={{ fontSize: '1.3rem' }}>{p.emoji}</span>
-                        <span style={{ fontWeight: 600 }}>{p.name}</span>
-                      </div>
+                      <span style={{ fontWeight: 600 }}>{p.name}</span>
                     </td>
-                    <td className="muted">
-                      {store?.emoji} {store?.name}
-                    </td>
+                    <td className="muted">{store?.name}</td>
                     <td className="text-right" style={{ fontWeight: 600 }}>
                       {money(onlinePrice(p.inPersonPrice))}
                     </td>

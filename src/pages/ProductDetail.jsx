@@ -16,7 +16,6 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="container empty">
-        <div className="big">🫙</div>
         <p>That product could not be found.</p>
         <Link to="/shop" className="btn btn-primary btn-sm">
           Back to shop
@@ -48,7 +47,7 @@ export default function ProductDetail() {
           {product.image ? (
             <img src={product.image} alt={product.name} />
           ) : (
-            <span className="media-emoji">{product.emoji}</span>
+            <span className="media-fallback">{product.name?.charAt(0) || '?'}</span>
           )}
           {product.imageCredit && <PhotoCredit credit={product.imageCredit} />}
         </div>
@@ -65,7 +64,7 @@ export default function ProductDetail() {
             className="muted"
             style={{ fontWeight: 600, display: 'inline-block', marginBottom: 16 }}
           >
-            {store.emoji} {store.name} · {store.heritage} · {store.neighborhood}
+            {store.name} · {store.heritage} · {store.neighborhood}
           </Link>
 
           <p style={{ fontSize: '1.02rem', color: 'var(--charcoal)' }}>
@@ -91,7 +90,7 @@ export default function ProductDetail() {
 
           <div className="flex gap-12 wrap">
             <button className="btn btn-primary" onClick={handleAdd}>
-              {added ? '✓ Added to cart' : '🛒 Add to cart'}
+              {added ? '✓ Added to cart' : 'Add to cart'}
             </button>
             <button
               className="btn btn-dark"

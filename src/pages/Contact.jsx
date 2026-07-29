@@ -23,7 +23,7 @@ export default function Contact() {
       {/* HERO */}
       <section className="hero">
         <div className="container" style={{ padding: '60px 0 40px' }}>
-          <span className="eyebrow">✉️ We'd love to hear from you</span>
+          <span className="eyebrow">We'd love to hear from you</span>
           <h1 style={{ fontSize: '2.6rem', maxWidth: '15em' }}>
             Get in touch with CultureConnect.
           </h1>
@@ -43,7 +43,6 @@ export default function Contact() {
             <div className="panel">
               {sent ? (
                 <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                  <div style={{ fontSize: '2.6rem' }}>📨</div>
                   <h2 style={{ fontSize: '1.5rem', marginBottom: 6 }}>Thanks, {form.name.split(' ')[0]}!</h2>
                   <p className="muted" style={{ maxWidth: '32em', margin: '0 auto' }}>
                     We've got your message and will reply to{' '}
