@@ -42,7 +42,13 @@ export default function Team() {
   const [created, setCreated] = useState(null) // most recent invite
   const [error, setError] = useState('')
 
-  const pending = invites.filter((i) => !i.redeemed)
+  // An invite is "pending" only until it's accepted. Once someone is on the
+  // admin roster they belong in the Admins section below — never in Pending —
+  // so we drop any invite whose email is already an admin, even in the rare case
+  // its redeemed flag didn't get set (e.g. accepted in another tab).
+  const pending = invites.filter(
+    (i) => !i.redeemed && !admins.some((a) => a.email === i.email),
+  )
 
   // Everyone we've ever invited who isn't currently an admin — the addresses
   // worth offering as a quick re-invite. Remembered across sessions.
