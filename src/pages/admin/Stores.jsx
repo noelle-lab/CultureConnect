@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext'
 import ImageInput from '../../components/ImageInput'
 
@@ -13,7 +13,6 @@ const BLANK = {
   address: '',
   hours: '',
   founded: '',
-  emoji: '🏬',
   story: '',
   longStory: '',
   image: '',
@@ -74,20 +73,14 @@ function BusinessEditor({ initial, onSave, onClose }) {
           </div>
         </div>
 
-        <div className="grid-2">
-          <div className="field">
-            <label>Heritage / culture</label>
-            <input
-              className="input"
-              value={form.heritage}
-              onChange={set('heritage')}
-              placeholder="e.g. Ethiopian"
-            />
-          </div>
-          <div className="field">
-            <label>Emoji</label>
-            <input className="input" value={form.emoji} onChange={set('emoji')} maxLength={4} />
-          </div>
+        <div className="field">
+          <label>Heritage / culture</label>
+          <input
+            className="input"
+            value={form.heritage}
+            onChange={set('heritage')}
+            placeholder="e.g. Ethiopian"
+          />
         </div>
 
         <div className="grid-2">
@@ -203,10 +196,31 @@ function BusinessEditor({ initial, onSave, onClose }) {
 export default function Stores() {
   const { stores, products, updateStore, addStore } = useApp()
   const [editor, setEditor] = useState(null) // null | { store } | 'new'
+  const [query, setQuery] = useState('')
+  const [sort, setSort] = useState('name')
 
   function productCount(storeId) {
     return products.filter((p) => p.storeId === storeId).length
   }
+
+  const visible = useMemo(() => {
+    let list = stores.filter((s) => {
+      if (!query) return true
+      const hay = `${s.name} ${s.owner} ${s.heritage} ${s.neighborhood} ${s.city} ${s.status}`.toLowerCase()
+      return hay.includes(query.toLowerCase())
+    })
+    const cmp = {
+      name: (a, b) => a.name.localeCompare(b.name),
+      'name-desc': (a, b) => b.name.localeCompare(a.name),
+      rating: (a, b) => (b.rating || 0) - (a.rating || 0),
+      listings: (a, b) => productCount(b.id) - productCount(a.id),
+      'founded-asc': (a, b) => (a.founded || Infinity) - (b.founded || Infinity),
+      'founded-desc': (a, b) => (b.founded || 0) - (a.founded || 0),
+      status: (a, b) => a.status.localeCompare(b.status),
+    }[sort]
+    return cmp ? [...list].sort(cmp) : list
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stores, products, query, sort])
 
   function toggleService(store, service) {
     const has = store.services.includes(service)
@@ -234,9 +248,32 @@ export default function Stores() {
       </div>
 
       <div className="flex between center wrap" style={{ marginBottom: 16, gap: 12 }}>
-        <span className="muted" style={{ fontSize: '0.88rem' }}>
-          {stores.length} businesses
-        </span>
+        <div className="flex center wrap" style={{ gap: 10 }}>
+          <input
+            className="input"
+            placeholder="Search businesses…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{ width: 220 }}
+          />
+          <select
+            className="select"
+            style={{ width: 'auto' }}
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="name">Name: A–Z</option>
+            <option value="name-desc">Name: Z–A</option>
+            <option value="rating">Rating: High to Low</option>
+            <option value="listings">Most listings</option>
+            <option value="founded-asc">Founded: Oldest first</option>
+            <option value="founded-desc">Founded: Newest first</option>
+            <option value="status">Status</option>
+          </select>
+          <span className="muted" style={{ fontSize: '0.88rem' }}>
+            {visible.length} of {stores.length}
+          </span>
+        </div>
         <button className="btn btn-primary btn-sm" onClick={() => setEditor('new')}>
           ＋ New business
         </button>
@@ -256,14 +293,16 @@ export default function Stores() {
             </tr>
           </thead>
           <tbody>
-            {stores.map((s) => (
+            {visible.map((s) => (
               <tr key={s.id}>
                 <td>
                   <div className="flex center gap-8">
                     {s.image ? (
                       <img className="row-thumb" src={s.image} alt="" />
                     ) : (
-                      <span style={{ fontSize: '1.4rem' }}>{s.emoji}</span>
+                      <span className="row-thumb row-thumb-fallback">
+                        {s.name?.charAt(0) || '?'}
+                      </span>
                     )}
                     <div>
                       <div style={{ fontWeight: 600 }}>{s.name}</div>

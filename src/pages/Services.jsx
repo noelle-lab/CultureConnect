@@ -10,7 +10,7 @@ export default function Services() {
     <>
       <section className="hero" style={{ paddingBottom: 0 }}>
         <div className="container" style={{ padding: '56px 0 40px' }}>
-          <span className="eyebrow">🤝 For shop owners</span>
+          <span className="eyebrow">For shop owners</span>
           <h1 style={{ fontSize: '2.6rem', maxWidth: '16em' }}>
             You run the shop. We run the internet.
           </h1>
@@ -28,7 +28,6 @@ export default function Services() {
           <div className="service-grid">
             {/* Service A */}
             <div className="service-card a">
-              <div className="icon">🏪</div>
               <div className="eyebrow-sm">Service 1</div>
               <h2 style={{ fontSize: '1.5rem' }}>List on CultureConnect</h2>
               <p className="muted">
@@ -54,7 +53,6 @@ export default function Services() {
 
             {/* Service B */}
             <div className="service-card b anchor-target" id="crosslisting">
-              <div className="icon">🔁</div>
               <div className="eyebrow-sm">Service 2</div>
               <h2 style={{ fontSize: '1.5rem' }}>Cross-listing service</h2>
               <p className="muted">
@@ -130,7 +128,6 @@ export default function Services() {
           <div className="band" style={{ background: 'linear-gradient(150deg, var(--clay), var(--clay-dark))' }}>
             {sent ? (
               <div style={{ textAlign: 'center', padding: '10px 0' }}>
-                <div style={{ fontSize: '2.6rem' }}>📨</div>
                 <h2 style={{ color: '#fff' }}>Thanks - we'll be in touch!</h2>
                 <p style={{ color: '#f7e6d9' }}>
                   Our onboarding team reviews every shop personally. (Demo form -

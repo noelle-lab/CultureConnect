@@ -13,7 +13,6 @@ export default function StoreDetail() {
   if (!store) {
     return (
       <div className="container empty">
-        <div className="big">🏪</div>
         <p>That shop could not be found.</p>
         <Link to="/shop" className="btn btn-primary btn-sm">
           Back to marketplace
@@ -43,7 +42,7 @@ export default function StoreDetail() {
           {store.image ? (
             <img src={store.image} alt={`${store.name} storefront`} />
           ) : (
-            <span className="media-emoji">{store.emoji}</span>
+            <span className="media-fallback">{store.name?.charAt(0) || '?'}</span>
           )}
           {store.imageCredit && <PhotoCredit credit={store.imageCredit} />}
         </div>
@@ -65,9 +64,7 @@ export default function StoreDetail() {
             )}
           </div>
 
-          <h1>
-            {store.emoji} {store.name}
-          </h1>
+          <h1>{store.name}</h1>
           <p className="store-owner">
             Family-owned by {store.owner}
             {store.founded ? ` · Serving the neighborhood since ${store.founded}` : ''}
@@ -87,7 +84,7 @@ export default function StoreDetail() {
 
           <div className="hero-cta" style={{ marginTop: 22 }}>
             <a href="#shelf" className="btn btn-primary">
-              🛍️ Shop this store
+              Shop this store
             </a>
             {mapsUrl && (
               <a
@@ -96,7 +93,7 @@ export default function StoreDetail() {
                 rel="noopener noreferrer"
                 className="btn btn-ghost"
               >
-                📍 Get directions
+                Get directions
               </a>
             )}
             {etsyUrl && (
@@ -117,7 +114,6 @@ export default function StoreDetail() {
       <section className="container">
         <div className="store-info-grid">
           <div className="info-card">
-            <div className="info-icon">📍</div>
             <h4>Brick &amp; mortar</h4>
             <p>{store.address || `${store.neighborhood}, ${store.city}`}</p>
             {mapsUrl && (
@@ -133,12 +129,10 @@ export default function StoreDetail() {
             )}
           </div>
           <div className="info-card">
-            <div className="info-icon">🕒</div>
             <h4>Hours</h4>
             <p>{store.hours || 'Call ahead for hours'}</p>
           </div>
           <div className="info-card">
-            <div className="info-icon">🌍</div>
             <h4>Heritage</h4>
             <p>
               {store.heritage}
@@ -147,7 +141,6 @@ export default function StoreDetail() {
             </p>
           </div>
           <div className="info-card">
-            <div className="info-icon">🤝</div>
             <h4>On CultureConnect</h4>
             <p>
               {store.services?.includes('listing') && 'Marketplace listing'}
@@ -173,7 +166,7 @@ export default function StoreDetail() {
                   alt={`${store.ownerName || store.owner}, ${store.name}`}
                 />
               ) : (
-                <span className="media-emoji">{store.emoji}</span>
+                <span className="media-fallback">{store.name?.charAt(0) || '?'}</span>
               )}
               {store.ownerImageCredit && (
                 <PhotoCredit credit={store.ownerImageCredit} />
@@ -223,12 +216,11 @@ export default function StoreDetail() {
           </div>
         ) : (
           <div className="empty">
-            <div className="big">{store.emoji}</div>
             <p>
               This shop is still being onboarded. Want it in your city sooner?
             </p>
             <Link to="/request-store" className="btn btn-primary btn-sm">
-              📍 Request your city
+              Request your city
             </Link>
           </div>
         )}

@@ -43,7 +43,6 @@ export default function Search() {
 
       {!trimmed && (
         <div className="empty">
-          <div className="big">🔍</div>
           <p>Type something in the search bar above to get started.</p>
           <Link to="/shop" className="btn btn-ghost btn-sm">
             Browse all products →
@@ -53,7 +52,6 @@ export default function Search() {
 
       {trimmed && total === 0 && (
         <div className="empty">
-          <div className="big">🤷</div>
           <p>Nothing matched “{trimmed}”. Try a different word or heritage.</p>
           <Link to="/shop" className="btn btn-ghost btn-sm">
             Browse all products →
@@ -71,7 +69,7 @@ export default function Search() {
                 to={`/shop?heritage=${encodeURIComponent(h)}`}
                 className="badge badge-culture"
               >
-                🌍 {h}
+                {h}
               </Link>
             ))}
           </div>
@@ -94,13 +92,11 @@ export default function Search() {
                   {s.ownerImage ? (
                     <img src={s.ownerImage} alt={s.ownerName || s.owner} loading="lazy" />
                   ) : (
-                    <span>{s.emoji}</span>
+                    <span className="thumb-fallback">{s.name?.charAt(0) || '?'}</span>
                   )}
                 </span>
                 <span className="search-store-meta">
-                  <span className="search-store-name">
-                    {s.emoji} {s.name}
-                  </span>
+                  <span className="search-store-name">{s.name}</span>
                   <span className="muted">
                     {s.heritage} · {s.neighborhood}
                   </span>

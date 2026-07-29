@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext'
 import { onlinePrice, MARKUP } from '../../data/mockData'
 import { money } from '../../data/analytics'
@@ -21,7 +21,6 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
     category: CATEGORIES[0],
     inPersonPrice: '',
     stock: '',
-    emoji: '🏷️',
     description: '',
     image: '',
     crosslisted: [],
@@ -65,21 +64,15 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
           <select className="select" value={form.storeId} onChange={set('storeId')} required>
             {stores.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.emoji} {s.name}
+                {s.name}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="grid-2">
-          <div className="field">
-            <label>Product name *</label>
-            <input className="input" value={form.name} onChange={set('name')} required />
-          </div>
-          <div className="field">
-            <label>Emoji</label>
-            <input className="input" value={form.emoji} onChange={set('emoji')} maxLength={4} />
-          </div>
+        <div className="field">
+          <label>Product name *</label>
+          <input className="input" value={form.name} onChange={set('name')} required />
         </div>
 
         <div className="grid-2">
@@ -180,6 +173,29 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
 export default function Listings() {
   const { products, stores, updateProduct, addProduct, removeProduct } = useApp()
   const [editor, setEditor] = useState(null) // null | product | 'new'
+  const [query, setQuery] = useState('')
+  const [sort, setSort] = useState('name')
+
+  const storeName = (id) => stores.find((s) => s.id === id)?.name || ''
+
+  const visible = useMemo(() => {
+    let list = products.filter((p) => {
+      if (!query) return true
+      const hay = `${p.name} ${p.category} ${storeName(p.storeId)}`.toLowerCase()
+      return hay.includes(query.toLowerCase())
+    })
+    const cmp = {
+      name: (a, b) => a.name.localeCompare(b.name),
+      'name-desc': (a, b) => b.name.localeCompare(a.name),
+      'price-asc': (a, b) => a.inPersonPrice - b.inPersonPrice,
+      'price-desc': (a, b) => b.inPersonPrice - a.inPersonPrice,
+      'stock-desc': (a, b) => b.stock - a.stock,
+      'stock-asc': (a, b) => a.stock - b.stock,
+      shop: (a, b) => storeName(a.storeId).localeCompare(storeName(b.storeId)),
+    }[sort]
+    return cmp ? [...list].sort(cmp) : list
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [products, stores, query, sort])
 
   function handleSave(form) {
     if (editor === 'new') addProduct(form)
@@ -199,9 +215,32 @@ export default function Listings() {
       </div>
 
       <div className="flex between center wrap" style={{ marginBottom: 16, gap: 12 }}>
-        <span className="muted" style={{ fontSize: '0.88rem' }}>
-          {products.length} listings
-        </span>
+        <div className="flex center wrap" style={{ gap: 10 }}>
+          <input
+            className="input"
+            placeholder="Search listings…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{ width: 220 }}
+          />
+          <select
+            className="select"
+            style={{ width: 'auto' }}
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="name">Name: A–Z</option>
+            <option value="name-desc">Name: Z–A</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="stock-desc">Stock: High to Low</option>
+            <option value="stock-asc">Stock: Low to High</option>
+            <option value="shop">Shop: A–Z</option>
+          </select>
+          <span className="muted" style={{ fontSize: '0.88rem' }}>
+            {visible.length} of {products.length}
+          </span>
+        </div>
         <button
           className="btn btn-primary btn-sm"
           onClick={() => setEditor('new')}
@@ -226,7 +265,7 @@ export default function Listings() {
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => {
+            {visible.map((p) => {
               const store = stores.find((s) => s.id === p.storeId)
               return (
                 <tr key={p.id}>
@@ -235,14 +274,14 @@ export default function Listings() {
                       {p.image ? (
                         <img className="row-thumb" src={p.image} alt="" />
                       ) : (
-                        <span style={{ fontSize: '1.3rem' }}>{p.emoji}</span>
+                        <span className="row-thumb row-thumb-fallback">
+                          {p.name?.charAt(0) || '?'}
+                        </span>
                       )}
                       <span style={{ fontWeight: 600, maxWidth: 220 }}>{p.name}</span>
                     </div>
                   </td>
-                  <td className="muted">
-                    {store?.emoji} {store?.name}
-                  </td>
+                  <td className="muted">{store?.name}</td>
                   <td>
                     <span className="badge badge-culture">{p.category}</span>
                   </td>
@@ -286,7 +325,7 @@ export default function Listings() {
                         }}
                         title="Delete listing"
                       >
-                        🗑
+                        Delete
                       </button>
                     </div>
                   </td>

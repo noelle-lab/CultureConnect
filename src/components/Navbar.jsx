@@ -46,9 +46,9 @@ export default function Navbar() {
               </NavLink>
               <div className="nav-dropdown-menu">
                 <NavLink to="/shop" end>
-                  🛍️ All products
+                  All products
                 </NavLink>
-                <NavLink to="/businesses">🏬 Browse businesses</NavLink>
+                <NavLink to="/businesses">Browse businesses</NavLink>
               </div>
             </div>
             <NavLink to="/services">For Businesses</NavLink>
@@ -60,7 +60,7 @@ export default function Navbar() {
 
           <div className="nav-right">
             <Link to="/cart" className="cart-btn">
-              🛒 Cart
+              Cart
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </Link>
 
@@ -86,14 +86,14 @@ export default function Navbar() {
                     <hr />
                     {user.role === 'admin' && (
                       <Link to="/admin" onClick={() => setMenuOpen(false)}>
-                        🔐 Admin Dashboard
+                        Admin Dashboard
                       </Link>
                     )}
                     <Link to="/shop" onClick={() => setMenuOpen(false)}>
-                      🛍️ Continue shopping
+                      Continue shopping
                     </Link>
                     <Link to="/cart" onClick={() => setMenuOpen(false)}>
-                      🛒 Your cart
+                      Your cart
                     </Link>
                     <hr />
                     <button onClick={handleSignOut}>Sign out</button>

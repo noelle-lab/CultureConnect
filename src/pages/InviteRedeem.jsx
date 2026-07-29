@@ -65,14 +65,12 @@ export default function InviteRedeem() {
       >
         {state.phase === 'verifying' && (
           <>
-            <div style={{ fontSize: '2.6rem' }}>⏳</div>
             <h2>Checking your invite…</h2>
           </>
         )}
 
         {state.phase === 'invited' && (
           <>
-            <div style={{ fontSize: '2.6rem' }}>✉️</div>
             <h2 style={{ marginBottom: 6 }}>You've been invited</h2>
             <p className="muted" style={{ marginTop: 0 }}>
               <strong>{state.email}</strong> has been invited to join the
@@ -105,7 +103,6 @@ export default function InviteRedeem() {
 
         {state.phase === 'accepted' && (
           <>
-            <div style={{ fontSize: '2.6rem' }}>🎉</div>
             <h2 style={{ marginBottom: 6 }}>Invitation accepted</h2>
             <p className="muted" style={{ marginTop: 0 }}>
               <strong>{state.email}</strong> is now an admin, and we'll remember
@@ -145,7 +142,6 @@ export default function InviteRedeem() {
 
         {state.phase === 'error' && (
           <>
-            <div style={{ fontSize: '2.6rem' }}>🔒</div>
             <h2 style={{ marginBottom: 6 }}>This invite link isn't valid</h2>
             <p className="muted" style={{ marginTop: 0 }}>
               {state.reason === 'expired'

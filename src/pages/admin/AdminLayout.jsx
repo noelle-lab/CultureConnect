@@ -2,27 +2,27 @@ import { NavLink, Outlet, Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../../context/AppContext'
 
 const NAV = [
-  { group: 'Overview', items: [['', '📊', 'Dashboard', true]] },
+  { group: 'Overview', items: [['', 'Dashboard', true]] },
   {
     group: 'Sourcing',
     items: [
-      ['discovery', '🔎', 'Shop Discovery'],
-      ['stores', '🏪', 'Partner Shops'],
-      ['city-requests', '🗺️', 'City Buildout'],
+      ['discovery', 'Shop Discovery'],
+      ['stores', 'Partner Shops'],
+      ['city-requests', 'City Buildout'],
     ],
   },
   {
     group: 'Commerce',
     items: [
-      ['listings', '🏷️', 'Listings'],
-      ['crosslisting', '🔁', 'Cross-Listing'],
-      ['orders', '📦', 'Orders'],
-      ['finance', '💰', 'Finance & Payouts'],
+      ['listings', 'Listings'],
+      ['crosslisting', 'Cross-Listing'],
+      ['orders', 'Orders'],
+      ['finance', 'Finance & Payouts'],
     ],
   },
   {
     group: 'Team',
-    items: [['team', '👥', 'Team & Invites']],
+    items: [['team', 'Team & Invites']],
   },
 ]
 
@@ -128,20 +128,19 @@ export default function AdminLayout() {
       <div className="admin-shell">
         <aside className="admin-sidebar">
           <div className="admin-brand">
-            🔐 Operations <span className="tag">ADMIN</span>
+            Operations <span className="tag">ADMIN</span>
           </div>
           <nav className="admin-nav">
             {NAV.map((section) => (
               <div key={section.group}>
                 <div className="group-label">{section.group}</div>
-                {section.items.map(([path, ico, label, index]) => (
+                {section.items.map(([path, label, index]) => (
                   <NavLink
                     key={path}
                     to={path ? `/admin/${path}` : '/admin'}
                     end={!!index || path === ''}
                     className={({ isActive }) => (isActive ? 'active' : '')}
                   >
-                    <span className="nav-ico">{ico}</span>
                     {label}
                   </NavLink>
                 ))}

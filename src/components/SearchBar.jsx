@@ -139,9 +139,6 @@ export default function SearchBar({ variant = 'nav' }) {
       onSubmit={handleSubmit}
       role="search"
     >
-      <span className="search-icon" aria-hidden="true">
-        🔍
-      </span>
       <input
         ref={inputRef}
         className="search-input"
@@ -193,7 +190,6 @@ export default function SearchBar({ variant = 'nav' }) {
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => goToResults()}
           >
-            <span className="suggest-icon">🔍</span>
             <span className="suggest-text">
               Search for “<strong>{query.trim()}</strong>”
             </span>
@@ -210,7 +206,6 @@ export default function SearchBar({ variant = 'nav' }) {
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => goToResults(h)}
                 >
-                  <span className="suggest-icon">🌍</span>
                   <span className="suggest-text">{h}</span>
                 </button>
               ))}
@@ -232,7 +227,13 @@ export default function SearchBar({ variant = 'nav' }) {
                     navigate(`/store/${s.id}`)
                   }}
                 >
-                  <span className="suggest-icon">{s.emoji || '🏬'}</span>
+                  <span className="suggest-thumb">
+                    {s.image ? (
+                      <img src={s.image} alt="" />
+                    ) : (
+                      s.name?.charAt(0) || '?'
+                    )}
+                  </span>
                   <span className="suggest-text">
                     {s.name}
                     <span className="suggest-sub">{s.heritage}</span>
@@ -257,7 +258,13 @@ export default function SearchBar({ variant = 'nav' }) {
                     navigate(`/product/${p.id}`)
                   }}
                 >
-                  <span className="suggest-icon">{p.emoji || '🏷️'}</span>
+                  <span className="suggest-thumb">
+                    {p.image ? (
+                      <img src={p.image} alt="" />
+                    ) : (
+                      p.name?.charAt(0) || '?'
+                    )}
+                  </span>
                   <span className="suggest-text">
                     {p.name}
                     <span className="suggest-sub">{p.category}</span>

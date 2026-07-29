@@ -61,7 +61,7 @@ export default function Footer() {
         <div className="footer-admin">
           {user?.role === 'admin' ? (
             <Link to="/admin" className="footer-admin-link">
-              🔐 Admin console
+              Admin console
             </Link>
           ) : (
             <button
