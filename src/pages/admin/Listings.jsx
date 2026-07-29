@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext'
+import { useFormDraft } from '../../lib/useFormDraft'
 import { onlinePrice, MARKUP } from '../../data/mockData'
 import { money } from '../../data/analytics'
 import ImageInput from '../../components/ImageInput'
@@ -15,17 +16,23 @@ const CATEGORIES = [
 // including its description and photo.
 function ListingEditor({ initial, stores, onSave, onClose }) {
   const isNew = !initial?.id
-  const [form, setForm] = useState({
-    storeId: stores[0]?.id || '',
-    name: '',
-    category: CATEGORIES[0],
-    inPersonPrice: '',
-    stock: '',
-    description: '',
-    image: '',
-    crosslisted: [],
-    ...initial,
-  })
+  // Auto-save the in-progress listing so an admin doesn't lose a half-entered
+  // product to an accidental close, backdrop click, or refresh. A new listing
+  // and each existing product get their own draft slot.
+  const { form, setForm, draftRestored, clearDraft, resetDraft } = useFormDraft(
+    `listing.${initial?.id || 'new'}`,
+    {
+      storeId: stores[0]?.id || '',
+      name: '',
+      category: CATEGORIES[0],
+      inPersonPrice: '',
+      stock: '',
+      description: '',
+      image: '',
+      crosslisted: [],
+      ...initial,
+    },
+  )
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
   function toggleChannel(ch) {
@@ -40,6 +47,7 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
   function submit(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.storeId) return
+    clearDraft() // saved for real now — drop the in-progress draft
     onSave({
       ...form,
       inPersonPrice: Number(form.inPersonPrice) || 0,
@@ -58,6 +66,22 @@ function ListingEditor({ initial, stores, onSave, onClose }) {
         <h2 style={{ fontSize: '1.4rem', marginTop: 0, marginBottom: 16 }}>
           {isNew ? 'New listing' : `Edit ${initial.name}`}
         </h2>
+
+        {draftRestored && (
+          <div className="draft-note">
+            <span>
+              <strong>Restored your unsaved progress.</strong> Pick up where you
+              left off, or start over.
+            </span>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={resetDraft}
+            >
+              Start fresh
+            </button>
+          </div>
+        )}
 
         <div className="field">
           <label>Business *</label>

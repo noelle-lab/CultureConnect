@@ -590,6 +590,26 @@ h6 {
 }
 
 /* ---------------- Forms ---------------- */
+/* "We restored your unsaved progress" note shown atop an admin editor when a
+   saved draft is brought back after an accidental close / refresh. */
+.draft-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: var(--clay-dark);
+  background: rgba(123, 44, 191, 0.08);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.draft-note strong {
+  font-weight: 700;
+}
+
 .field {
   margin-bottom: 14px;
 }

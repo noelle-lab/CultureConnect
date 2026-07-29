@@ -1,5 +1,15 @@
 import { useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext'
+import { useFormDraft } from '../../lib/useFormDraft'
+
+const BLANK_PROSPECT = {
+  name: '',
+  owner: '',
+  heritage: '',
+  city: 'New York City',
+  neighborhood: '',
+  story: '',
+}
 
 const PIPELINE = ['prospect', 'contacted', 'onboarding', 'active']
 const STAGE_LABEL = {
@@ -14,15 +24,15 @@ const STAGE_LABEL = {
 export default function Discovery() {
   const { stores, addStore, updateStore } = useApp()
   const [cityFilter, setCityFilter] = useState('all')
-  const [adding, setAdding] = useState(false)
-  const [form, setForm] = useState({
-    name: '',
-    owner: '',
-    heritage: '',
-    city: 'New York City',
-    neighborhood: '',
-    story: '',
-  })
+  // Auto-save the in-progress prospect so research notes survive an accidental
+  // "Cancel", a page refresh, or navigating away before logging the shop.
+  const { form, setForm, draftRestored, resetDraft } = useFormDraft(
+    'discovery.new',
+    BLANK_PROSPECT,
+  )
+  // If there's restored, unlogged progress, open the form straight away so the
+  // admin sees it rather than a blank board.
+  const [adding, setAdding] = useState(draftRestored)
 
   const cities = useMemo(
     () => ['all', ...new Set(stores.map((s) => s.city))],
@@ -50,14 +60,7 @@ export default function Discovery() {
     e.preventDefault()
     if (!form.name.trim()) return
     addStore({ ...form, status: 'prospect', services: [], rating: null })
-    setForm({
-      name: '',
-      owner: '',
-      heritage: '',
-      city: 'New York City',
-      neighborhood: '',
-      story: '',
-    })
+    resetDraft() // logged for real now — clear the form and its saved draft
     setAdding(false)
   }
 
@@ -97,6 +100,21 @@ export default function Discovery() {
       {adding && (
         <form className="panel" onSubmit={submit} style={{ marginBottom: 20 }}>
           <h3 style={{ marginTop: 0 }}>Log a prospective shop</h3>
+          {draftRestored && (
+            <div className="draft-note">
+              <span>
+                <strong>Restored your unsaved progress.</strong> Pick up where
+                you left off, or start over.
+              </span>
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={resetDraft}
+              >
+                Start fresh
+              </button>
+            </div>
+          )}
           <div className="grid-2">
             <div className="field">
               <label>Shop name</label>
