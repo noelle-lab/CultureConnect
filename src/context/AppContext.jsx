@@ -12,6 +12,7 @@ import {
   verifyInviteToken,
   inviteLinkFor,
 } from '../lib/adminAuth'
+import { clearAllDrafts } from '../lib/useFormDraft'
 
 const AppContext = createContext(null)
 
@@ -441,6 +442,8 @@ export function AppProvider({ children }) {
 
   function resetDemo() {
     localStorage.removeItem(STORAGE_KEY)
+    // Also drop any half-finished new-business / new-listing form drafts.
+    clearAllDrafts()
     setUser(null)
     setCart([])
     setStores(seedStores)

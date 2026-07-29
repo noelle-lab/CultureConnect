@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext'
+import { useFormDraft } from '../../lib/useFormDraft'
 import ImageInput from '../../components/ImageInput'
 
 const STATUS_OPTIONS = ['prospect', 'contacted', 'onboarding', 'active']
@@ -23,14 +24,21 @@ const BLANK = {
 // Modal editor used for both creating a new business and editing an existing
 // one — including its short + full bio and its storefront photo.
 function BusinessEditor({ initial, onSave, onClose }) {
-  const [form, setForm] = useState({ ...BLANK, ...initial })
+  const isNew = !initial?.id
+  // Auto-save this editor's in-progress values so an admin never loses a
+  // half-entered business to an accidental close, backdrop click, or refresh.
+  // A new business and each existing shop get their own draft slot.
+  const { form, setForm, draftRestored, clearDraft, resetDraft } = useFormDraft(
+    `business.${initial?.id || 'new'}`,
+    { ...BLANK, ...initial },
+  )
   const set = (k) => (e) =>
     setForm({ ...form, [k]: e?.target ? e.target.value : e })
-  const isNew = !initial?.id
 
   function submit(e) {
     e.preventDefault()
     if (!form.name.trim()) return
+    clearDraft() // saved for real now — drop the in-progress draft
     onSave({
       ...form,
       founded: form.founded ? Number(form.founded) : null,
@@ -56,6 +64,22 @@ function BusinessEditor({ initial, onSave, onClose }) {
         <h2 style={{ fontSize: '1.4rem', marginTop: 0, marginBottom: 16 }}>
           {isNew ? 'New business' : `Edit ${initial.name}`}
         </h2>
+
+        {draftRestored && (
+          <div className="draft-note">
+            <span>
+              <strong>Restored your unsaved progress.</strong> Pick up where you
+              left off, or start over.
+            </span>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={resetDraft}
+            >
+              Start fresh
+            </button>
+          </div>
+        )}
 
         <div className="grid-2">
           <div className="field">
