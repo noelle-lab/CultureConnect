@@ -78,6 +78,13 @@ export function AppProvider({ children }) {
   // Admin roster + outstanding invite links (see src/lib/adminAuth.js).
   const [admins, setAdmins] = useState(persisted?.admins ?? seedAdmins)
   const [invites, setInvites] = useState(persisted?.invites ?? [])
+  // A lasting memory of every email that's ever been invited — even after an
+  // invite is redeemed, revoked, or the person is later removed. This is what
+  // powers the "previously invited" autocomplete on the Team page, so an admin
+  // never has to retype an address they've invited before.
+  const [invitedEmails, setInvitedEmails] = useState(
+    persisted?.invitedEmails ?? [],
+  )
 
   // Persist everything so the demo survives refreshes.
   useEffect(() => {
@@ -92,6 +99,7 @@ export function AppProvider({ children }) {
       orders,
       admins,
       invites,
+      invitedEmails,
     }
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot))
@@ -109,6 +117,7 @@ export function AppProvider({ children }) {
     orders,
     admins,
     invites,
+    invitedEmails,
   ])
 
   // --- Buyer auth (fake) ---------------------------------------------------
@@ -175,6 +184,9 @@ export function AppProvider({ children }) {
     const token = await createInviteToken(clean)
     const link = inviteLinkFor(token)
     const id = `inv-${Date.now()}`
+    // Remember this address forever (most-recent first, no duplicates), so it's
+    // offered as a suggestion next time — even if the invite is later revoked.
+    setInvitedEmails((prev) => [clean, ...prev.filter((e) => e !== clean)])
     setInvites((prev) => [
       {
         id,
@@ -190,27 +202,46 @@ export function AppProvider({ children }) {
     return { id, email: clean, token, link }
   }
 
-  // Redeem a token (called from the /invite page on the invitee's device).
-  // Adds the email to the admin roster. Returns { ok, email } or { ok:false }.
-  async function redeemInvite(token) {
+  // Check an invite link WITHOUT accepting it (called on the /invite page load).
+  // Read-only: it never touches the admin roster, so opening a link doesn't grant
+  // access on its own — the invitee has to click "Accept invitation" for that.
+  // Returns { ok, email, alreadyAdmin } or { ok:false, reason }.
+  async function verifyInvite(token) {
+    const res = await verifyInviteToken(token)
+    if (!res.ok) return res
+    return { ok: true, email: res.email, alreadyAdmin: isAuthorizedAdmin(res.email) }
+  }
+
+  // Accept an invite (the invitee clicks "Accept invitation" on the /invite page).
+  // This is the deliberate step that adds the email to the admin roster and
+  // remembers the account on this device (persisted to localStorage, so it
+  // survives refreshes and return visits). Returns { ok, email } or { ok:false }.
+  async function acceptInvite(token) {
     const res = await verifyInviteToken(token)
     if (!res.ok) return res
     const email = res.email
+    const today = new Date().toISOString().slice(0, 10)
     setAdmins((prev) =>
       prev.some((a) => a.email === email)
-        ? prev
+        ? // Already remembered — just note that they (re)accepted.
+          prev.map((a) =>
+            a.email === email ? { ...a, acceptedAt: a.acceptedAt || today } : a,
+          )
         : [
             ...prev,
             {
               email,
               name: '',
               status: 'active',
-              addedAt: new Date().toISOString().slice(0, 10),
+              addedAt: today,
+              acceptedAt: today,
             },
           ],
     )
     setInvites((prev) =>
-      prev.map((i) => (i.token === token ? { ...i, redeemed: true } : i)),
+      prev.map((i) =>
+        i.token === token ? { ...i, redeemed: true, acceptedAt: today } : i,
+      ),
     )
     return { ok: true, email }
   }
@@ -387,6 +418,7 @@ export function AppProvider({ children }) {
     // does NOT touch anyone's real Google account — only our local allow-list.
     setAdmins(seedAdmins)
     setInvites([])
+    setInvitedEmails([])
   }
 
   const value = useMemo(
@@ -402,12 +434,16 @@ export function AppProvider({ children }) {
       orders,
       admins,
       invites,
+      invitedEmails,
       signIn,
       signOut,
       isAuthorizedAdmin,
       signInAdminGoogle,
       createInvite,
-      redeemInvite,
+      verifyInvite,
+      acceptInvite,
+      // Back-compat alias: acceptInvite is the deliberate "accept" action.
+      redeemInvite: acceptInvite,
       revokeInvite,
       revokeAdmin,
       addToCart,
@@ -440,6 +476,7 @@ export function AppProvider({ children }) {
       orders,
       admins,
       invites,
+      invitedEmails,
     ],
   )
 

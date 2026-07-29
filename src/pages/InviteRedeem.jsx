@@ -5,15 +5,19 @@ import GoogleSignInButton from '../components/GoogleSignInButton'
 
 // Public landing page for an invite link: /invite?token=…
 //
-// Redeeming a valid link adds the invited email to the admin roster (on this
-// device), then invites them to sign in with the matching Google account.
+// Flow:
+//   1. On load we only VERIFY the link (read-only) — opening it grants nothing.
+//   2. The invitee clicks "Accept invitation". That deliberate step adds their
+//      email to the admin roster and remembers the account on this device.
+//   3. They then sign in with the matching Google account to enter the console.
 export default function InviteRedeem() {
   const [params] = useSearchParams()
   const token = params.get('token')
-  const { redeemInvite, signInAdminGoogle } = useApp()
+  const { verifyInvite, acceptInvite, signInAdminGoogle } = useApp()
   const navigate = useNavigate()
 
   const [state, setState] = useState({ phase: 'verifying' })
+  const [accepting, setAccepting] = useState(false)
   const [signInError, setSignInError] = useState(null)
 
   useEffect(() => {
@@ -22,9 +26,14 @@ export default function InviteRedeem() {
       setState({ phase: 'error', reason: 'no-token' })
       return
     }
-    redeemInvite(token).then((res) => {
+    verifyInvite(token).then((res) => {
       if (cancelled) return
-      if (res.ok) setState({ phase: 'ready', email: res.email })
+      if (res.ok)
+        setState({
+          phase: 'invited',
+          email: res.email,
+          alreadyAdmin: res.alreadyAdmin,
+        })
       else setState({ phase: 'error', reason: res.reason })
     })
     return () => {
@@ -33,6 +42,14 @@ export default function InviteRedeem() {
     // token is stable for the life of this page
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
+
+  async function handleAccept() {
+    setAccepting(true)
+    const res = await acceptInvite(token)
+    setAccepting(false)
+    if (res.ok) setState((s) => ({ ...s, phase: 'accepted', email: res.email }))
+    else setState({ phase: 'error', reason: res.reason })
+  }
 
   function handleSignIn(profile) {
     const res = signInAdminGoogle(profile)
@@ -52,12 +69,45 @@ export default function InviteRedeem() {
           </>
         )}
 
-        {state.phase === 'ready' && (
+        {state.phase === 'invited' && (
           <>
-            <h2 style={{ marginBottom: 6 }}>You're invited</h2>
+            <h2 style={{ marginBottom: 6 }}>You've been invited</h2>
             <p className="muted" style={{ marginTop: 0 }}>
-              Admin access has been unlocked for <strong>{state.email}</strong> on
-              this device. Sign in with that Google account to continue.
+              <strong>{state.email}</strong> has been invited to join the
+              CultureConnect team as an <strong>admin</strong>. Accept below to
+              add this account and remember it on this device.
+            </p>
+            {state.alreadyAdmin && (
+              <div className="notice" style={{ textAlign: 'left' }}>
+                This account already has admin access on this device. Accepting
+                again is harmless — you can go straight to signing in.
+              </div>
+            )}
+            <button
+              className="btn btn-dark btn-block"
+              style={{ marginTop: 10 }}
+              onClick={handleAccept}
+              disabled={accepting}
+            >
+              {accepting ? 'Accepting…' : '✓ Accept invitation'}
+            </button>
+            <Link
+              to="/"
+              className="btn btn-ghost btn-block"
+              style={{ marginTop: 8 }}
+            >
+              Not now
+            </Link>
+          </>
+        )}
+
+        {state.phase === 'accepted' && (
+          <>
+            <h2 style={{ marginBottom: 6 }}>Invitation accepted</h2>
+            <p className="muted" style={{ marginTop: 0 }}>
+              <strong>{state.email}</strong> is now an admin, and we'll remember
+              this account on this device. Sign in with that Google account to
+              open the console.
             </p>
 
             {signInError && (
