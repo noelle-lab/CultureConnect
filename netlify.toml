@@ -17,6 +17,23 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Serverless API. The React app talks to the shared Postgres database through
+# these functions (see netlify/functions/). Bundling with esbuild so they can
+# import the seed data from src/data/mockData.js. The DATABASE_URL env var
+# (set in Site settings → Environment variables) points them at the database.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Pretty API paths: /api/state and /api/mutate map to the functions of the same
+# name. This MUST come before the SPA catch-all below, because Netlify applies
+# redirects top-to-bottom and the first match wins — otherwise /api/* would be
+# swallowed by the index.html rewrite and never reach the function.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
 # Single-page-app fallback: every path serves index.html so client-side
 # routes (e.g. /shop, /admin, /product/:id) work on direct load and refresh.
 # Non-forced rewrite, so real built assets in dist/ are still served directly.

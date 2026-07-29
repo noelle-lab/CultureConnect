@@ -11,6 +11,14 @@ dist
 dist-ssr
 *.local
 
+# Local secrets (DATABASE_URL, invite secret, Google client id, …)
+.env
+.env.*
+!.env.example
+
+# Netlify CLI local state
+.netlify
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
