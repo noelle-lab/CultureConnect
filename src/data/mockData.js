@@ -2167,6 +2167,52 @@ export const cityRequests = [
 ]
 
 // ---------------------------------------------------------------------------
+// Partner-shop requests (submitted by shop owners on the "For Businesses" page)
+// These land in the admin console's Partner Requests board, where the team
+// triages each one and moves promising shops into the research pipeline.
+// ---------------------------------------------------------------------------
+export const partnerRequests = [
+  {
+    id: 'pr-mercado-verde',
+    shop: 'Mercado Verde',
+    contact: 'The Reyes Family',
+    email: 'hola@mercadoverde.shop',
+    city: 'Jackson Heights, Queens',
+    heritage: 'Ecuadorian',
+    service: 'listing', // listing | crosslisting | both
+    message:
+      'Family grocery specializing in Andean pantry staples and hand-woven goods. We ship locally already and would love to reach more people.',
+    status: 'new', // new | research | approved | declined
+    date: '2026-07-27',
+  },
+  {
+    id: 'pr-sahan-imports',
+    shop: 'Sahan Imports',
+    contact: 'Amina Yusuf',
+    email: 'amina@sahanimports.shop',
+    city: 'Columbus, OH',
+    heritage: 'Somali',
+    service: 'both',
+    message:
+      'We sell frankincense, textiles, and home goods. Already on Etsy but struggling to keep listings in sync.',
+    status: 'research',
+    date: '2026-07-21',
+  },
+  {
+    id: 'pr-little-manila-sweets',
+    shop: 'Little Manila Sweets',
+    contact: 'Joy Bautista',
+    email: 'joy@littlemanilasweets.shop',
+    city: 'Daly City, CA',
+    heritage: 'Filipino',
+    service: 'crosslisting',
+    message: 'Kakanin and heirloom baking. Want help cross-listing to eBay.',
+    status: 'new',
+    date: '2026-07-29',
+  },
+]
+
+// ---------------------------------------------------------------------------
 // Sample orders (for the admin dashboard + finance views)
 // ---------------------------------------------------------------------------
 export const orders = [

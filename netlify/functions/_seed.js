@@ -11,6 +11,7 @@ import {
   stores as seedStores,
   products as seedProducts,
   cityRequests as seedCityRequests,
+  partnerRequests as seedPartnerRequests,
   orders as seedOrders,
 } from '../../src/data/mockData.js'
 
@@ -32,6 +33,7 @@ export const COLLECTION_NAMES = [
   'publishedStores',
   'publishedProducts',
   'cityRequests',
+  'partnerRequests',
   'orders',
   'admins',
   'invites',
@@ -50,6 +52,7 @@ export function buildSeed() {
     publishedStores: seedStores,
     publishedProducts: seedProducts,
     cityRequests: seedCityRequests,
+    partnerRequests: seedPartnerRequests,
     orders: seedOrders,
     admins: seedAdmins,
     invites: [],

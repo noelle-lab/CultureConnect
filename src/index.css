@@ -1087,7 +1087,8 @@ table.data tr:hover td {
 }
 .status-active,
 .status-launched,
-.status-delivered {
+.status-delivered,
+.status-approved {
   background: #e4f1ea;
   color: var(--jade);
 }
@@ -1099,14 +1100,20 @@ table.data tr:hover td {
 }
 .status-contacted,
 .status-researching,
+.status-research,
 .status-paid {
   background: var(--saffron-soft);
   color: var(--warn);
 }
 .status-prospect,
-.status-requested {
+.status-requested,
+.status-new {
   background: var(--sand-2);
   color: var(--muted);
+}
+.status-declined {
+  background: #fdeceb;
+  color: #8f271e;
 }
 .dot {
   width: 8px;

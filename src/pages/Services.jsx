@@ -3,11 +3,34 @@ import { Link, useNavigate } from 'react-router-dom'
 import { COMMISSION_RATE, MARKUP } from '../data/mockData'
 import { useApp } from '../context/AppContext'
 
+const BLANK_APPLICATION = {
+  shop: '',
+  city: '',
+  email: '',
+  heritage: '',
+  service: 'listing',
+  message: '',
+}
+
 export default function Services() {
   const [sent, setSent] = useState(false)
-  const [service, setService] = useState('listing')
-  const { user, signInOwner } = useApp()
+  const [application, setApplication] = useState(BLANK_APPLICATION)
+  const { user, signInOwner, addPartnerRequest } = useApp()
   const navigate = useNavigate()
+
+  function submitApplication(e) {
+    e.preventDefault()
+    if (!application.shop.trim() || !application.email.trim()) return
+    addPartnerRequest({
+      shop: application.shop.trim(),
+      city: application.city.trim(),
+      email: application.email.trim(),
+      heritage: application.heritage.trim(),
+      service: application.service,
+      message: application.message.trim(),
+    })
+    setSent(true)
+  }
 
   // Owner-portal gate: the visitor has to type the email their shop is
   // registered under. signInOwner hashes it and only lets matching, registered
@@ -234,8 +257,9 @@ export default function Services() {
               <div style={{ textAlign: 'center', padding: '10px 0' }}>
                 <h2 style={{ color: '#fff' }}>Thanks - we'll be in touch!</h2>
                 <p style={{ color: '#f7e6d9' }}>
-                  Our onboarding team reviews every shop personally. (Demo form -
-                  nothing was actually submitted.)
+                  Your request is now with our onboarding team, who reviews every
+                  shop personally. We'll reach out at{' '}
+                  <strong>{application.email}</strong> once we've taken a look.
                 </p>
               </div>
             ) : (
@@ -244,40 +268,85 @@ export default function Services() {
                   Ready to grow?
                 </div>
                 <h2 style={{ color: '#fff' }}>Apply to join CultureConnect</h2>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    setSent(true)
-                  }}
-                  style={{ maxWidth: 620, marginTop: 16 }}
-                >
+                <form onSubmit={submitApplication} style={{ maxWidth: 620, marginTop: 16 }}>
                   <div className="grid-2">
                     <div className="field">
                       <label style={{ color: '#fff' }}>Shop name</label>
-                      <input className="input" required placeholder="Your shop" />
+                      <input
+                        className="input"
+                        required
+                        placeholder="Your shop"
+                        value={application.shop}
+                        onChange={(e) =>
+                          setApplication({ ...application, shop: e.target.value })
+                        }
+                      />
                     </div>
                     <div className="field">
                       <label style={{ color: '#fff' }}>City / neighborhood</label>
-                      <input className="input" required placeholder="e.g. Queens, NY" />
+                      <input
+                        className="input"
+                        required
+                        placeholder="e.g. Queens, NY"
+                        value={application.city}
+                        onChange={(e) =>
+                          setApplication({ ...application, city: e.target.value })
+                        }
+                      />
                     </div>
                   </div>
                   <div className="grid-2">
                     <div className="field">
                       <label style={{ color: '#fff' }}>Email</label>
-                      <input className="input" type="email" required placeholder="you@shop.com" />
+                      <input
+                        className="input"
+                        type="email"
+                        required
+                        placeholder="you@shop.com"
+                        value={application.email}
+                        onChange={(e) =>
+                          setApplication({ ...application, email: e.target.value })
+                        }
+                      />
                     </div>
                     <div className="field">
-                      <label style={{ color: '#fff' }}>Which service?</label>
-                      <select
-                        className="select"
-                        value={service}
-                        onChange={(e) => setService(e.target.value)}
-                      >
-                        <option value="listing">List on CultureConnect</option>
-                        <option value="crosslisting">Cross-listing (Etsy/eBay)</option>
-                        <option value="both">Both</option>
-                      </select>
+                      <label style={{ color: '#fff' }}>Heritage / culture</label>
+                      <input
+                        className="input"
+                        placeholder="e.g. Oaxacan"
+                        value={application.heritage}
+                        onChange={(e) =>
+                          setApplication({ ...application, heritage: e.target.value })
+                        }
+                      />
                     </div>
+                  </div>
+                  <div className="field">
+                    <label style={{ color: '#fff' }}>Which service?</label>
+                    <select
+                      className="select"
+                      value={application.service}
+                      onChange={(e) =>
+                        setApplication({ ...application, service: e.target.value })
+                      }
+                    >
+                      <option value="listing">List on CultureConnect</option>
+                      <option value="crosslisting">Cross-listing (Etsy/eBay)</option>
+                      <option value="both">Both</option>
+                    </select>
+                  </div>
+                  <div className="field">
+                    <label style={{ color: '#fff' }}>
+                      Tell us about your shop <span style={{ opacity: 0.7 }}>(optional)</span>
+                    </label>
+                    <textarea
+                      className="textarea"
+                      placeholder="What you sell, your story, and why you'd be a great fit…"
+                      value={application.message}
+                      onChange={(e) =>
+                        setApplication({ ...application, message: e.target.value })
+                      }
+                    />
                   </div>
                   <button className="btn btn-dark" type="submit">
                     Submit application
