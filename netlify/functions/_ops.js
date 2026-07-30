@@ -31,6 +31,17 @@ export function applyOp(state, op, args = {}) {
       )
       break
 
+    // --- Partner-shop requests --------------------------------------------
+    case 'addPartnerRequest':
+      // args.req is the fully-built record (id, status, date, …).
+      next.partnerRequests = [args.req, ...state.partnerRequests]
+      break
+    case 'updatePartnerRequest':
+      next.partnerRequests = state.partnerRequests.map((r) =>
+        r.id === args.id ? { ...r, ...args.patch } : r,
+      )
+      break
+
     // --- Stores (draft catalog) -------------------------------------------
     case 'addStore':
       // args.store already carries its generated id + defaults.

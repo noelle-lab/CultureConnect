@@ -30,6 +30,7 @@ import Listings from './pages/admin/Listings'
 import CrossListing from './pages/admin/CrossListing'
 import Finance from './pages/admin/Finance'
 import CityRequestsAdmin from './pages/admin/CityRequests'
+import PartnerRequests from './pages/admin/PartnerRequests'
 import Orders from './pages/admin/Orders'
 import Team from './pages/admin/Team'
 
@@ -78,6 +79,7 @@ export default function App() {
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="partner-requests" element={<PartnerRequests />} />
           <Route path="discovery" element={<Discovery />} />
           <Route path="stores" element={<Stores />} />
           <Route path="listings" element={<Listings />} />

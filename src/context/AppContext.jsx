@@ -10,6 +10,7 @@ import {
   stores as seedStores,
   products as seedProducts,
   cityRequests as seedCityRequests,
+  partnerRequests as seedPartnerRequests,
   orders as seedOrders,
 } from '../data/mockData'
 import {
@@ -24,6 +25,14 @@ import { clearAllDrafts } from '../lib/useFormDraft'
 import { fetchState, mutateState } from '../lib/remoteState'
 
 const AppContext = createContext(null)
+
+// Human-readable labels for the service a partner-shop applicant picked. Shared
+// by the research-note builder here and the Partner Requests admin board.
+export const SERVICE_LABEL = {
+  listing: 'List on CultureConnect',
+  crosslisting: 'Cross-listing (Etsy/eBay)',
+  both: 'Both services',
+}
 
 // Bumped to v4 for the merge of two parallel v3 shapes: the marketplace grew
 // to 7 businesses with ~15 products each, owner portraits, and two-paragraph
@@ -54,6 +63,7 @@ const SHARED_COLLECTIONS = [
   'publishedStores',
   'publishedProducts',
   'cityRequests',
+  'partnerRequests',
   'orders',
   'admins',
   'invites',
@@ -138,6 +148,11 @@ export function AppProvider({ children }) {
   const [cityRequests, setCityRequests] = useState(
     persisted?.cityRequests ?? seedCityRequests,
   )
+  // Inbound partner-shop applications submitted from the "For Businesses" page,
+  // triaged on the admin console's Partner Requests board.
+  const [partnerRequests, setPartnerRequests] = useState(
+    persisted?.partnerRequests ?? seedPartnerRequests,
+  )
   const [orders, setOrders] = useState(persisted?.orders ?? seedOrders)
   // Admin roster + outstanding invite links (see src/lib/adminAuth.js).
   const [admins, setAdmins] = useState(persisted?.admins ?? seedAdmins)
@@ -176,6 +191,7 @@ export function AppProvider({ children }) {
       publishedStores: setPublishedStores,
       publishedProducts: setPublishedProducts,
       cityRequests: setCityRequests,
+      partnerRequests: setPartnerRequests,
       orders: setOrders,
       admins: setAdmins,
       invites: setInvites,
@@ -311,6 +327,7 @@ export function AppProvider({ children }) {
       publishedStores,
       publishedProducts,
       cityRequests,
+      partnerRequests,
       orders,
       admins,
       invites,
@@ -329,6 +346,7 @@ export function AppProvider({ children }) {
     publishedStores,
     publishedProducts,
     cityRequests,
+    partnerRequests,
     orders,
     admins,
     invites,
@@ -565,6 +583,66 @@ export function AppProvider({ children }) {
     pushOp('setCityRequestStatus', { id, status })
   }
 
+  // --- Partner-shop requests -----------------------------------------------
+  // A shop owner applies to join from the "For Businesses" page. The request
+  // lands as `new` on the admin console's Partner Requests board.
+  function addPartnerRequest(req) {
+    const record = {
+      id: `pr-${Date.now()}`,
+      status: 'new', // new | research | approved | declined
+      submittedBy: user?.email ?? 'anonymous',
+      date: new Date().toISOString().slice(0, 10),
+      ...req,
+    }
+    setPartnerRequests((prev) => [record, ...prev])
+    pushOp('addPartnerRequest', { req: record })
+    return record
+  }
+
+  function updatePartnerRequest(id, patch) {
+    setPartnerRequests((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, ...patch } : r)),
+    )
+    pushOp('updatePartnerRequest', { id, patch })
+  }
+
+  function setPartnerRequestStatus(id, status) {
+    updatePartnerRequest(id, { status })
+  }
+
+  // "Move to research": advance the request to the research stage AND drop the
+  // shop into the Shop Discovery pipeline as a fresh prospect, so the team can
+  // actually work it alongside shops they've sourced themselves. We only spin up
+  // the discovery prospect once (guarded by researchStoreId) so re-clicking, or
+  // moving the card back and forth, never creates duplicates.
+  function movePartnerRequestToResearch(id) {
+    const req = partnerRequests.find((r) => r.id === id)
+    if (!req) return
+    if (req.researchStoreId) {
+      setPartnerRequestStatus(id, 'research')
+      return
+    }
+    const notes = [
+      req.message,
+      req.service && `Interested in: ${SERVICE_LABEL[req.service] ?? req.service}.`,
+      req.email && `Contact: ${req.email}`,
+    ]
+      .filter(Boolean)
+      .join('\n\n')
+    const store = addStore({
+      name: req.shop,
+      owner: req.contact || '',
+      heritage: req.heritage || '',
+      city: req.city || 'New York City',
+      neighborhood: '',
+      story: notes,
+      status: 'prospect',
+      services: [],
+      rating: null,
+    })
+    updatePartnerRequest(id, { status: 'research', researchStoreId: store.id })
+  }
+
   // --- Stores (admin) ------------------------------------------------------
   function updateStore(id, patch) {
     setStores((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)))
@@ -677,6 +755,7 @@ export function AppProvider({ children }) {
     setPublishedStores(seedStores)
     setPublishedProducts(seedProducts)
     setCityRequests(seedCityRequests)
+    setPartnerRequests(seedPartnerRequests)
     setOrders(seedOrders)
     // Reset the admin roster back to just the owner, and clear invites. This
     // does NOT touch anyone's real Google account — only our local allow-list.
@@ -697,6 +776,7 @@ export function AppProvider({ children }) {
       publishedProducts,
       hasPendingEdits,
       cityRequests,
+      partnerRequests,
       orders,
       admins,
       invites,
@@ -723,6 +803,10 @@ export function AppProvider({ children }) {
       addCityRequest,
       voteCityRequest,
       setCityRequestStatus,
+      addPartnerRequest,
+      updatePartnerRequest,
+      setPartnerRequestStatus,
+      movePartnerRequestToResearch,
       updateStore,
       addStore,
       updateProduct,
@@ -743,6 +827,7 @@ export function AppProvider({ children }) {
       publishedProducts,
       hasPendingEdits,
       cityRequests,
+      partnerRequests,
       orders,
       admins,
       invites,

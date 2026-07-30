@@ -6,6 +6,7 @@ const NAV = [
   {
     group: 'Sourcing',
     items: [
+      ['partner-requests', 'Partner Requests'],
       ['discovery', 'Shop Discovery'],
       ['stores', 'Partner Shops'],
       ['city-requests', 'City Buildout'],
