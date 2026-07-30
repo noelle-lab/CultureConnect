@@ -1,31 +1,37 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { COMMISSION_RATE, MARKUP } from '../data/mockData'
-import { useApp, OWNER_ACCOUNTS } from '../context/AppContext'
-
-// The two demo shop owners you can sign in as, in the order shown on the page.
-const DEMO_OWNERS = [
-  {
-    email: 'mehmet@anatoliahome.shop',
-    plan: 'CultureConnect listing',
-    blurb: 'Manages their marketplace listings, pricing and stock.',
-  },
-  {
-    email: 'linh@goldenlotus.shop',
-    plan: 'Listing + cross-listing',
-    blurb: 'Also publishes and syncs the catalog to Etsy & eBay.',
-  },
-]
+import { useApp } from '../context/AppContext'
 
 export default function Services() {
   const [sent, setSent] = useState(false)
   const [service, setService] = useState('listing')
-  const { user, stores, signInOwner } = useApp()
+  const { user, signInOwner } = useApp()
   const navigate = useNavigate()
 
-  function signInAs(email) {
-    const res = signInOwner(email)
-    if (res.ok) navigate('/portal')
+  // Owner-portal gate: the visitor has to type the email their shop is
+  // registered under. signInOwner hashes it and only lets matching, registered
+  // owners through, so the page never reveals which emails work.
+  const [ownerEmail, setOwnerEmail] = useState('')
+  const [ownerError, setOwnerError] = useState('')
+  const [checking, setChecking] = useState(false)
+
+  async function handleOwnerSignIn(e) {
+    e.preventDefault()
+    setOwnerError('')
+    setChecking(true)
+    try {
+      const res = await signInOwner(ownerEmail)
+      if (res.ok) {
+        navigate('/portal')
+      } else {
+        setOwnerError(
+          "We couldn't find a partner shop for that email. Double-check the address your shop is registered under.",
+        )
+      }
+    } finally {
+      setChecking(false)
+    }
   }
 
   return (
@@ -166,32 +172,55 @@ export default function Services() {
                 </Link>
               </div>
             ) : (
-              <div className="owner-signin-grid">
-                {DEMO_OWNERS.map((o) => {
-                  const acct = OWNER_ACCOUNTS[o.email]
-                  const store = stores.find((s) => s.id === acct?.storeId)
-                  return (
-                    <div key={o.email} className="owner-card">
-                      <div className="flex between center" style={{ gap: 10 }}>
-                        <strong style={{ fontSize: '1.05rem' }}>{store?.name}</strong>
-                        <span className="badge badge-cc">{o.plan}</span>
-                      </div>
-                      <p className="muted" style={{ fontSize: '0.88rem', margin: '6px 0 12px' }}>
-                        {o.blurb}
-                      </p>
-                      <div className="demo-hint" style={{ marginBottom: 12 }}>
-                        Demo sign-in · <code>{o.email}</code> · any password
-                      </div>
-                      <button
-                        className="btn btn-primary btn-block"
-                        onClick={() => signInAs(o.email)}
-                      >
-                        Sign in as {acct?.name}
-                      </button>
-                    </div>
-                  )
-                })}
-              </div>
+              <form
+                onSubmit={handleOwnerSignIn}
+                style={{ maxWidth: 420, marginTop: 16 }}
+              >
+                <div className="field">
+                  <label htmlFor="owner-email">Registered shop email</label>
+                  <input
+                    id="owner-email"
+                    className="input"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="you@yourshop.com"
+                    value={ownerEmail}
+                    onChange={(e) => {
+                      setOwnerEmail(e.target.value)
+                      if (ownerError) setOwnerError('')
+                    }}
+                    required
+                  />
+                </div>
+                {ownerError && (
+                  <div
+                    className="notice"
+                    style={{
+                      background: '#fdeceb',
+                      borderColor: '#f3c9c5',
+                      color: '#8f271e',
+                      marginTop: 4,
+                    }}
+                  >
+                    {ownerError}
+                  </div>
+                )}
+                <button
+                  className="btn btn-primary btn-block"
+                  type="submit"
+                  disabled={checking}
+                  style={{ marginTop: 12 }}
+                >
+                  {checking ? 'Checking…' : 'Access owner portal'}
+                </button>
+                <p className="muted" style={{ fontSize: '0.85rem', marginTop: 12 }}>
+                  Access is limited to registered partner shops. Enter the email
+                  your shop is registered under.{' '}
+                  <Link to="/contact" style={{ color: 'var(--clay)', fontWeight: 600 }}>
+                    Not a partner yet?
+                  </Link>
+                </p>
+              </form>
             )}
           </div>
         </div>

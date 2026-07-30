@@ -19,6 +19,7 @@ import {
   verifyInviteToken,
   inviteLinkFor,
 } from '../lib/adminAuth'
+import { hashOwnerEmail } from '../lib/ownerGate'
 import { clearAllDrafts } from '../lib/useFormDraft'
 import { fetchState, mutateState } from '../lib/remoteState'
 
@@ -65,20 +66,26 @@ export const DEMO_ACCOUNTS = {
   buyer: { email: 'buyer@cultureconnect.shop', password: 'shop123' },
 }
 
-// FAKE business-owner sign-ins for the shop portal (linked from the "For
-// Businesses" page). Each account is tied to one existing partner shop; the
-// portal shows only the services that shop is enrolled in — so an owner on the
-// "listing" plan sees just their CultureConnect listings, while an owner on both
-// plans also gets the cross-listing manager. Auth is simulated for the demo.
+// Business-owner sign-ins for the shop portal (linked from the "For Businesses"
+// page). Each account is tied to one existing partner shop; the portal shows
+// only the services that shop is enrolled in — so an owner on the "listing"
+// plan sees just their CultureConnect listings, while an owner on both plans
+// also gets the cross-listing manager.
+//
+// This map is keyed by the SHA-256 hash of the owner's email, not the email
+// itself, so the addresses that unlock the portal never ship in the code or
+// bundle — a visitor has to already know their registered email to get in (see
+// src/lib/ownerGate.js). Add an owner by generating their hash:
+//   node -e "console.log(require('crypto').createHash('sha256').update('you@shop.com').digest('hex'))"
 export const OWNER_ACCOUNTS = {
-  // Enrolled in CultureConnect listing only.
-  'mehmet@anatoliahome.shop': {
+  // mehmet@anatoliahome.shop — enrolled in CultureConnect listing only.
+  '7daa8b8c42fa154e4be5da0eee351695d78aff6b3a744d60cbdb547f1b42e34e': {
     storeId: 'st-anatolia',
     name: 'Mehmet Demir',
     shop: 'Anatolia Home',
   },
-  // Enrolled in CultureConnect listing AND the cross-listing service.
-  'linh@goldenlotus.shop': {
+  // linh@goldenlotus.shop — CultureConnect listing AND the cross-listing service.
+  '2dcc2c42f060b270f8a4cf9b128fb20ae324e581c74557033d32fe784fd1664b': {
     storeId: 'st-golden-lotus',
     name: 'Linh Tran',
     shop: 'Golden Lotus Provisions',
@@ -338,12 +345,17 @@ export function AppProvider({ children }) {
     setUser(null)
   }
 
-  // --- Business-owner auth (fake) ------------------------------------------
-  // Sign in as one of the demo shop owners (see OWNER_ACCOUNTS). Attaches the
-  // owner's storeId so the portal knows which shop's listings to manage.
-  // Returns { ok } or { ok:false }.
-  function signInOwner(email) {
-    const acct = OWNER_ACCOUNTS[normalizeEmail(email)]
+  // --- Business-owner auth -------------------------------------------------
+  // Sign in a partner shop owner. Access is gated on the owner's email: we hash
+  // the address they typed and only let them in when it matches an entry in
+  // OWNER_ACCOUNTS (which stores hashes, never plain emails — see
+  // src/lib/ownerGate.js). This is what keeps a casual visitor from reaching the
+  // portal. On success it attaches the owner's storeId so the portal knows which
+  // shop's listings to manage. Async because hashing is; returns { ok } or
+  // { ok:false }.
+  async function signInOwner(email) {
+    const hash = await hashOwnerEmail(email)
+    const acct = hash && OWNER_ACCOUNTS[hash]
     if (!acct) return { ok: false }
     setUser({
       role: 'owner',
